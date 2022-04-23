@@ -3,36 +3,27 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HelloWorld from './components/HelloWorld.vue'
 import { onBeforeMount, ref } from 'vue'
-const fullWords = ref([])
-//GET
-const getFullWords = async () => {
-	const res = await fetch('/api/events')
-  console.log(`${res.status}`)
-	if (res.status === 200) {
-		fullWords.value = await res.json()
-    console.log(fullWords.value)
-	} else {
-		console.log('error,cannot get data')
-	}
+let categories = ref([])
+// GET
+const getCategories= async () =>{
+    const res = await fetch('/api/eventCatagories')
+    if(res.status === 200) {
+    console.log(res);
+    categories.value = await res.json()
+    }else   
+    console.log("error, cann't get data");
 }
-
-onBeforeMount(async () => await getFullWords())
+onBeforeMount( async () => {
+   await getCategories()
+})
 </script>
 
 
 <template>
-hello
-{{fullWords}}
+{{categories}}
 </template>
 
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
