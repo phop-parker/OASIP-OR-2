@@ -1,35 +1,23 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-// import HelloWorld from './components/HelloWorld.vue'
-import { onBeforeMount, ref } from 'vue'
-let categories = ref([])
-// GET
-const getCategories= async () =>{
-    const res = await fetch('/api/eventCatagories')
-    if(res.status === 200) {
-    console.log(res);
-    categories.value = await res.json()
-    }else   
-    console.log("error, cann't get data");
-}
-onBeforeMount( async () => {
-   await getCategories()
-})
+
+import NavBar from './components/NavBar.vue'
+
+
 </script>
 
 
 <template>
-{{categories}}
-
-
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-
+<NavBar/>
+<router-view></router-view>
 </template>
 
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+
+body {
+    background-color: #E3F4EC;
+}
+
 
 </style>
