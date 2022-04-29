@@ -1,13 +1,13 @@
 
 create user 'OR2'@'%' identified with mysql_native_password by 'mysql';
-grant all privileges on . to 'OR2'@'%';
+grant all privileges on *.* to 'OR2'@'%';
 flush privileges;
 
 create database oaspi;
 use oaspi;
 
-drop table event;
-drop table eventCategory;
+-- drop table event;
+-- drop table eventCategory;
 
 -- -----------------------------------------------------
 -- Table `oaspi`.`eventCategory`
