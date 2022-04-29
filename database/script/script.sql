@@ -21,6 +21,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `oasip`.`event`
 -- -----------------------------------------------------
+INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+VALUES ('Project Management Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย project management clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคำปรึกษา', 30);
+INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+VALUES ('DevOps/Infra Clinic', 'Use this event category for DevOps/Infra clinic', 20);
+INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+VALUES ('Database Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย database clinic ในวิชา INT221 integrated project I', 15);
+INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+VALUES ('Client-side Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย client-side clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคำปรึกษา', 30);
+INSERT INTO eventCategory (eventCategoryName,eventDuration) 
+VALUES ('Server-side Clinic', 30);
+
 CREATE TABLE IF NOT EXISTS event (
   `eventId` INT NOT NULL auto_increment,
   `bookingName` VARCHAR(255) NOT NULL,
@@ -38,18 +49,6 @@ CREATE TABLE IF NOT EXISTS event (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
-VALUES ('Project Management Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย project management clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคำปรึกษา', 30);
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
-VALUES ('DevOps/Infra Clinic', 'Use this event category for DevOps/Infra clinic', 20);
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
-VALUES ('Database Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย database clinic ในวิชา INT221 integrated project I', 15);
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
-VALUES ('Client-side Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย client-side clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคำปรึกษา', 30);
-INSERT INTO eventCategory (eventCategoryName,eventDuration) 
-VALUES ('Server-side Clinic', 30);
 
 select * from eventCategory;
 select * from event;
