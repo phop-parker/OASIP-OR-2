@@ -33,5 +33,5 @@ services:
       - oasipnw_or2
     depends_on:
       - oasip_db
-  networks:
-    oasipnw_or2:
+networks:
+  oasipnw_or2:
