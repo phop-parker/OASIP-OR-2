@@ -40,10 +40,10 @@ services:
     depends_on:
       - oasip_db
       - oasip_backend
-  reverse_proxy:
+  reverseproxy:
     image: nginx
     restart: always
-    container: reverse_proxy
+    container: reverseproxy
     volumes:
       - ./reverseproxy/nginx.conf:etc/nginx/conf.d/default.conf
     depends_on:
