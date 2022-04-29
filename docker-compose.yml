@@ -40,17 +40,19 @@ services:
     depends_on:
       - oasip_db
       - oasip_backend
-  reverseproxy:
-    image: nginx
-    restart: always
-    container_name: reverseproxy
-    volumes:
-      - ./reverseproxy/nginx.conf:etc/nginx/conf.d/default.conf
-    depends_on:
-      - oasip_db
-      - oasip_backend
-      - oasip_frontend
     ports:
-      - "80:80"
+      - '3000:3000'
+  # reverseproxy:
+  #   image: nginx
+  #   restart: always
+  #   container_name: reverseproxy
+  #   volumes:
+  #     - ./reverseproxy/nginx.conf:etc/nginx/conf.d/default.conf
+  #   depends_on:
+  #     - oasip_db
+  #     - oasip_backend
+  #     - oasip_frontend
+  #   ports:
+  #     - "80:80"
 networks:
   oasipnw_or2:
