@@ -1,0 +1,35 @@
+version:'3'
+services:
+  oasip_db:
+    image: mysql:latest
+    container_name: oasip_db
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    volumes:
+      - "./script:/docker-entrypoint-initdb.d/"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      LANG: C.UTF-8 
+    networks:
+      - oasipnw_or2
+  oasip_backend:
+    image: oasip_backend
+    container_name: oasip_backend
+    build: ./oaspi-services
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: oasip_db
+      DB_USER: OR2
+      DB_PASSWORD: mysql
+      DB_NAME: Clinics
+      DB_PORT: 3306
+    networks:
+      - oasipnw_or2
+    depends_on:
+      - oasip_db
+  networks: 
+    oasipnw_or2:
