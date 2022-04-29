@@ -3,14 +3,11 @@ create user 'OR2'@'%' identified with mysql_native_password by 'mysql';
 grant all privileges on *.* to 'OR2'@'%';
 flush privileges;
 
-create database oaspi;
-use oaspi;
-
--- drop table event;
--- drop table eventCategory;
+create database oasip;
+use oasip;
 
 -- -----------------------------------------------------
--- Table `oaspi`.`eventCategory`
+-- Table `oasip`.`eventCategory`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS eventCategory (
   `categoryId` INT NOT NULL auto_increment,
@@ -22,7 +19,7 @@ CREATE TABLE IF NOT EXISTS eventCategory (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `oaspi`.`event`
+-- Table `oasip`.`event`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS event (
   `eventId` INT NOT NULL auto_increment,
@@ -37,7 +34,7 @@ CREATE TABLE IF NOT EXISTS event (
   INDEX `fk_event_eventCategory_idx` (`categoryId` ASC) VISIBLE,
   CONSTRAINT `fk_event_eventCategory`
     FOREIGN KEY (`categoryId`)
-    REFERENCES `oaspi`.`eventCategory` (`categoryId`)
+    REFERENCES `oasip`.`eventCategory` (`categoryId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -27,7 +27,7 @@ services:
       DB_HOST: oasip_db
       DB_USER: OR2
       DB_PASSWORD: mysql
-      DB_NAME: oaspi
+      DB_NAME: oasip
       DB_PORT: 3306
     networks:
       - oasipnw_or2
