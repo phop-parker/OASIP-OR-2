@@ -19,7 +19,7 @@ services:
   oasip_backend:
     image: oasip_backend
     container_name: oasip_backend
-    build: ./oaspi-services
+    build: ./oasip-services
     restart: always
     ports:
       - '8080:8080'
