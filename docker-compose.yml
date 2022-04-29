@@ -43,7 +43,7 @@ services:
   reverseproxy:
     image: nginx
     restart: always
-    container: reverse_proxy
+    container_name: reverseproxy
     volumes:
       - ./reverseproxy/nginx.conf:etc/nginx/conf.d/default.conf
     depends_on:
