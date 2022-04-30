@@ -2,9 +2,9 @@
 
 version: '3'
 services:
-  oasip_db:
+  oasipdb:
     image: mysql:latest
-    container_name: oasip_db
+    container_name: oasipdb
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
     volumes:
@@ -16,15 +16,15 @@ services:
       LANG: C.UTF-8
     networks:
       - oasipnw_or2
-  oasip_backend:
-    image: oasip_backend
-    container_name: oasip_backend
+  oasipbackend:
+    image: oasipbackend
+    container_name: oasipbackend
     build: ./oasip-services
     restart: always
     ports:
       - '8080:8080'
     environment:
-      DB_HOST: oasip_db
+      DB_HOST: oasipdb
       DB_USER: OR2
       DB_PASSWORD: mysql
       DB_NAME: oasip
@@ -32,30 +32,30 @@ services:
     networks:
       - oasipnw_or2
     depends_on:
-      - oasip_db
-  oasip_frontend:
+      - oasipdb
+  oasipfrontend:
     build: ./OAIP-OR-2-project
     restart: always
-    container_name: oasip_frontend
+    container_name: oasipfrontend
     depends_on:
-      - oasip_db
-      - oasip_backend
+      - oasipdb
+      - oasipbackend
     networks:
       - oasipnw_or2
-  reverseproxy:
-    image: nginx
-    restart: always
-    container_name: reverseproxy
-    volumes:
-      - ./reverseproxy/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - oasip_db
-      - oasip_backend
-      - oasip_frontend
-    ports:
-      - "80:80"
-    networks:
-      - oasipnw_or2
+  # reverseproxy:
+  #   image: nginx
+  #   restart: always
+  #   container_name: reverseproxy
+  #   volumes:
+  #     - ./reverseproxy/nginx.conf:/etc/nginx/conf.d/default.conf
+  #   depends_on:
+  #     - oasip_db
+  #     - oasip_backend
+  #     - oasip_frontend
+  #   ports:
+  #     - "80:80"
+  #   networks:
+  #     - oasipnw_or2
 networks:
   oasipnw_or2:
     driver: bridge
