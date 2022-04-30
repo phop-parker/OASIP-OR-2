@@ -7,5 +7,5 @@ RUN mvn -D maven.test.skip package
 FROM openjdk:11-jdk
 ARG JAR_FILE=/app/target/*.jar
 COPY --from=build ${JAR_FILE} or2.jar
-EXPOSE 5000
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","or2.jar"]
