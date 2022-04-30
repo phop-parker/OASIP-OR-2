@@ -40,6 +40,8 @@ services:
     depends_on:
       - oasip_db
       - oasip_backend
+    networks:
+      - oasipnw_or2
   reverseproxy:
     image: nginx
     restart: always
@@ -52,6 +54,8 @@ services:
       - oasip_frontend
     ports:
       - "80:80"
+    networks:
+      - oasipnw_or2
 networks:
   oasipnw_or2:
     driver: bridge
