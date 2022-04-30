@@ -51,9 +51,9 @@ services:
     volumes:
       - ./reverseproxy/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - oasip_db
-      - oasip_backend
-      - oasip_frontend
+      - oasipdb
+      - oasipbackend
+      - oasipfrontend
     ports:
       - "80:80"
     networks:
