@@ -42,6 +42,8 @@ services:
       - oasipbackend
     networks:
       - oasipnw_or2
+    ports:
+      - '8080:8080'
   # reverseproxy:
   #   image: nginx
   #   restart: always
