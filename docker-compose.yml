@@ -54,3 +54,4 @@ services:
       - "80:80"
 networks:
   oasipnw_or2:
+    driver: bridge
