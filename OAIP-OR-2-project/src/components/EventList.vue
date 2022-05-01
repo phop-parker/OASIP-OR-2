@@ -28,11 +28,19 @@ const curEvent = ref();
 const statusDetail = ref(false);
 
 const showDetailsToggle = (event) => {
-    curEvent.value = event;
+    curEvent.value = {
+        bookingEmail: event.bookingEmail,
+        bookingName: event.bookingName,
+        categoryId: event.categoryId.eventCategoryName,
+        eventNotes: event.eventNotes,
+        eventStartTime: event.eventStartTime,
+        id: event.id,
+    };
+    console.log(curEvent.value)
     toggleStatus()
 }
 
-const toggleStatus =()=>{
+const toggleStatus = () => {
     if (statusDetail.value == true) {
         statusDetail.value = false;
     } else {

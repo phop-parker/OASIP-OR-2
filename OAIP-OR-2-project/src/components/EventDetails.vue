@@ -10,6 +10,7 @@ const props = defineProps({
     }
 })
 
+console.log(props.event)
 
 
 const getDate = (dateTime) => {
@@ -30,13 +31,14 @@ const getCategory = (event) => {
  
 <template>
 
-    <div class="absolute box-content z-40 p-8 pb-12 mt-4  ml-24 mr-24 bg-pastel-green rounded-md drop-shadow-2xl font-Kanit">
+    <div
+        class="absolute box-content z-40 p-8 pb-12 mt-4  ml-24 mr-24 bg-pastel-green rounded-md drop-shadow-2xl font-Kanit">
 
 
         <div class="grid grid-rows-8 gap-4">
             <div class="place-self-end">
-                <CloseIcon class="hover:drop-shadow-xl"  @click="$emit('closePopUp')"/>
-                </div>
+                <CloseIcon class="hover:drop-shadow-xl" @click="$emit('closePopUp')" />
+            </div>
             <div>
                 Event Details
             </div>
