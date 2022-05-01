@@ -44,20 +44,6 @@ services:
       - oasipnw_or2
     ports:
       - '80:80'
-  reverseproxy:
-    image: nginx
-    restart: always
-    container_name: reverseproxy
-    volumes:
-      - ./reverseproxy/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - oasipdb
-      - oasipbackend
-      - oasipfrontend
-    ports:
-      - "80:80"
-    networks:
-      - oasipnw_or2
 networks:
   oasipnw_or2:
     driver: bridge
