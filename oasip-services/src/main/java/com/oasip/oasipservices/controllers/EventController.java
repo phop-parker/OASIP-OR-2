@@ -29,7 +29,7 @@ public class EventController {
         }
     }
 
-    @PostMapping(value="", consumes = {"application/json"})
+    @PostMapping("")
     public Event create(@RequestBody Event newEvent) {
         return eventService.save(newEvent);
     }

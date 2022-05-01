@@ -1,7 +1,7 @@
 package com.oasip.oasipservices.repositories;
 
-import com.oasip.oasipservices.entities.EventCategory;
+import com.oasip.oasipservices.entities.Eventcategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EventCategoryRepository extends JpaRepository<EventCategory, Integer> {
+public interface EventCategoryRepository extends JpaRepository<Eventcategory, Integer> {
 }
