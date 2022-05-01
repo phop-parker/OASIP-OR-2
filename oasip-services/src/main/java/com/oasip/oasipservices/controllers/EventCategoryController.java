@@ -1,12 +1,13 @@
 package com.oasip.oasipservices.controllers;
 
-import com.oasip.oasipservices.entities.Eventcategory;
-import com.oasip.oasipservices.repositories.EventRepository;
+import com.oasip.oasipservices.entities.EventCategory;
+import com.oasip.oasipservices.repositories.EventCategoryRepository;
 import com.oasip.oasipservices.services.EventCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -17,10 +18,10 @@ public class EventCategoryController {
     private EventCategoryService eventCategoryService;
 
     @Autowired
-    private EventRepository repository;
+    private EventCategoryRepository repository;
 
     @GetMapping()
-    public List<Eventcategory> getAllCategories(){
+    public List<EventCategory> getAllCategories(){
         return eventCategoryService.getAllCategories();
     }
 //    private EventCategory mapCategory(EventCategory existingEventCategory, EventCategory updateEventCategory) {
@@ -29,6 +30,12 @@ public class EventCategoryController {
 //        existingEventCategory.setEventCatagoryDescription(updateEventCategory.getEventCatagoryDescription());
 //        return existingEventCategory;
 //    }
+
+        @GetMapping("/{catagortyId}")
+    public Optional<EventCategory> updateEmployee(@PathVariable Integer catagortyId) {
+        return repository.findById(catagortyId);
+    }
+
 //    @PutMapping("/{catagortyId}")
 //    public Event updateEmployee(@PathVariable Integer catagortyId, @RequestBody EventCategory eventCategoryUpdated) {
 //        Event event = repository.findById(catagortyId).map(e -> mapCategory(e, eventCategoryUpdated))

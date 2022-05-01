@@ -28,9 +28,9 @@ public class Event {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "categoryId", nullable = false)
-    private Eventcategory categoryId;
+    private EventCategory categoryId;
 
-    @Column(name = "eventNotes", length = 500)
+    @Column(name = "eventNotes", length = 500, nullable = true)
     private String eventNotes;
 
     public String getEventNotes() {
@@ -41,11 +41,11 @@ public class Event {
         this.eventNotes = eventNotes;
     }
 
-    public Eventcategory getCategoryId() {
+    public EventCategory getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Eventcategory categoryId) {
+    public void setCategoryId(EventCategory categoryId) {
         this.categoryId = categoryId;
     }
 
