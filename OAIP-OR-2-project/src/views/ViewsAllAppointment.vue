@@ -8,7 +8,7 @@ let events = ref([])
 
 // GET
 const getEvents = async () => {
-    const res = await fetch('http://10.4.56.95:8080/api/events')
+    const res = await fetch('http://ip21or2.sit.kmutt.ac.th:8080/api/events')
     if (res.status === 200) {
         console.log("response reply")       
         console.log(res);;

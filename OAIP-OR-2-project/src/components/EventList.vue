@@ -34,6 +34,7 @@ const showDetailsToggle = (event) => {
         categoryId: event.eventCategory.eventCategoryName,
         eventNotes: event.eventNotes,
         eventStartTime: event.eventStartTime,
+        eventDuration: event.eventDuration,
         id: event.id,
     };
     console.log(curEvent.value)
