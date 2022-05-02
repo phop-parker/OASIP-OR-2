@@ -30,7 +30,7 @@ public class Event {
     @JoinColumn(name = "categoryId", nullable = false)
     private EventCategory categoryId;
 
-    @Column(name = "eventNotes", length = 500)
+    @Column(name = "eventNotes", length = 500, nullable = true)
     private String eventNotes;
 
     public String getEventNotes() {
