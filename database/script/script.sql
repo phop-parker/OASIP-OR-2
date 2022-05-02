@@ -54,10 +54,10 @@ select * from eventCategory;
 select * from event;
 
 INSERT INTO event(bookingName,bookingEmail,eventStartTime,eventDuration,categoryId) 
-VALUES ('Somchai Jaidee(OR-7)','ssomchai.jai@mail.kmutt.ac.th','2022-05-23T13:30','30',2);
+VALUES ('Somchai Jaidee(OR-7)','somchai.jai@mail.kmutt.ac.th','2022-05-23T13:30','30',2);
 INSERT INTO event(bookingName,bookingEmail,eventStartTime,eventDuration,categoryId,eventNotes) 
 VALUES ('Somsri Rakdee(SJ-3)','somsri.rak@mail.kmutt.ac.th','2022-04-27T09:30','30',1,'ขอปรึกษาปัญหาเพื่อนไม่ช่วยงาน' );
 INSERT INTO event(bookingName,bookingEmail,eventStartTime,eventDuration,categoryId) 
-VALUES ('สมเกียรติ ขยันเรียนกลุ่ม TT-4','somkiat.kay@kmutt.ac.th','2022-04-20T16:30','15',3);
+VALUES ('สมเกียรติ ขยันเรียนกลุ่ม TT-4','somkiat.kay@kmutt.ac.th','2022-05-23T16:30','15',3);
 
 commit;
