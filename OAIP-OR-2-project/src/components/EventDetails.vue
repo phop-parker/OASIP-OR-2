@@ -49,7 +49,7 @@ const getCategory = (event) => {
                 email : {{ event.bookingEmail }}
             </div>
             <div>
-                Time : Date :{{ getDate(event.eventStartTime) }} Time :{{ getTime(event.eventStartTime) }}
+                Date :{{ getDate(event.eventStartTime) }} Time :{{ getTime(event.eventStartTime) }}
             </div>
             <div>
                 Category : {{ event.categoryId }}
