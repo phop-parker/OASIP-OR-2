@@ -1,12 +1,15 @@
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\CorsConfigurer.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\repositories\EventCategoryRepository.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\utils\ListMapper.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\controllers\EventCategoryController.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\entities\EventCategory.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\entities\Event.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\services\EventCategoryService.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\OasipServicesApplication.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\ApplicationConfig.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\controllers\EventController.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\services\EventService.java
-C:\Users\CREAM\Desktop\y.2-2\INT221\oasip-services (2)\oasip-services\oasip-services\src\main\java\com\oasip\oasipservices\repositories\EventRepository.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/repositories/EventRepository.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/repositories/EventCategoryRepository.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/configuration/Crosconfiguration.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventDTO.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventCategoryDTO.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/controllers/EventCategoryController.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/OasipServicesApplication.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/utils/ListMapper.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/services/EventCategoryService.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/controllers/EventController.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/CorsConfigurer.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/entities/EventCategory.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/services/EventService.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/ApplicationConfig.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/entities/Event.java

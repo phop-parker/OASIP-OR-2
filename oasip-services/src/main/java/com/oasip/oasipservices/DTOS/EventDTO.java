@@ -22,7 +22,7 @@ public class EventDTO {
     private String bookingName;
     private String bookingEmail;
     private LocalDateTime eventStartTime;
-    private Time eventDuration;
+    private Integer eventDuration;
 
     public String getEventStartTime(){
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -31,7 +31,6 @@ public class EventDTO {
         return formatter.format(eventStartTime);
     }
 
-    private String eventNote;
-
+    private String eventNotes;
     private EventCategoryDTO eventCategory;
 }

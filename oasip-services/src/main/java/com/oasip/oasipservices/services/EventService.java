@@ -50,7 +50,7 @@ public class EventService {
         EventDTO eventDTO = new EventDTO();
         eventDTO.setId(event.getId());
         eventDTO.setBookingName(event.getBookingName());
-        eventDTO.setEventNote(event.getEventNotes());
+        eventDTO.setEventNotes(event.getEventNotes());
         eventDTO.setBookingEmail(event.getBookingEmail());
         eventDTO.setEventStartTime(event.getEventStartTime());
         return eventDTO;

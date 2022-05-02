@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Time;
 
 @Getter
 @Setter
@@ -15,6 +14,6 @@ public class EventCategoryDTO {
     private Integer id;
     private String eventCategoryName;
     private String eventCategoryDescription;
-    private Time eventDuration;
+    private Integer eventDuration;
 
 }
