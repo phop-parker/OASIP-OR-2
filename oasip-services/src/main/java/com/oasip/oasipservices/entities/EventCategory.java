@@ -15,7 +15,7 @@ public class EventCategory {
     @Column(name = "eventCategoryName", nullable = false, length = 100)
     private String eventCategoryName;
 
-    @Column(name = "eventCatagoryDescription", nullable = false, length = 400)
+    @Column(name = "eventCatagoryDescription", length = 400)
     private String eventCatagoryDescription;
 
     @Column(name = "eventDuration", nullable = false)
