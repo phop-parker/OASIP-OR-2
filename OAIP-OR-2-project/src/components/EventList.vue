@@ -31,7 +31,7 @@ const showDetailsToggle = (event) => {
     curEvent.value = {
         bookingEmail: event.bookingEmail,
         bookingName: event.bookingName,
-        categoryId: event.categoryId.eventCategoryName,
+        categoryId: event.eventCategory.eventCategoryName,
         eventNotes: event.eventNotes,
         eventStartTime: event.eventStartTime,
         id: event.id,
@@ -73,7 +73,7 @@ const toggleStatus = () => {
                     <tr v-else v-for="(event, index) in events" :key="index"
                         class="border-b border-dark-green text-black">
                         <td>{{ event.bookingName }}</td>
-                        <td>{{ event.categoryId.eventCategoryName }}</td>
+                        <td>{{ event.eventCategory.eventCategoryName }}</td>
                         <td>{{ getDate(event.eventStartTime) }}</td>
                         <td>{{ getTime(event.eventStartTime) }}</td>
                         <td>{{ event.eventDuration }} minutes </td>
