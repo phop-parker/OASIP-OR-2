@@ -1,7 +1,7 @@
 package com.oasip.oasipservices.entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Table(name = "event", indexes = {
         @Index(name = "bookingName", columnList = "bookingName, eventStartTime", unique = true),
@@ -21,7 +21,7 @@ public class Event {
     private String bookingEmail;
 
     @Column(name = "eventStartTime", nullable = false)
-    private LocalDate eventStartTime;
+    private LocalDateTime eventStartTime;
 
     @Column(name = "eventDuration", nullable = false)
     private Integer eventDuration;
@@ -57,11 +57,11 @@ public class Event {
         this.eventDuration = eventDuration;
     }
 
-    public LocalDate getEventStartTime() {
+    public LocalDateTime getEventStartTime() {
         return eventStartTime;
     }
 
-    public void setEventStartTime(LocalDate eventStartTime) {
+    public void setEventStartTime(LocalDateTime eventStartTime) {
         this.eventStartTime = eventStartTime;
     }
 
