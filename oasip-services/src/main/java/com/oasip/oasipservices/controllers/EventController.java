@@ -1,5 +1,6 @@
 package com.oasip.oasipservices.controllers;
 
+
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.repositories.EventRepository;
 import com.oasip.oasipservices.services.EventService;
@@ -57,7 +58,7 @@ public class EventController {
     @DeleteMapping("/{eventId}")
     public void delete(@PathVariable Integer eventId){
         repository.findById(eventId).orElseThrow(()->
-        new ResponseStatusException(HttpStatus.NOT_FOUND));
+                new ResponseStatusException(HttpStatus.NOT_FOUND));
         repository.deleteById(eventId);
     }
 
