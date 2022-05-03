@@ -1,13 +1,72 @@
 <script setup>
 
+import { onBeforeMount, ref, computed } from 'vue'
+import AddNewEvent from '../components/AddNewEvent.vue';
+
+let categories = ref([])
+// get
+const getCategories = async () => {
+    const res = await fetch('http://ip21or2.sit.kmutt.ac.th:8080/api/eventCatagories')
+    if (res.status === 200) {
+        console.log(res);
+        categories.value = await res.json()
+    } else
+        console.log("error, cann't get data");
+}
+onBeforeMount(async () => {
+    await getCategories()
+    console.log(categories)
+})
+
+
+// create
+const createNewEvent = async (newEvent) => {
+    const res = await fetch('http://ip21or2.sit.kmutt.ac.th:8080/api/events', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            bookingName: newEvent.bookingName,
+            bookingEmail: newEvent.bookingEmail,
+            eventStartTime: newEvent.eventStartTime,
+            eventDuration: newEvent.eventDuration,
+            categoryId: newEvent.categoryId,
+            eventNotes: newEvent.eventNotes
+        }
+        )
+    })
+    if (res.status === 200 || res.status === 201) {
+        console.log(res.status)
+        console.log('added suceccfully')
+    } else {
+        console.log(res.status)
+        console.log('error cannot add')
+    }
+
+}
+
+
+
+
+
+
 </script>
  
 <template>
-<div>
-    this will be booking pages
-</div>
+    <!-- <CategoryListVue :eventCategories="categories" /> -->
+    <AddNewEvent :eventCategories="categories" @addNewEvent="createNewEvent" />
 </template>
- 
-<style>
 
+<style scoped>
+html {
+    /* background: url(../assets/bgwave.png); */
+
+    background-size: contain, cover;
+    background-repeat: no-repeat;
+    background-image: url("../assets/bgwave.png");
+    background-position: bottom right;
+    background: rgb(253, 211, 184);
+    background: linear-gradient(360deg, rgba(253, 211, 184, 1) 0%, rgba(255, 255, 255, 1) 100%);
+}
 </style>

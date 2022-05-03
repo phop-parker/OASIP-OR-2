@@ -3,19 +3,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "toy-blue": "#5867EB",
-        "toy-red": "#EB5858",
-        "toy-green":"#7CAA94",
-        "toy-yellow":"#F6DA75",
         "pastel-green":"#CFE8DC",
         "dark-green":"#5F776C",
         "darker-green": "#495E54",
-        "dark-orange": "#C2735A"
+        "dark-orange": "#C2735A",
+        "pastel-orange": "#FDD3B8",
+        "blood-bird":"#886C6C"
       },
     },
     fontFamily: {
       'Mitr': ['Mitr', 'sans-serif'],
       'Kanit': ['Kanit', 'sans-serif']
+    },
+    backgroundImage: {
+      'wave': "url('/src/assets/bg-wave.png')"
     },
     plugins: [],
   },
