@@ -10,8 +10,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
 import java.util.Locale;
+import java.util.TimeZone;
 
 @Getter
 @Setter
@@ -25,9 +27,7 @@ public class EventDTO {
     private Integer eventDuration;
 
     public String getEventStartTime(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(Locale.UK)
-                .withZone(ZoneId.systemDefault());
+        DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn'Z'");
         return formatter.format(eventStartTime);
     }
 
