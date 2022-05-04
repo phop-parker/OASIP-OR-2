@@ -3,12 +3,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "pastel-green":"#CFE8DC",
-        "dark-green":"#5F776C",
-        "darker-green": "#495E54",
         "dark-orange": "#C2735A",
         "pastel-orange": "#FDD3B8",
-        "blood-bird":"#886C6C"
+        "blood-bird": "#886C6C",
+        "pastel-pink": "#FFC2C2",
+        "pastel-yellow": "#F6E7B2",
+        "dark-pink": "#D58EB6"
       },
     },
     fontFamily: {

@@ -31,10 +31,7 @@ const getCategory = (event) => {
  
 <template>
 
-    <div
-        class="absolute box-content z-40 p-8 pb-12 mt-4  ml-24 mr-24 bg-pastel-green rounded-md drop-shadow-2xl font-Kanit">
-
-
+    <div class="relative box-content p-8 pb-12 rounded-3xl gradient-color drop-shadow-2xl font-Kanit ">
         <div class="grid grid-rows-8 gap-4">
             <div class="place-self-end">
                 <CloseIcon class="hover:drop-shadow-xl" @click="$emit('closePopUp')" />
@@ -57,13 +54,18 @@ const getCategory = (event) => {
             <div>
                 Duration : {{ event.eventDuration }} minutes
             </div>
-            <div>
+            <div v-if='event.eventNotes == ""'>
+                Note : -
+            </div>
+            <div v-else>
                 Note : {{ event.eventNotes }}
             </div>
         </div>
     </div>
-
 </template>
  
-<style>
+<style scoped>
+.gradient-color {
+    background-image: linear-gradient(to top, #FFFFFF, #FBBF98);
+}
 </style>

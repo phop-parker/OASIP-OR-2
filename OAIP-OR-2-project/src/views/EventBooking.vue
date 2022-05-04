@@ -38,18 +38,13 @@ const createNewEvent = async (newEvent) => {
     })
     if (res.status === 200 || res.status === 201) {
         console.log(res.status)
-        console.log('added suceccfully')
+        alert('added suceccfully')
     } else {
         console.log(res.status)
         console.log('error cannot add')
     }
 
 }
-
-
-
-
-
 
 </script>
  
@@ -59,14 +54,4 @@ const createNewEvent = async (newEvent) => {
 </template>
 
 <style scoped>
-html {
-    /* background: url(../assets/bgwave.png); */
-
-    background-size: contain, cover;
-    background-repeat: no-repeat;
-    background-image: url("../assets/bgwave.png");
-    background-position: bottom right;
-    background: rgb(253, 211, 184);
-    background: linear-gradient(360deg, rgba(253, 211, 184, 1) 0%, rgba(255, 255, 255, 1) 100%);
-}
 </style>
