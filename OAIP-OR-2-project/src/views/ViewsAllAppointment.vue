@@ -9,7 +9,7 @@ let events = ref([])
 
 // GET
 const getEvents = async () => {
-    const res = await fetch('http://ip21or2.sit.kmutt.ac.th:8080/api/events')
+    const res = await fetch('/api/events')
     if (res.status === 200) {
         console.log("response reply")
         console.log(res);;
@@ -27,7 +27,7 @@ onBeforeMount(async () => {
 // DELETE
 const deleteEvent = async (deleteEventId) => {
     if (deleteEventId > 0) {
-        const res = await fetch(`http://ip21or2.sit.kmutt.ac.th:8080/api/events/${deleteEventId}`, {
+        const res = await fetch(`/api/events/${deleteEventId}`, {
             method: 'DELETE'
         })
         if (res.status === 200) {
@@ -38,40 +38,44 @@ const deleteEvent = async (deleteEventId) => {
             alert('error cannot delete');
             cancelDelete();
         }
-
     } else {
         alert('no event to delete');
         cancelDelete();
     }
 }
-
-
 const deleteConfirm = ref(false);
 const deleteThisEvent = ref(0);
 const deleteEventConfirm = (eventId) => {
     deleteConfirm.value = true
     deleteThisEvent.value = eventId
 }
-
 const cancelDelete = () => {
     deleteConfirm.value = false
     deleteThisEvent.value = 0;
-
 }
-
 
 </script> 
 <template>
-    <div>
+    <div class="">
 
-        <EventList :events="events" @deleteEvent="deleteEventConfirm" />
+        <div class="">
+            <EventList :events="events" @deleteEvent="deleteEventConfirm" />
+        </div>
 
-
-        <DeleteComfirm v-show="deleteConfirm" @cancelConfirmation="cancelDelete"
-            @yesConfirmation="deleteEvent(deleteThisEvent)" />
-
+        <div v-show="deleteConfirm" class="absolute inset-0 flex justify-center items-center z-20">
+            <DeleteComfirm @cancelConfirmation="cancelDelete" @yesConfirmation="deleteEvent(deleteThisEvent)" />
+        </div>
     </div>
+
+
 </template>
  
-<style>
+<style scoped>
+.bgimage {
+    background-image: url("../assets/bgfull.png");
+    background-size: contain, cover;
+    background-size: 100% 100%;
+    background-position: right bottom;
+
+}
 </style>

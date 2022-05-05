@@ -6,7 +6,7 @@ import AddNewEvent from '../components/AddNewEvent.vue';
 let categories = ref([])
 // get
 const getCategories = async () => {
-    const res = await fetch('http://ip21or2.sit.kmutt.ac.th:8080/api/eventCatagories')
+    const res = await fetch('/api/eventCatagories')
     if (res.status === 200) {
         console.log(res);
         categories.value = await res.json()
@@ -21,7 +21,7 @@ onBeforeMount(async () => {
 
 // create
 const createNewEvent = async (newEvent) => {
-    const res = await fetch('http://ip21or2.sit.kmutt.ac.th:8080/api/events', {
+    const res = await fetch('/api/events', {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -49,9 +49,18 @@ const createNewEvent = async (newEvent) => {
 </script>
  
 <template>
-    <!-- <CategoryListVue :eventCategories="categories" /> -->
-    <AddNewEvent :eventCategories="categories" @addNewEvent="createNewEvent" />
+    <div class="">
+        <!-- <CategoryListVue :eventCategories="categories" /> -->
+        <AddNewEvent :eventCategories="categories" @addNewEvent="createNewEvent" />
+    </div>
 </template>
 
 <style scoped>
+.bgimage {
+    background-image: url("../assets/bg-wave.png");
+    background-repeat: no-repeat;
+    /* background-size: contain, cover; */
+    background-size: 100% 100%;
+
+}
 </style>

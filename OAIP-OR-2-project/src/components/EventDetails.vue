@@ -10,54 +10,37 @@ const props = defineProps({
     }
 })
 
-console.log(props.event)
-
-
-const getDate = (dateTime) => {
-    const date = new Date(dateTime);
-    return date.toDateString()
-}
-
-const getTime = (dateTime) => {
-    const date = new Date(dateTime);
-    return date.toTimeString().slice(0, 8)
-}
-
-const getCategory = (event) => {
-    console.log(event)
-    return event;
-}
 </script>
  
 <template>
 
-    <div class="relative box-content p-8 pb-12 rounded-3xl gradient-color drop-shadow-2xl font-Kanit ">
-        <div class="grid grid-rows-8 gap-4">
+    <div class="box-content p-8 pb-12 rounded-3xl gradient-color drop-shadow-2xl font-Kanit ">
+        <div class="grid grid-rows-8 gap-4 ">
             <div class="place-self-end">
-                <CloseIcon class="hover:drop-shadow-xl" @click="$emit('closePopUp')" />
+                <CloseIcon class="hover:drop-shadow-xl " @click="$emit('closePopUp')" />
             </div>
-            <div>
+            <div class="bg-pastel-yellow rounded-2xl text-center text-blood-bird ">
                 Event Details
             </div>
-            <div>
+            <div class="bg-white rounded-2xl pl-3 pb-4 drop-shadow-xl">
                 note : {{ event.bookingName }}
             </div>
-            <div>
+            <div class="bg-white rounded-2xl pl-3 pb-4 drop-shadow-xl">
                 email : {{ event.bookingEmail }}
             </div>
-            <div>
-                Date :{{ getDate(event.eventStartTime) }} Time :{{ getTime(event.eventStartTime) }}
+            <div class="bg-white rounded-2xl pl-3 pb-4 drop-shadow-xl">
+                Date :{{ event.eventStartDate }} Time :{{ event.eventStartTime }}
             </div>
-            <div>
+            <div class="bg-white rounded-2xl pl-3 pb-4 drop-shadow-xl">
                 Category : {{ event.categoryId }}
             </div>
-            <div>
+            <div class="bg-white rounded-2xl pl-3 pb-4 drop-shadow-xl">
                 Duration : {{ event.eventDuration }} minutes
             </div>
-            <div v-if='event.eventNotes == ""'>
+            <div v-if='event.eventNotes == ""' class="bg-white rounded-3xl pl-3 drop-shadow-xl">
                 Note : -
             </div>
-            <div v-else>
+            <div v-else class="bg-white rounded-2xl pl-3 pb-6 drop-shadow-xl  ">
                 Note : {{ event.eventNotes }}
             </div>
         </div>

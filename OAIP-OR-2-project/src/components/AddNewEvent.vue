@@ -75,13 +75,13 @@ const newEvent = computed(() => {
 </script>
 
 <template>
-    <div class="box-content p-5 mt-4 mb-4 ml-20 mr-80 bg-white rounded-3xl font-Kanit drop-shadow-2xl">
-        <div class="gradient-color rounded-3xl content-center">
-            <p class="font-medium font-Kanit leading-tigh mb-5 pb-4 text-blood-bird ">
-                add new event
+    <div class=" box-content p-5 mt-5 mb-4 ml-20 mr-20 bg-white rounded-3xl font-Kanit drop-shadow-2xl">
+        <div class="gradient-color rounded-3xl justify-center">
+            <p class="font-medium font-Kanit text-center pt-2 pb-2 text-blood-bird ">
+                Add New Event
             </p>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-2 gap-8 mt-4">
             <div class="">
                 <p>Name :</p>
                 <input v-model="bookingName" type="text"
@@ -136,6 +136,6 @@ const newEvent = computed(() => {
 
 <style>
 .gradient-color {
-    background-image: linear-gradient(to left, #F6E7B2, #FFC2C2);
+    background-image: linear-gradient(to left, #FBBF98, #FFC2C2);
 }
 </style>

@@ -1,51 +1,41 @@
 <script setup>
 import EventDetails from "./EventDetails.vue";
 import DetailIcon from "./DetailIcon.vue";
-import DeleteEvent from "./DeleteIcon.vue";
+import DeleteIcon from "./DeleteIcon.vue";
 import AddIcon from "./AddIcon.vue";
 import { ref } from 'vue';
 
-
-
 defineEmits(['deleteEvent'])
-
 const props = defineProps({
     events: {
         type: Array,
         default: []
     }
 })
-
-
-
 const getDate = (dateTime) => {
     const date = new Date(dateTime);
     return date.toDateString()
 }
-
 const getTime = (dateTime) => {
     const date = new Date(dateTime);
     return date.toTimeString().slice(0, 8)
 }
-
-
 const curEvent = ref();
 const statusDetail = ref(false);
-
 const showDetailsToggle = (event) => {
     curEvent.value = {
         bookingEmail: event.bookingEmail,
         bookingName: event.bookingName,
         categoryId: event.eventCategory.eventCategoryName,
         eventNotes: event.eventNotes,
-        eventStartTime: event.eventStartTime,
+        eventStartTime: getTime(event.eventStartTime),
+        eventStartDate: getDate(event.eventStartTime),
         eventDuration: event.eventDuration,
         id: event.id,
     };
     console.log(curEvent.value)
     toggleStatus()
 }
-
 const toggleStatus = () => {
     if (statusDetail.value == true) {
         statusDetail.value = false;
@@ -53,7 +43,6 @@ const toggleStatus = () => {
         statusDetail.value = true;
     }
 }
-
 </script>
  
 <template>
@@ -61,7 +50,7 @@ const toggleStatus = () => {
         <div v-show="statusDetail" class="absolute inset-0 flex justify-center items-center z-20">
             <EventDetails :event="curEvent" @closePopUp="toggleStatus()" />
         </div>
-        <div class="overflow-x-auto shadow-md mt-12 mr-80 ml-20 rounded-2xl relative z-0 drop-shadow-2xl">
+        <div class="overflow-x-auto shadow-md mt-8 ml-20 mr-20  rounded-2xl relative z-0 drop-shadow-2xl">
             <table class="w-full font-Kanit text-lg text-center text-blood-bird ">
                 <thead class="text-lg gradient-color">
                     <th scope="col" class="px-6 py-3">Booking Name</th>
@@ -101,12 +90,13 @@ const toggleStatus = () => {
                         <td>{{ getTime(event.eventStartTime) }}</td>
                         <td>{{ event.eventDuration }} minutes </td>
                         <td>
-                            <DetailIcon class="hover:drop-shadow-md" @click="showDetailsToggle(event)" />
+                            <DetailIcon class="hover:drop-shadow-md hover:drop-shadow-md"
+                                @click="showDetailsToggle(event)" />
                         </td>
                         <td>
-                            <DeleteEvent @click="$emit('deleteEvent', event.id)" />
+                            <DeleteIcon @click="$emit('deleteEvent', event.id)" />
                         </td>
-                        <td> </td>
+                        <td> edit </td>
                     </tr>
                 </tbody>
             </table>
@@ -117,5 +107,10 @@ const toggleStatus = () => {
 <style scoped>
 .gradient-color {
     background-image: linear-gradient(to left, #FBBF98, #FFC2C2);
+}
+
+
+.gradient-delete-color {
+    background-image: linear-gradient(to top, #FFFFFF, #FBBF98);
 }
 </style>
