@@ -1,5 +1,6 @@
 package com.oasip.oasipservices.controllers;
 
+import com.oasip.oasipservices.DTOS.EventBookingCategoryDTO;
 import com.oasip.oasipservices.entities.EventCategory;
 import com.oasip.oasipservices.repositories.EventCategoryRepository;
 import com.oasip.oasipservices.services.EventCategoryService;
@@ -21,8 +22,8 @@ public class EventCategoryController {
     private EventCategoryRepository repository;
 
     @GetMapping()
-    public List<EventCategory> getAllCategories(){
-        return eventCategoryService.getAllCategories();
+    public List<EventBookingCategoryDTO> getAllCategories(){
+        return eventCategoryService.getAllCategoriesForBooking();
     }
 //    private EventCategory mapCategory(EventCategory existingEventCategory, EventCategory updateEventCategory) {
 //        existingEventCategory.setEventCategoryName(updateEventCategory.getEventCategoryName());

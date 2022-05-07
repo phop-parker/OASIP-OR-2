@@ -1,7 +1,12 @@
 package com.oasip.oasipservices.services;
 
+import com.oasip.oasipservices.DTOS.EventBookingCategoryDTO;
+import com.oasip.oasipservices.DTOS.EventDTO;
+import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.entities.EventCategory;
 import com.oasip.oasipservices.repositories.EventCategoryRepository;
+import com.oasip.oasipservices.utils.ListMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,8 +19,16 @@ public class EventCategoryService {
     @Autowired
     private EventCategoryRepository repository;
 
-    public List<EventCategory> getAllCategories(){
-        return repository.findAll((Sort.by("eventCategoryName").ascending()));
+    @Autowired
+    private ListMapper listMapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+    public List<EventBookingCategoryDTO> getAllCategoriesForBooking() {
+        List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
+        return listMapper.mapList(eventList, EventBookingCategoryDTO.class, modelMapper);
     }
 
 }
