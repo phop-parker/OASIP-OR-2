@@ -9,7 +9,7 @@ let events = ref([])
 
 // GET
 const getEvents = async () => {
-    const res = await fetch('/api/events')
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
     if (res.status === 200) {
         console.log("response reply")
         console.log(res);;
@@ -27,7 +27,7 @@ onBeforeMount(async () => {
 // DELETE
 const deleteEvent = async (deleteEventId) => {
     if (deleteEventId > 0) {
-        const res = await fetch(`/api/events/${deleteEventId}`, {
+        const res = await fetch(`${import.meta.env.BASE_URL}/api/events/${deleteEventId}`, {
             method: 'DELETE'
         })
         if (res.status === 200) {

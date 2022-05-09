@@ -6,7 +6,7 @@ import AddNewEvent from '../components/AddNewEvent.vue';
 let categories = ref([])
 // get
 const getCategories = async () => {
-    const res = await fetch('/api/eventCatagories')
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCatagories`)
     if (res.status === 200) {
         console.log(res);
         categories.value = await res.json()
@@ -21,7 +21,7 @@ onBeforeMount(async () => {
 
 // create
 const createNewEvent = async (newEvent) => {
-    const res = await fetch('/api/events', {
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
