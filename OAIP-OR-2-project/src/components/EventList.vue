@@ -5,7 +5,7 @@ import DeleteIcon from "./DeleteIcon.vue";
 import AddIcon from "./AddIcon.vue";
 import { ref } from 'vue';
 
-defineEmits(['deleteEvent'])
+defineEmits(['deleteEvent', 'updateThisEvent'])
 const props = defineProps({
     events: {
         type: Array,
@@ -18,7 +18,7 @@ const getDate = (dateTime) => {
 }
 const getTime = (dateTime) => {
     const date = new Date(dateTime);
-    return date.toTimeString().slice(0, 8)
+    return date.toTimeString().slice(0, 5)
 }
 const curEvent = ref();
 const statusDetail = ref(false);
@@ -28,8 +28,7 @@ const showDetailsToggle = (event) => {
         bookingName: event.bookingName,
         categoryId: event.eventCategory.eventCategoryName,
         eventNotes: event.eventNotes,
-        eventStartTime: getTime(event.eventStartTime),
-        eventStartDate: getDate(event.eventStartTime),
+        eventStartTime: event.eventStartTime,
         eventDuration: event.eventDuration,
         id: event.id,
     };
@@ -43,14 +42,27 @@ const toggleStatus = () => {
         statusDetail.value = true;
     }
 }
+
+const updatedEvent = ref()
+
+const getUpdateEvent = (updateEvent) => {
+    console.log('getUpdateEvent is working right now here is update event-----')
+    console.log(updateEvent)
+    updatedEvent.value = updateEvent;
+    console.log(' here is update event that sendeing to views-----')
+    console.log(updatedEvent.value)
+    return updatedEvent;
+}
 </script>
  
 <template>
     <div>
-        <div v-show="statusDetail" class="absolute inset-0 flex justify-center items-center z-20">
-            <EventDetails :event="curEvent" @closePopUp="toggleStatus()" />
+        <div v-show="statusDetail" class=" absolute inset-0 flex justify-center items-center z-20">
+            <EventDetails :event="curEvent" @closePopUp="toggleStatus()"
+                @deleteEvent="$emit('deleteEvent', curEvent.id), toggleStatus()" @getEditedEvent="getUpdateEvent"
+                @updateEvent="$emit('updateThisEvent', updatedEvent), toggleStatus()" />
         </div>
-        <div class="overflow-x-auto shadow-md mt-8 ml-20 mr-20  rounded-2xl relative z-0 drop-shadow-2xl">
+        <div class=" overflow-x-auto shadow-md mt-8 ml-20 mr-20 rounded-2xl relative z-0 drop-shadow-2xl">
             <table class="w-full font-Kanit text-lg text-center text-blood-bird ">
                 <thead class="text-lg gradient-color">
                     <th scope="col" class="px-6 py-3">Booking Name</th>
@@ -58,7 +70,6 @@ const toggleStatus = () => {
                     <th scope="col" class="px-6 py-3">Date</th>
                     <th scope="col" class="px-6 py-3">Time</th>
                     <th scope="col" class="px-6 py-3">Duration</th>
-                    <th scope="col" class="px-6 py-3"><span class="sr-only">Edit</span></th>
                     <th scope="col" class="px-6 py-3"><span class="sr-only">Edit</span></th>
                     <th scope="col" class="px-6 py-3"><span class="sr-only">Edit</span></th>
                 </thead>
@@ -90,13 +101,12 @@ const toggleStatus = () => {
                         <td>{{ getTime(event.eventStartTime) }}</td>
                         <td>{{ event.eventDuration }} minutes </td>
                         <td>
-                            <DetailIcon class="hover:drop-shadow-md hover:drop-shadow-md"
+                            <DetailIcon class="hover:drop-shadow-md hover:drop-shadow-md "
                                 @click="showDetailsToggle(event)" />
                         </td>
                         <td>
                             <DeleteIcon @click="$emit('deleteEvent', event.id)" />
                         </td>
-                        <td> edit </td>
                     </tr>
                 </tbody>
             </table>
