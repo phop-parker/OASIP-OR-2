@@ -3,8 +3,9 @@ com/oasip/oasipservices/controllers/EventController.class
 com/oasip/oasipservices/CorsConfigurer.class
 com/oasip/oasipservices/repositories/EventCategoryRepository.class
 com/oasip/oasipservices/entities/EventCategory.class
-com/oasip/oasipservices/configuration/Crosconfiguration.class
+com/oasip/oasipservices/DTOS/EventBookingCategoryDTO.class
 com/oasip/oasipservices/utils/ListMapper.class
+com/oasip/oasipservices/DTOS/EventCategoriesDTO.class
 com/oasip/oasipservices/DTOS/EventDTO.class
 com/oasip/oasipservices/entities/Event.class
 com/oasip/oasipservices/repositories/EventRepository.class
