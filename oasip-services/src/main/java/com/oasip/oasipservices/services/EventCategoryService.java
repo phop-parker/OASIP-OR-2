@@ -1,6 +1,7 @@
 package com.oasip.oasipservices.services;
 
 import com.oasip.oasipservices.DTOS.EventBookingCategoryDTO;
+import com.oasip.oasipservices.DTOS.EventCategoriesDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.entities.EventCategory;
@@ -29,6 +30,11 @@ public class EventCategoryService {
     public List<EventBookingCategoryDTO> getAllCategoriesForBooking() {
         List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
         return listMapper.mapList(eventList, EventBookingCategoryDTO.class, modelMapper);
+    }
+
+    public List<EventCategoriesDTO> getFullCategories() {
+        List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
+        return listMapper.mapList(eventList, EventCategoriesDTO.class, modelMapper);
     }
 
 }

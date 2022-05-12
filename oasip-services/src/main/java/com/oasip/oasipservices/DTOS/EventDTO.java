@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -25,12 +26,11 @@ public class EventDTO {
     private String bookingEmail;
     private LocalDateTime eventStartTime;
     private Integer eventDuration;
+    private String eventNotes;
+    private String eventCategoryName;
 
     public String getEventStartTime(){
-        DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn'Z'");
+        DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return formatter.format(eventStartTime);
     }
-
-    private String eventNotes;
-    private EventCategoryDTO eventCategory;
 }

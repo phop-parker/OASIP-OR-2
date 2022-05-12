@@ -22,23 +22,23 @@ public class EventController {
 
 
     @GetMapping("")
-    public List<EventDTO> getAllSubject(){
+    public List<EventDTO> getAllSubject() {
         return eventService.getAllEvent();
     }
 
     @GetMapping("/{id}")
-    public EventDTO getEventById(@PathVariable Integer id){
+    public EventDTO getEventById(@PathVariable Integer id) {
         return eventService.getEventById(id);
     }
 
     @PostMapping("")
-    public void Event (@RequestBody Event event) {
-        eventService.save (event);
+    public void Event(@RequestBody Event event) {
+        eventService.save(event);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        eventRepository.findById(id).orElseThrow(()->
+        eventRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         id + " does not exist !!!"));
         eventRepository.deleteById(id);
@@ -47,13 +47,27 @@ public class EventController {
     @PutMapping("/{id}")
     public Event update(@RequestBody Event updateEvent, @PathVariable Integer id) {
         Event event = eventRepository.findById(id)
-                .map(o->mapEvent(o, updateEvent))
-                .orElseGet(()-> {
+                .map(e -> mapEvent(e, updateEvent))
+                .orElseGet(() -> {
                     updateEvent.setId(id);
                     return updateEvent;
                 });
         return eventRepository.saveAndFlush(event);
     }
+
+    @PatchMapping("/{id}")
+    public void updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {
+        eventRepository.findById(id).map(event -> {
+                    event.setEventNotes(updateEvent.getEventNotes());
+                    event.setEventStartTime(updateEvent.getEventStartTime());
+                    return eventRepository.saveAndFlush(event);
+                }).orElseGet(() -> {
+                    updateEvent.setId(id);
+                    return updateEvent;
+                });
+    }
+
+
 
     private Event mapEvent(Event existingEvent , Event updateEvent){
         existingEvent.setBookingEmail(updateEvent.getBookingEmail());
