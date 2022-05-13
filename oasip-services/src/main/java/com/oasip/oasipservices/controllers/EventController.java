@@ -1,9 +1,11 @@
 package com.oasip.oasipservices.controllers;
 
+import com.oasip.oasipservices.DTOS.EditedEventDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.repositories.EventRepository;
 import com.oasip.oasipservices.services.EventService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("")
     public List<EventDTO> getAllSubject() {
@@ -56,15 +60,16 @@ public class EventController {
     }
 
     @PatchMapping("/{id}")
-    public void updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {
-        eventRepository.findById(id).map(event -> {
+    public EditedEventDTO updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {
+        Event editEvent = eventRepository.findById(id).map(event -> {
                     event.setEventNotes(updateEvent.getEventNotes());
                     event.setEventStartTime(updateEvent.getEventStartTime());
-                    return eventRepository.saveAndFlush(event);
-                }).orElseGet(() -> {
+                return event;}).orElseGet(() -> {
                     updateEvent.setId(id);
                     return updateEvent;
                 });
+        eventRepository.saveAndFlush(editEvent);
+        return modelMapper.map(editEvent, EditedEventDTO.class);
     }
 
 
