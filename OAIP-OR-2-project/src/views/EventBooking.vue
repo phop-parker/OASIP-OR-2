@@ -6,8 +6,8 @@ import AddNewEvent from '../components/AddNewEvent.vue';
 let categories = ref([])
 // get
 const getCategories = async () => {
-    // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCatagories`)
-    const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCatagories/forBooking`)
+    // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
 
     if (res.status === 200) {
         console.log(res);
@@ -118,9 +118,9 @@ var timesOverlap = function (inputDate) {
 
 // create
 const createNewEvent = async (newEvent) => {
-    // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
     if (checkDateTimeFuture(newEvent.eventStartTime) && checkEmpty(newEvent) && validateEmail(newEvent) && checkLength(newEvent)) {
-        const res = await fetch(`http://10.4.56.95:8080/api/events`, {
+        // const res = await fetch(`http://10.4.56.95:8080/api/events`, {
+        const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
