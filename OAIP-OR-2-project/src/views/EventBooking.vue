@@ -6,7 +6,7 @@ import AddNewEvent from '../components/AddNewEvent.vue';
 let categories = ref([])
 // get
 const getCategories = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCatagories/forBooking`)
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
     // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
 
     if (res.status === 200) {
