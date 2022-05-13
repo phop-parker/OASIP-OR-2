@@ -13,11 +13,17 @@ const props = defineProps({
     }
 })
 const getDate = (dateTime) => {
+    console.log("-----------------date-----------------")
+    console.log("this is datetime before change" + dateTime);
     const date = new Date(dateTime);
+    console.log("this is datetime after change" + date);
     return date.toDateString()
 }
 const getTime = (dateTime) => {
+    console.log("-----------------time-----------------")
+    console.log("this is datetime before change" + dateTime);
     const date = new Date(dateTime);
+    console.log("this is datetime after change" + date);
     return date.toTimeString().slice(0, 5)
 }
 const curEvent = ref();
@@ -26,7 +32,7 @@ const showDetailsToggle = (event) => {
     curEvent.value = {
         bookingEmail: event.bookingEmail,
         bookingName: event.bookingName,
-        categoryId: event.eventCategory.eventCategoryName,
+        categoryId: event.eventCategoryName,
         eventNotes: event.eventNotes,
         eventStartTime: event.eventStartTime,
         eventDuration: event.eventDuration,
@@ -96,7 +102,7 @@ const getUpdateEvent = (updateEvent) => {
                     <tr v-for="(event, index) in events" :key="index"
                         class="border-b border-blood-bird bg-white text-black hover:bg-orange-50">
                         <td>{{ event.bookingName }}</td>
-                        <td>{{ event.eventCategory.eventCategoryName }}</td>
+                        <td>{{ event.eventCategoryName }}</td>
                         <td>{{ getDate(event.eventStartTime) }}</td>
                         <td>{{ getTime(event.eventStartTime) }}</td>
                         <td>{{ event.eventDuration }} minutes </td>
@@ -124,3 +130,4 @@ const getUpdateEvent = (updateEvent) => {
     background-image: linear-gradient(to top, #FFFFFF, #FBBF98);
 }
 </style>
+

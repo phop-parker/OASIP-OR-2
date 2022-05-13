@@ -10,7 +10,7 @@ let events = ref([])
 // GET
 const getEvents = async () => {
     // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-    const res = await fetch(`http://10.4.56.95:8080/api/events`)
+    const res = await fetch(`http://localhost:8080/api/events`)
     if (res.status === 200) {
         console.log("response reply")
         console.log(res);;
@@ -73,7 +73,7 @@ const category = (categoryName) => {
 // get
 const getCategories = async () => {
     // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCatagories`)
-    const res = await fetch(`http://localhost:8080/api/eventCatagories`)
+    const res = await fetch(`http://localhost:8080/api/eventCategories`)
 
     if (res.status === 200) {
         console.log(res);
@@ -83,17 +83,13 @@ const getCategories = async () => {
 }
 
 const updateEvent = async (updateEvent) => {
-    const res = await fetch(`http://10.4.56.95:8080/api/events/${updateEvent.id}`, {
-        method: 'PUT',
+    console.log(updateEvent);
+    const res = await fetch(`http://localhost:8080/api/events/${updateEvent.id}`, {
+        method: 'PATCH',
         headers: {
             'content-type': 'application/json'
         },
         body: JSON.stringify({
-            id: updateEvent.id,
-            bookingName: updateEvent.bookingName,
-            bookingEmail: updateEvent.bookingEmail,
-            eventDuration: updateEvent.eventDuration,
-            categoryId: category(updateEvent.categoryId),
             eventStartTime: updateEvent.eventStartTime,
             eventNotes: updateEvent.eventNotes
         })
@@ -101,7 +97,7 @@ const updateEvent = async (updateEvent) => {
     if (res.status === 200) {
         const modifyEvent = await res.json()
         console.log(modifyEvent)
-        const date = new Date(modifyEvent.eventStartTime[0], modifyEvent.eventStartTime[1] - 1, modifyEvent.eventStartTime[2], modifyEvent.eventStartTime[3], modifyEvent.eventStartTime[4])
+        const date = new Date(modifyEvent.eventStartTime)
         events.value = events.value.map(
             (event) =>
                 event.id === modifyEvent.id

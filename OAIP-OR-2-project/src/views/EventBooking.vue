@@ -7,7 +7,7 @@ let categories = ref([])
 // get
 const getCategories = async () => {
     // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCatagories`)
-    const res = await fetch(`http://10.4.56.95:8080/api/eventCatagories`)
+    const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
 
     if (res.status === 200) {
         console.log(res);
@@ -22,9 +22,10 @@ onBeforeMount(async () => {
 
 const checkDateTimeFuture = (inputDate) => {
     const date = new Date()
+    const newDate = new Date(inputDate)
     console.log(`this is date = ${date}`)
-    console.log(`this is inputdate = ${inputDate}`)
-    if (date < inputDate) {
+    console.log(`this is inputdate = ${newDate}`)
+    if (date < newDate) {
         console.log('date less than input date return true')
         return true
     } else {
@@ -33,44 +34,21 @@ const checkDateTimeFuture = (inputDate) => {
     }
 }
 
-const checkNameEmpty = (bookingName) => {
-    if (bookingName === '' || bookingName === "" || bookingName === null || bookingName === undefined) {
-        alert('please insert name')
-        console.log("name is null")
+const checkInput = (input) => {
+    if (input === '' || input === "" || input === null || input === undefined) {
+        alert('input is null')
+        console.log("input is null")
         return false
     } else {
-        console.log("name is not null")
+        console.log("input is not null")
         return true
     }
 }
-
-const checkEmailEmpty = (bookingEmail) => {
-    console.log(`this is bookingEmail ${bookingEmail}`)
-    if (bookingEmail === '' || bookingEmail === "" || bookingEmail === null || bookingEmail === undefined) {
-        console.log("email is null")
-        alert('please insert email')
-        return false
-    } else {
-        console.log("email is not null")
-        return true
-    }
-}
-
-
-// const checkCategoryEmpty = (categoryName) => {
-//     if (categoryName === null) {
-//         alert('please select category')
-//         console.log("category is null")
-//         return false
-//     } else {
-//         console.log("category is not null")
-//         return true
-//     }
-// }
+// เหลือดูเรื่อง checkCategory
 
 const checkEmpty = (newEvent) => {
     console.log("now checking...")
-    if (checkNameEmpty(newEvent.bookingName) && checkEmailEmpty(newEvent.bookingEmail)) {
+    if (checkInput(newEvent.bookingName) && checkInput(newEvent.bookingEmail)) {
         console.log("check empty return true")
         return true
     } else {
@@ -78,6 +56,44 @@ const checkEmpty = (newEvent) => {
         return false
     }
 }
+
+
+const checkLengthName = (bookingName) => {
+    if (bookingName.length > 100) {
+        alert("ใส่เกิน100ตัวจร้า");
+        console.log("เกินร้อย")
+        return false
+    } else {
+        console.log("ตัวอักษรไม่เกิน")
+        return true
+    }
+}
+
+const checkLengthNote = (eventNotes) => {
+    if (eventNotes == undefined) {
+        eventNotes = "";
+    }
+    if (eventNotes.length > 500) {
+        alert("ใส่เกิน500ตัวจร้า");
+        console.log("เกิน500")
+        return false
+    } else {
+        console.log("ตัวอักษรไม่เกิน")
+        return true
+    }
+}
+
+
+const checkLength = (newEvent) => {
+    if (checkLengthName(newEvent.bookingName) && checkLengthNote(newEvent.eventNotes)) {
+        console.log("check length return true")
+        return true
+    } else {
+        console.log("check length return false")
+        return false
+    }
+}
+
 
 const validateEmail = (newEvent) => {
     let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -90,10 +106,20 @@ const validateEmail = (newEvent) => {
     }
 }
 
+var timesOverlap = function (inputDate) {
+    inputDate.sort(function (a, b) { return a.start - b.start; });
+    for (let i = 0; i < dates.length - 1; i++) {
+        if (inputDate[i].end >= inputDate[i + 1].start) {
+            return true; // dates overlap
+        }
+    }
+    return false; // no dates overlap ยังทำไรมะได้
+};
+
 // create
 const createNewEvent = async (newEvent) => {
     // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
-    if (checkDateTimeFuture(newEvent.eventStartTime) && checkEmpty(newEvent) && validateEmail(newEvent)) {
+    if (checkDateTimeFuture(newEvent.eventStartTime) && checkEmpty(newEvent) && validateEmail(newEvent) && checkLength(newEvent)) {
         const res = await fetch(`http://10.4.56.95:8080/api/events`, {
             method: 'POST',
             headers: {
