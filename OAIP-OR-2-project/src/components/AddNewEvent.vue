@@ -14,32 +14,16 @@ const props = defineProps({
     },
 })
 
-
-
-const categories = ref([]);
-
-const allCategories = computed(() => {
-    for (let i = 0; i < props.eventCategories.length; i++) {
-        categories.value.push(props.eventCategories[i])
-    }
-    return categories;
-})
-
-// const getCategoryId = (curCategory) => { 
-//     console.log("finding id of"+curCategory)
-//     return props.Catagoty.indexOf(e => e.eventCategoryName == curCategory) }
-
 const curCategory = ref()
 const bookingEmail = ref()
 const bookingName = ref()
 const eventNotes = ref()
 const dateTime = ref()
 
-const getDateTime = () => {
-    let date = new Date(dateTime.value)
-    // return date.value+"T"+time.value+".00Z"
-    return date;
-}
+const getdate = computed(() => {
+    const date = new Date(dateTime.value)
+    return date.toUTCString();
+})
 const duration = computed(() => {
     const currentDuration = ref('-');
     for (let i = 0; i < props.eventCategories.length; i++) {
@@ -51,10 +35,10 @@ const duration = computed(() => {
 })
 
 const categoryId = computed(() => {
-    const currentCategoryId = ref(0);
+    const currentCategoryId = ref({});
     for (let i = 0; i < props.eventCategories.length; i++) {
         if (curCategory.value == props.eventCategories[i].eventCategoryName) {
-            currentCategoryId.value = props.eventCategories[i];
+            currentCategoryId.value = { id: props.eventCategories[i].id, eventCategoryName: props.eventCategories[i].eventCategoryName, eventDuration: props.eventCategories[i].eventDuration };
         }
     }
     return currentCategoryId.value;
@@ -64,18 +48,17 @@ const newEvent = computed(() => {
     return {
         bookingName: bookingName.value,
         bookingEmail: bookingEmail.value,
-        eventStartTime: getDateTime(),
+        eventStartTime: dateTime.value,
         eventDuration: duration.value,
         categoryId: categoryId.value,
         eventNotes: eventNotes.value
     }
 })
 
-
-
 </script>
 
 <template>
+
     <div class=" box-content p-5 mt-5 mb-4 ml-20 mr-20 bg-white rounded-3xl font-Kanit drop-shadow-2xl">
         <div class="gradient-color rounded-3xl justify-center">
             <p class="font-medium font-Kanit text-center pt-2 pb-2 text-blood-bird ">
@@ -86,12 +69,14 @@ const newEvent = computed(() => {
             <div class="">
                 <p>Name :</p>
                 <input v-model="bookingName" type="text"
-                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline" />
+                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
+                    required />
             </div>
             <div class="">
                 <p>Email :</p>
                 <input v-model="bookingEmail" type="email"
-                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline" />
+                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
+                    required />
             </div>
             <div class="">
                 <p>Category :</p>
@@ -116,7 +101,7 @@ const newEvent = computed(() => {
                 <p>Time :</p>
                 <input v-model="dateTime" type="datetime-local"
                     class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-7 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline" />
-                {{ time }}
+                {{ dateTime }}
             </div>
 
             <div class="col-span-2">
