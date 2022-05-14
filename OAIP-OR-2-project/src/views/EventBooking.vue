@@ -2,14 +2,15 @@
 
 import { onBeforeMount, ref, computed } from 'vue'
 import AddNewEvent from '../components/AddNewEvent.vue';
+import AddAlert from '../components/AddAlert.vue';
 
 let categories = ref([])
 let events = ref([])
 
 // GET
 const getEvents = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-    // const res = await fetch(`http://10.4.56.95:8080/api/events`)
+    // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+    const res = await fetch(`http://10.4.56.95:8080/api/events`)
     if (res.status === 200) {
         console.log("response reply")
         console.log(res);;
@@ -21,8 +22,8 @@ const getEvents = async () => {
 
 // GET
 const getCategories = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
-    // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
+    // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
+    const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
 
     if (res.status === 200) {
         console.log(res);
@@ -46,6 +47,7 @@ const checkDateTimeFuture = (inputDate) => {
             console.log('date less than input date return true')
             return true;
         } else {
+            alert("please insert future date time")
             console.log('date more than input date return false')
             return false;
         }
@@ -142,48 +144,62 @@ const validateEmail = (newEvent) => {
 
 const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
     console.log("hello overlap")
-    let newDate = new Date(inputDate);
-    let endDateTime = eventEndTime(newDate, newEventDuration);
+    console.log(`this is input Date ${inputDate}`)
+    let newEventStartDate = new Date(inputDate);
+    let newEventEndDate = eventEndTime(newEventStartDate, newEventDuration);
     let status = ref(true)
+    console.log(`-----this is newEventStartDate ${newEventStartDate}----`)
+    console.log(`-----this is newEventEndDate ${newEventEndDate}----`)
     for (let i = 0; i < events.value.length; i++) {
-        let eventStartDateTime = new Date(events.value[i].eventStartTime);
-        let eventEndDateTime = eventEndTime(eventStartDateTime, events.value[i].eventDuration);
+        let eventStartDateTime = new Date(events.value[i].eventStartTime.replace("@", "T"));
+        let eventDuration = events.value[i].eventDuration;
+        let eventEndDateTime = eventEndTime(eventStartDateTime, eventDuration);
         console.log(`-----overlap check number ${i}----`)
-        console.log(`-----this is newDate ${newDate}----`)
         console.log(`-----this is eventStartTime ${eventStartDateTime}----`)
-        console.log(`-----this is eventEndTime ${eventStartDateTime}-----`)
-        console.log(`-----this is newCategoryName ${newEventCategoryName}-----`)
-        console.log(`-----this is categoryname ${events.value[i].eventCategoryName}-----`)
+        console.log(`-----this is eventEndTime ${eventEndDateTime}-----`)
         if (events.value[i].eventCategoryName == newEventCategoryName) {
-            if (eventStartDateTime <= newDate && newDate <= eventEndDateTime)
+            console.log(`-----this is CategoryName ${newEventCategoryName}-----`)
+            if (eventStartDateTime <= newEventStartDate && newEventStartDate <= eventEndDateTime) {
                 console.log("time is overlapping")
-            alert("time is overlapping")
-            status.value = false;
+                status.value = false;
+            }
+            if (eventStartDateTime <= newEventEndDate && newEventEndDate <= eventEndDateTime) {
+                console.log("time is overlapping")
+                status.value = false;
+            }
+            if (newEventStartDate < eventStartDateTime && eventEndDateTime < newEventEndDate) {
+                console.log("time is overlapping")
+                status.value = false;
+            }
         }
-        if (eventStartDateTime <= endDateTime && endDateTime <= eventEndDateTime) {
-            alert("time is overlapping")
-            status.value = false;
-        }
-        if (newDate < eventStartDateTime && eventEndDateTime < endDateTime) {
-            alert("time is overlapping")
-            status.value = false;
-        }
+    }
+    if (status.value == false) {
+        alert("time is overlapping")
     }
     console.log(`validation return ${status.value}`)
     return status.value;
 };
 
-const eventEndTime = (date, minutes) => {
-    return new Date(date.getTime() + minutes * 60000);
+function eventEndTime(date, minutes) {
+    // console.log(`date is ${date}`);
+    let dateFormat = new Date(date);
+    // console.log(`dateFormat is ${dateFormat}`);
+    // console.log(`dateFormat.getTime() is ${dateFormat.getTime()}`);
+    // console.log(`dateFormat.getTime() + minutes * 60 * 1000 is ${dateFormat.getTime() + minutes * 60 * 1000}`);
+    // console.log(`new Date(dateFormat.getTime() + minutes * 60 * 1000 ${new Date(dateFormat.getTime() + minutes * 60 * 1000)}`);
+    let endDate = new Date(dateFormat.getTime() + minutes * 60 * 1000)
+    // console.log(`endDate is ${endDate}`);
+
+    return endDate;
 }
 
-
+const addSuccessStatus = ref(false)
 // create
 const createNewEvent = async (newEvent) => {
     if (checkDateTimeFuture(newEvent.eventStartTime) && checkEmpty(newEvent)
-        && validateEmail(newEvent) && checkLength(newEvent) && timesOverlap(newEvent.eventStartTime, newEvent.categoryId.eventCategoryName)) {
-        // const res = await fetch(`http://10.4.56.95:8080/api/events`, {
-        const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
+        && validateEmail(newEvent) && checkLength(newEvent) && timesOverlap(newEvent.eventStartTime, newEvent.categoryId.eventCategoryName, newEvent.categoryId.eventDuration)) {
+        const res = await fetch(`http://10.4.56.95:8080/api/events`, {
+            // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -200,7 +216,7 @@ const createNewEvent = async (newEvent) => {
         })
         if (res.status === 200 || res.status === 201) {
             console.log(res.status)
-            alert('added suceccfully')
+            addSuccessStatus.value = true
         } else {
             console.log(res.status)
             console.log('error cannot add')
@@ -211,11 +227,23 @@ const createNewEvent = async (newEvent) => {
     }
 }
 
+const toggleAddSuccessStatus = () => {
+    if (addSuccessStatus.value) {
+        addSuccessStatus.value = false;
+    } else {
+        addSuccessStatus.value = true;
+    }
+}
 </script>
  
 <template>
     <div class="">
-        <AddNewEvent :eventCategories="categories" @addNewEvent="createNewEvent" />
+        <div>
+            <AddNewEvent :eventCategories="categories" @addNewEvent="createNewEvent" />
+        </div>
+        <div v-if="addSuccessStatus == true" class="absolute inset-0 flex justify-center items-center z-20">
+            <AddAlert @ConfirmAndGoToAnotherPage="toggleAddSuccessStatus" />
+        </div>
     </div>
 </template>
 

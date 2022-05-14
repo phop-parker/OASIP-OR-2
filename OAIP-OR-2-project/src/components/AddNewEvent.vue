@@ -59,7 +59,7 @@ const newEvent = computed(() => {
 
 <template>
 
-    <div class=" box-content p-5 mt-5 mb-4 ml-20 mr-20 bg-white rounded-3xl font-Kanit drop-shadow-2xl">
+    <div class=" box-content p-5 mt-5 mb-4 ml-20 mr-20 bg-white rounded-3xl font-Kanit drop-shadow-2xl relative z-0">
         <div class="gradient-color rounded-3xl justify-center">
             <p class="font-medium font-Kanit text-center pt-2 pb-2 text-blood-bird ">
                 Add New Event
