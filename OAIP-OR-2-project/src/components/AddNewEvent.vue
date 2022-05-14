@@ -14,21 +14,6 @@ const props = defineProps({
     },
 })
 
-
-
-const categories = ref([]);
-
-const allCategories = computed(() => {
-    for (let i = 0; i < props.eventCategories.length; i++) {
-        categories.value.push(props.eventCategories[i])
-    }
-    return categories;
-})
-
-// const getCategoryId = (curCategory) => { 
-//     console.log("finding id of"+curCategory)
-//     return props.Catagoty.indexOf(e => e.eventCategoryName == curCategory) }
-
 const curCategory = ref()
 const bookingEmail = ref()
 const bookingName = ref()
@@ -50,10 +35,10 @@ const duration = computed(() => {
 })
 
 const categoryId = computed(() => {
-    const currentCategoryId = ref(0);
+    const currentCategoryId = ref({});
     for (let i = 0; i < props.eventCategories.length; i++) {
         if (curCategory.value == props.eventCategories[i].eventCategoryName) {
-            currentCategoryId.value = props.eventCategories[i];
+            currentCategoryId.value = { id: props.eventCategories[i].id, eventCategoryName: props.eventCategories[i].eventCategoryName, eventDuration: props.eventCategories[i].eventDuration };
         }
     }
     return currentCategoryId.value;
@@ -69,8 +54,6 @@ const newEvent = computed(() => {
         eventNotes: eventNotes.value
     }
 })
-
-
 
 </script>
 

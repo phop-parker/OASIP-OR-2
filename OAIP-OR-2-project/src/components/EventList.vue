@@ -12,17 +12,25 @@ const props = defineProps({
         default: []
     }
 })
+
+const getProperDate = (dateTime) => {
+    console.log(dateTime)
+    return dateTime.replace("@", "T")
+}
+
 const getDate = (dateTime) => {
+    let properDate = getProperDate(dateTime)
     console.log("-----------------date-----------------")
     console.log("this is datetime before change" + dateTime);
-    const date = new Date(dateTime);
+    const date = new Date(properDate);
     console.log("this is datetime after change" + date);
     return date.toDateString()
 }
 const getTime = (dateTime) => {
+    let properDate = getProperDate(dateTime)
     console.log("-----------------time-----------------")
     console.log("this is datetime before change" + dateTime);
-    const date = new Date(dateTime);
+    const date = new Date(properDate);
     console.log("this is datetime after change" + date);
     return date.toTimeString().slice(0, 5)
 }
@@ -34,7 +42,7 @@ const showDetailsToggle = (event) => {
         bookingName: event.bookingName,
         categoryId: event.eventCategoryName,
         eventNotes: event.eventNotes,
-        eventStartTime: event.eventStartTime,
+        eventStartTime: getProperDate(event.eventStartTime),
         eventDuration: event.eventDuration,
         id: event.id,
     };

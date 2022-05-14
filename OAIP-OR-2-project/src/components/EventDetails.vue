@@ -23,15 +23,11 @@ const getTime = (dateTime) => {
     return date.toTimeString().slice(0, 5)
 }
 
-const getProperDate = (dateTime) => {
-    console.log(dateTime)
-    return dateTime.replace("@", "T")
-}
 
 const newEvent = computed(() => {
     return {
         id: props.event.id,
-        eventStartTime: getProperDate(props.event.eventStartTime),
+        eventStartTime: props.event.eventStartTime,
         eventNotes: props.event.eventNotes
     }
 })
@@ -75,7 +71,6 @@ const toggleEditMode = () => {
             <div v-else>
                 <div class="pl-3 pb-4 drop-shadow-xl">
                     Date : {{ getDate(event.eventStartTime) }} Time :{{ getTime(event.eventStartTime) }}
-                    {{ event.eventStartTime }}
                 </div>
             </div>
             <div v-if="editMode == true">
