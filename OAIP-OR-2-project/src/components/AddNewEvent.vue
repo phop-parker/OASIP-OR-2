@@ -101,7 +101,6 @@ const newEvent = computed(() => {
                 <p>Time :</p>
                 <input v-model="dateTime" type="datetime-local"
                     class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-7 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline" />
-                {{ dateTime }}
             </div>
 
             <div class="col-span-2">
