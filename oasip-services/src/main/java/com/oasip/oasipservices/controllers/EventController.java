@@ -41,46 +41,12 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        eventRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        id + " does not exist !!!"));
-        eventRepository.deleteById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Event update(@RequestBody Event updateEvent, @PathVariable Integer id) {
-        Event event = eventRepository.findById(id)
-                .map(e -> mapEvent(e, updateEvent))
-                .orElseGet(() -> {
-                    updateEvent.setId(id);
-                    return updateEvent;
-                });
-        return eventRepository.saveAndFlush(event);
+    public void delete(@PathVariable Integer id) { eventService.delete(id);
     }
 
     @PatchMapping("/{id}")
     public EditedEventDTO updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {
-        Event editEvent = eventRepository.findById(id).map(event -> {
-                    event.setEventNotes(updateEvent.getEventNotes());
-                    event.setEventStartTime(updateEvent.getEventStartTime());
-                return event;}).orElseGet(() -> {
-                    updateEvent.setId(id);
-                    return updateEvent;
-                });
-        eventRepository.saveAndFlush(editEvent);
-        return modelMapper.map(editEvent, EditedEventDTO.class);
+        return eventService.updateEvent(updateEvent,id);
     }
 
-
-
-    private Event mapEvent(Event existingEvent , Event updateEvent){
-        existingEvent.setBookingEmail(updateEvent.getBookingEmail());
-        existingEvent.setCategoryId(updateEvent.getCategoryId());
-        existingEvent.setBookingName(updateEvent.getBookingName());
-        existingEvent.setEventDuration(updateEvent.getEventDuration());
-        existingEvent.setEventStartTime(updateEvent.getEventStartTime());
-        existingEvent.setEventNotes(updateEvent.getEventNotes());
-        return existingEvent;
-    }
 }
