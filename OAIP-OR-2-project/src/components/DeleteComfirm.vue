@@ -5,7 +5,7 @@ defineEmits(['yesConfirmation', 'cancelConfirmation'])
 <template>
 
     <div
-        class=" box-content mr-auto ml-auto pt-10 pb-0 h-40 w-80 box-content gradient-color rounded-3xl drop-shadow-2xl font-Kanit">
+        class=" box-content mr-auto ml-auto pt-10 pb-0 h-40 w-80 gradient-color rounded-3xl drop-shadow-2xl font-Kanit">
         <div class="text-center text-blood-bird pt-3 z-40">
             Are you sure you want to delete ?
         </div>

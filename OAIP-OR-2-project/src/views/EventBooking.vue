@@ -3,10 +3,13 @@
 import { onBeforeMount, ref, computed } from 'vue'
 import AddNewEvent from '../components/AddNewEvent.vue';
 import AddAlert from '../components/AddAlert.vue';
+import ErrorAlert from '../components/ErrorAlert.vue';
 
 let categories = ref([])
 let events = ref([])
-
+let errorDetail = ref("")
+const addSuccessStatus = ref(false)
+const errorStatus = ref(false)
 // GET
 const getEvents = async () => {
     // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
@@ -47,19 +50,25 @@ const checkDateTimeFuture = (inputDate) => {
             console.log('date less than input date return true')
             return true;
         } else {
-            alert("please insert future date time")
+            errorDetail.value = "Please insert future date time"
+            errorStatus.value = true;
             console.log('date more than input date return false')
+            // alert("please insert future date time")
             return false;
         }
     } else {
-        alert("please insert date and time.")
+        errorDetail.value = "Please insert date and time"
+        errorStatus.value = true;
+        // alert("please insert date and time.")
         return false;
     }
 }
 
 const checkInput = (input) => {
     if (input === '' || input === "" || input === null || input === undefined) {
-        alert('input is null')
+        // alert('input is null')
+        errorDetail.value = "Information required."
+        errorStatus.value = true;
         console.log("input is null")
         return false
     } else {
@@ -72,7 +81,9 @@ const checkInput = (input) => {
 const checkInputCategoty = (input) => {
     console.log(`this is category=>${input}`)
     if (input === undefined || input === null || input === 0) {
-        alert('category please select category')
+        // alert('please select category')
+        errorDetail.value = "Please select category"
+        errorStatus.value = true;
         console.log("category is null")
         return false
     } else {
@@ -95,11 +106,13 @@ const checkEmpty = (newEvent) => {
 
 const checkLengthName = (bookingName) => {
     if (bookingName.length > 100) {
-        alert("bookingName should be lessthan 100 letters.");
+        errorDetail.value = "BookingName should be lessthan 100 letters."
+        errorStatus.value = true;
+        // alert("bookingName should be lessthan 100 letters.");
         console.log("bookingName is morethan 100 return false")
         return false
     } else {
-        console.log("bookingName is lessthan 100 return false")
+        console.log("bookingName is lessthan 100 return true")
         return true
     }
 }
@@ -109,7 +122,9 @@ const checkLengthNote = (eventNotes) => {
         eventNotes = "";
     }
     if (eventNotes.length > 500) {
-        alert("eventNotes should be lessthan 500 letters.");
+        errorDetail.value = "EventNotes should be lessthan 500 letters."
+        errorStatus.value = true;
+        // alert("eventNotes should be lessthan 500 letters.");
         console.log("eventNotes is morethan 500 return false")
         return false
     } else {
@@ -133,10 +148,11 @@ const checkLength = (newEvent) => {
 const validateEmail = (newEvent) => {
     let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     if (newEvent.bookingEmail.match(validRegex)) {
-        alert("Valid email address!");
         return true
     } else {
-        alert("Invalid email address!");
+        errorDetail.value = "Invalid email address."
+        errorStatus.value = true;
+        // alert("Invalid email address!");
         return false
     }
 }
@@ -174,26 +190,21 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
         }
     }
     if (status.value == false) {
-        alert("time is overlapping")
+        errorDetail.value = "Date or time is overlapping."
+        errorStatus.value = true;
+        // alert("time is overlapping")
     }
     console.log(`validation return ${status.value}`)
     return status.value;
 };
 
 function eventEndTime(date, minutes) {
-    // console.log(`date is ${date}`);
     let dateFormat = new Date(date);
-    // console.log(`dateFormat is ${dateFormat}`);
-    // console.log(`dateFormat.getTime() is ${dateFormat.getTime()}`);
-    // console.log(`dateFormat.getTime() + minutes * 60 * 1000 is ${dateFormat.getTime() + minutes * 60 * 1000}`);
-    // console.log(`new Date(dateFormat.getTime() + minutes * 60 * 1000 ${new Date(dateFormat.getTime() + minutes * 60 * 1000)}`);
     let endDate = new Date(dateFormat.getTime() + minutes * 60 * 1000)
-    // console.log(`endDate is ${endDate}`);
-
     return endDate;
 }
 
-const addSuccessStatus = ref(false)
+
 // create
 const createNewEvent = async (newEvent) => {
     if (checkDateTimeFuture(newEvent.eventStartTime) && checkEmpty(newEvent)
@@ -218,13 +229,17 @@ const createNewEvent = async (newEvent) => {
             console.log(res.status)
             addSuccessStatus.value = true
         } else {
-            console.log(res.status)
+            let status = res.status      
+            errorDetail.value = `Backend ${status} error, Bad Request !`
+            errorStatus.value = true;
             console.log('error cannot add')
         }
 
-    } else {
-        alert('cannot add')
-    }
+    } 
+    // else {
+        
+    //     alert('cannot add')
+    // }
 }
 
 const toggleAddSuccessStatus = () => {
@@ -232,6 +247,14 @@ const toggleAddSuccessStatus = () => {
         addSuccessStatus.value = false;
     } else {
         addSuccessStatus.value = true;
+    }
+}
+
+const toggleErrorStatus = () => {
+    if (errorStatus.value) {
+        errorStatus.value = false;
+    } else {
+        errorStatus.value = true;
     }
 }
 </script>
@@ -243,6 +266,9 @@ const toggleAddSuccessStatus = () => {
         </div>
         <div v-if="addSuccessStatus == true" class="absolute inset-0 flex justify-center items-center z-20">
             <AddAlert @ConfirmAndGoToAnotherPage="toggleAddSuccessStatus" />
+        </div>
+        <div v-if="errorStatus == true" class="absolute inset-0 flex justify-center items-center z-20">
+            <ErrorAlert :errorTitle="errorDetail" @backToEventBooking="toggleErrorStatus" />
         </div>
     </div>
 </template>

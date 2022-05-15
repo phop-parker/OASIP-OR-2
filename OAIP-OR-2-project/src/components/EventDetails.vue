@@ -23,7 +23,6 @@ const getTime = (dateTime) => {
     return date.toTimeString().slice(0, 5)
 }
 
-
 const newEvent = computed(() => {
     return {
         id: props.event.id,
@@ -43,7 +42,6 @@ const toggleEditMode = () => {
 
 </script>
 <template>
-
     <div class="box-content p-8 pb-8 rounded-3xl gradient-color drop-shadow-3xl font-Kanit  ">
         <div class="grid grid-rows-8 gap-4  bg-white rounded-2xl p-7 pb-10 ">
             <div class="place-self-end ">
@@ -66,7 +64,7 @@ const toggleEditMode = () => {
             </div>
             <div v-if="editMode == true">
                 Date :<input type="datetime-local" v-model="newEvent.eventStartTime"
-                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-7 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline" />
+                    class="pl-2 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-7 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline" />
             </div>
             <div v-else>
                 <div class="pl-3 pb-4 drop-shadow-xl">

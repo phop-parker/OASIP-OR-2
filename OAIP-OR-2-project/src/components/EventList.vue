@@ -15,28 +15,25 @@ const props = defineProps({
 
 const getProperDate = (dateTime) => {
     console.log(dateTime)
-    return dateTime.replace("@", "T")
+    return dateTime.toString().replace("@", "T")
 }
 
 const getDate = (dateTime) => {
-    let properDate = getProperDate(dateTime)
     console.log("-----------------date-----------------")
-    console.log("this is datetime before change" + dateTime);
-    const date = new Date(properDate);
+    const date = new Date(dateTime);
     console.log("this is datetime after change" + date);
     return date.toDateString()
 }
 const getTime = (dateTime) => {
-    let properDate = getProperDate(dateTime)
     console.log("-----------------time-----------------")
-    console.log("this is datetime before change" + dateTime);
-    const date = new Date(properDate);
+    const date = new Date(dateTime);
     console.log("this is datetime after change" + date);
     return date.toTimeString().slice(0, 5)
 }
 const curEvent = ref();
 const statusDetail = ref(false);
 const showDetailsToggle = (event) => {
+    console.log('show datail toggle hit')
     curEvent.value = {
         bookingEmail: event.bookingEmail,
         bookingName: event.bookingName,
@@ -46,15 +43,20 @@ const showDetailsToggle = (event) => {
         eventDuration: event.eventDuration,
         id: event.id,
     };
-    console.log(curEvent.value)
     toggleStatus()
 }
 const toggleStatus = () => {
+    console.log('toggleStatus hit')
     if (statusDetail.value == true) {
         statusDetail.value = false;
     } else {
         statusDetail.value = true;
     }
+}
+
+const toggleTofalse = () => {
+        console.log('toggleTofalse hit')
+        statusDetail.value = false;
 }
 
 const updatedEvent = ref()
@@ -71,10 +73,10 @@ const getUpdateEvent = (updateEvent) => {
  
 <template>
     <div>
-        <div v-show="statusDetail" class=" absolute inset-0 flex justify-center items-center z-20">
+        <div v-if="statusDetail==true" class=" absolute inset-0 flex justify-center items-center z-20">
             <EventDetails :event="curEvent" @closePopUp="toggleStatus()"
                 @deleteEvent="$emit('deleteEvent', curEvent.id), toggleStatus()" @getEditedEvent="getUpdateEvent"
-                @updateEvent="$emit('updateThisEvent', updatedEvent), toggleStatus()" />
+                @updateEvent="$emit('updateThisEvent', updatedEvent), toggleTofalse()" />
         </div>
         <div class=" overflow-x-auto shadow-md mt-8 ml-20 mr-20 rounded-2xl relative z-0 drop-shadow-2xl">
             <table class="w-full font-Kanit text-lg text-center text-blood-bird ">
@@ -108,14 +110,14 @@ const getUpdateEvent = (updateEvent) => {
                 </tbody>
                 <tbody v-else>
                     <tr v-for="(event, index) in events" :key="index"
-                        class="border-b border-blood-bird bg-white text-black hover:bg-orange-50">
+                        class="border-b border-blood-bird bg-white text-black text-center hover:bg-orange-50">
                         <td>{{ event.bookingName }}</td>
                         <td>{{ event.eventCategoryName }}</td>
                         <td>{{ getDate(event.eventStartTime) }}</td>
                         <td>{{ getTime(event.eventStartTime) }}</td>
                         <td>{{ event.eventDuration }} minutes </td>
                         <td>
-                            <DetailIcon class="hover:drop-shadow-md hover:drop-shadow-md "
+                            <DetailIcon class="hover:drop-shadow-md"
                                 @click="showDetailsToggle(event)" />
                         </td>
                         <td>

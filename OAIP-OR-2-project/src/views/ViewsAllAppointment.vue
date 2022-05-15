@@ -1,11 +1,16 @@
 <script setup>
 import EventList from '../components/EventList.vue';
 import DeleteComfirm from '../components/DeleteComfirm.vue'
+import SuccessAlert from '../components/SuccessAlert.vue'
 
 import { onBeforeMount, ref } from 'vue'
 
 
 let events = ref([])
+const successDesc = ref()
+const deleteConfirm = ref(false);
+const successStatus = ref(false);
+const deleteThisEvent = ref(0);
 
 // GET
 const getEvents = async () => {
@@ -35,7 +40,8 @@ const deleteEvent = async (deleteEventId) => {
         })
         if (res.status === 200) {
             events.value = events.value.filter((event) => event.id !== deleteEventId);
-            alert('delete successfully');
+            successDesc.value = "Delete";
+            successStatus.value = true;
             cancelDelete();
         } else {
             alert('error cannot delete');
@@ -45,9 +51,13 @@ const deleteEvent = async (deleteEventId) => {
         alert('no event to delete');
         cancelDelete();
     }
+    setTimeout(successToggle,2000)
 }
-const deleteConfirm = ref(false);
-const deleteThisEvent = ref(0);
+
+const successToggle =()=>	successStatus.value === false
+		? (successStatus.value = true)
+		: (successStatus.value = false)
+
 const deleteEventConfirm = (eventId) => {
     deleteConfirm.value = true
     deleteThisEvent.value = eventId
@@ -105,11 +115,15 @@ const updateEvent = async (updateEvent) => {
                     : event
         )
         console.log('updated suceccfully')
-        alert('updated suceccfully')
+        successStatus.value = true;
+        successDesc.value = "Update"
+            
     } else {
         console.log('error cannot add')
         alert('error cannot add')
     }
+    setTimeout(successToggle,2000)
+    
 }
 
 </script> 
@@ -120,8 +134,12 @@ const updateEvent = async (updateEvent) => {
             <EventList :events="events" @deleteEvent="deleteEventConfirm" @updateThisEvent="updateEvent" />
         </div>
 
-        <div v-show="deleteConfirm" class="absolute inset-0 flex justify-center items-center z-20">
+        <div v-if="deleteConfirm == true" class="absolute inset-0 flex justify-center items-center z-20">
             <DeleteComfirm @cancelConfirmation="cancelDelete" @yesConfirmation="deleteEvent(deleteThisEvent)" />
+        </div>
+
+        <div v-if="successStatus == true" class="absolute inset-0 flex justify-center items-center z-20">
+            <SuccessAlert :successTitle="successDesc"/>
         </div>
     </div>
 
