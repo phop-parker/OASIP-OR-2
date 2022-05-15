@@ -117,9 +117,7 @@ public class EventService {
     }
 
     private void checkEventNotes(String eventNotes) {
-        if (eventNotes == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "eventNotes cannot be null");
-        } else if (eventNotes.length() > 500) {
+     if (eventNotes.length() > 500) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "eventNotes is to long");
         }
     }
