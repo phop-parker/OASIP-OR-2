@@ -37,13 +37,17 @@ public class EventService {
     private EventRepository repository;
 
     @Autowired
-    private EventCategoryService eventCategoryService;
+    private EventCategoryRepository eventCategoryRepository;
 
     public Event save(CreateNewEventDTO event) {
-        EventCategoriesDTO eventCategory = eventCategoryService.getAllCategoryById(event.getCategoryId());
-        event.setEventDuration(eventCategory.getEventDuration());
         Event newEvent = modelMapper.map(event, Event.class);
-        if(checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategoryId().getEventCategoryName(),newEvent.getEventDuration())){
+        EventCategory eventCategory = eventCategoryRepository.findById(event.getCategoryId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Event id " + event.getCategoryId() + "Does Not Exist !!!"));
+        newEvent.setEventDuration(eventCategory.getEventDuration());
+        newEvent.setEventId(null);
+        newEvent.setCategory(eventCategory);
+        if(checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategory().getEventCategoryName(),newEvent.getEventDuration())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");}
         return repository.saveAndFlush(newEvent);
     }
@@ -100,7 +104,7 @@ public class EventService {
             updateEvent.setEventStartTime(oldEvent.getEventStartTime());
             updateEvent.setEventDuration(oldEvent.getEventDuration());
             updateEvent.setEventNotes(oldEvent.getEventNotes());
-            updateEvent.setCategoryId(oldEvent.getCategoryId());
+            updateEvent.setCategory(oldEvent.getCategory());
         }
         if(updateEvent.getEventNotes() == null ){
             updateEvent.setEventNotes(oldEvent.getEventNotes());
@@ -113,7 +117,7 @@ public class EventService {
             event.setEventStartTime(updateEvent.getEventStartTime());
             return event;
         }).orElseGet(() -> {
-            updateEvent.setId(id);
+            updateEvent.setEventId(id);
             return updateEvent;
         });
         repository.saveAndFlush(editEvent);
@@ -128,7 +132,7 @@ public class EventService {
 
     private EventDTO convertEntityToDto(Event event) {
         EventDTO eventDTO = new EventDTO();
-        eventDTO.setId(event.getId());
+        eventDTO.setId(event.getEventId());
         eventDTO.setBookingName(event.getBookingName());
         eventDTO.setEventNotes(event.getEventNotes());
         eventDTO.setBookingEmail(event.getBookingEmail());

@@ -15,7 +15,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "eventId", nullable = false)
-    private Integer id;
+    private Integer eventId;
 
     @Column(name = "bookingName", nullable = false)
     private String bookingName;
@@ -29,9 +29,9 @@ public class Event {
     @Column(name = "eventDuration", nullable = false)
     private Integer eventDuration;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = {CascadeType.ALL})
     @JoinColumn(name = "categoryId", nullable = false)
-    private EventCategory categoryId;
+    private EventCategory category;
 
     @Column(name = "eventNotes", length = 500, nullable = true)
     private String eventNotes;
@@ -44,12 +44,12 @@ public class Event {
         this.eventNotes = eventNotes;
     }
 
-    public EventCategory getCategoryId() {
-        return categoryId;
+    public EventCategory getCategory() {
+        return category;
     }
 
-    public void setCategoryId(EventCategory categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(EventCategory category) {
+        this.category = category;
     }
 
     public Integer getEventDuration() {
@@ -84,11 +84,9 @@ public class Event {
         this.bookingName = bookingName;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getEventId() {
+        return eventId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setEventId(Integer id) {this.eventId = id;}
 }
