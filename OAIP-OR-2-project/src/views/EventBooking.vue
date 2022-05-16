@@ -12,8 +12,8 @@ const addSuccessStatus = ref(false)
 const errorStatus = ref(false)
 // GET
 const getEvents = async () => {
-    // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-    const res = await fetch(`http://10.4.56.95:8080/api/events`)
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+    // const res = await fetch(`http://10.4.56.95:8080/api/events`)
     if (res.status === 200) {
         console.log("response reply")
         console.log(res);;
@@ -25,8 +25,8 @@ const getEvents = async () => {
 
 // GET
 const getCategories = async () => {
-    // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
-    const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
+    // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
 
     if (res.status === 200) {
         console.log(res);
@@ -207,11 +207,11 @@ function eventEndTime(date, minutes) {
 
 // create
 const createNewEvent = async (newEvent) => {
-    if ( checkEmpty(newEvent) && checkDateTimeFuture(newEvent.eventStartTime) 
-        && validateEmail(newEvent) && checkLength(newEvent) 
+    if (checkEmpty(newEvent) && checkDateTimeFuture(newEvent.eventStartTime)
+        && validateEmail(newEvent) && checkLength(newEvent)
         && timesOverlap(newEvent.eventStartTime, newEvent.categoryId.eventCategoryName, newEvent.categoryId.eventDuration)) {
-        const res = await fetch(`http://10.4.56.95:8080/api/events`, {
-        // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
+        // const res = await fetch(`http://10.4.56.95:8080/api/events`, {
+        const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -220,8 +220,7 @@ const createNewEvent = async (newEvent) => {
                 bookingName: newEvent.bookingName,
                 bookingEmail: newEvent.bookingEmail,
                 eventStartTime: newEvent.eventStartTime,
-                eventDuration: newEvent.eventDuration,
-                categoryId: newEvent.categoryId,
+                categoryId: newEvent.categoryId.id,
                 eventNotes: newEvent.eventNotes
             }
             )
@@ -230,15 +229,15 @@ const createNewEvent = async (newEvent) => {
             console.log(res.status)
             addSuccessStatus.value = true
         } else {
-            let status = res.status      
+            let status = res.status
             errorDetail.value = `Backend ${status} error, Bad Request !`
             errorStatus.value = true;
             console.log('error cannot add')
         }
 
-    } 
+    }
     // else {
-        
+
     //     alert('cannot add')
     // }
 }
