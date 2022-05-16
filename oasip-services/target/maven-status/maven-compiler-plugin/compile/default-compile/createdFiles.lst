@@ -1,3 +1,4 @@
+com/oasip/oasipservices/controllers/ValidationHandler.class
 com/oasip/oasipservices/controllers/EventController.class
 com/oasip/oasipservices/DTOS/EditedEventDTO.class
 com/oasip/oasipservices/CorsConfigurer.class
@@ -14,3 +15,4 @@ com/oasip/oasipservices/services/EventService.class
 com/oasip/oasipservices/ApplicationConfig.class
 com/oasip/oasipservices/OasipServicesApplication.class
 com/oasip/oasipservices/services/EventCategoryService.class
+com/oasip/oasipservices/DTOS/CreateNewEventDTO.class
