@@ -2,21 +2,26 @@ package com.oasip.oasipservices.services;
 
 import com.oasip.oasipservices.DTOS.CreateNewEventDTO;
 import com.oasip.oasipservices.DTOS.EditedEventDTO;
+import com.oasip.oasipservices.DTOS.EventCategoriesDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.entities.EventCategory;
+import com.oasip.oasipservices.repositories.EventCategoryRepository;
 import com.oasip.oasipservices.repositories.EventRepository;
 import com.oasip.oasipservices.utils.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Optional;
+import java.util.TimeZone;
 
 @Service
 
@@ -31,11 +36,17 @@ public class EventService {
     @Autowired
     private EventRepository repository;
 
-    public ResponseEntity<Event> save(CreateNewEventDTO event) {
+    @Autowired
+    private EventCategoryService eventCategoryService;
+
+    public Event save(CreateNewEventDTO event) {
+        EventCategoriesDTO eventCategory = eventCategoryService.getAllCategoryById(event.getCategoryId());
+        event.setEventDuration(eventCategory.getEventDuration());
         Event newEvent = modelMapper.map(event, Event.class);
-        repository.saveAndFlush(newEvent);
-        checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategoryId().getEventCategoryName(),newEvent.getEventDuration());
-        return new ResponseEntity<>(newEvent, HttpStatus.CREATED) ;
+        if(checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategoryId().getEventCategoryName(),newEvent.getEventDuration())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");
+        };
+        return repository.saveAndFlush(newEvent);
     }
 
     public List<EventDTO> getAllEvent() {
@@ -51,7 +62,7 @@ public class EventService {
         return modelMapper.map(event, EventDTO.class);
     }
 
-    private void checkDateTimeFuture(LocalDateTime updateDateTime, String newEventCategoryName,
+    private Boolean checkDateTimeFuture(LocalDateTime updateDateTime, String newEventCategoryName,
                                      Integer newEventDuration) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime newEventStartTime = updateDateTime;
@@ -67,11 +78,13 @@ public class EventService {
                         newEventStartTime.isBefore(eventEndTime) && newEventEndTime.isAfter(eventEndTime) ||
                         newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventEndTime) ||
                         newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime)) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                            "Time is overlapping!! change date-time please");
+                    return true;
+                } else{
+                    return false;
                 }
             }
         }
+        return false;
     }
 
     private LocalDateTime findEndDate(LocalDateTime eventStartTime, Integer duration) {

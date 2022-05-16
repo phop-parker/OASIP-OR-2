@@ -32,6 +32,6 @@ public class EventCategoryController {
     public List<EventBookingCategoryDTO> getAllCategoriesForBooking(){return eventCategoryService.getAllCategoriesForBooking();}
 
     @GetMapping("/{categoryId}")
-    public Optional<EventCategory> updateEmployee(@PathVariable Integer categoryId) {return repository.findById(categoryId);}
+    public EventCategoriesDTO getEventCategoryById(@PathVariable Integer categoryId) {return eventCategoryService.getAllCategoryById(categoryId);}
 
 }

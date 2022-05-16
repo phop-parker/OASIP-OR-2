@@ -32,9 +32,17 @@ public class EventController {
         return eventService.getEventById(id);
     }
 
+//    @PostMapping("")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public ResponseEntity<Event> createNewEvent(@Validated @RequestBody CreateNewEventDTO event) {
+//            Event res = eventService.save(event);
+//            return new ResponseEntity<>(res,HttpStatus.BAD_REQUEST);}
+
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Event> createNewEvent(@Validated @RequestBody CreateNewEventDTO event) { return eventService.save(event) ;}
+    public Event createNewEvent(@Validated @RequestBody CreateNewEventDTO event) {
+        return eventService.save(event);}
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) { eventService.delete(id);}

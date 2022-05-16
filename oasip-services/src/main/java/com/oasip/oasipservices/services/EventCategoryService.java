@@ -10,7 +10,9 @@ import com.oasip.oasipservices.utils.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -35,6 +37,14 @@ public class EventCategoryService {
     public List<EventCategoriesDTO> getFullCategories() {
         List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
         return listMapper.mapList(eventList, EventCategoriesDTO.class, modelMapper);
+    }
+
+    public EventCategoriesDTO getAllCategoryById (Integer id){
+        EventCategory event = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Event id " + id +
+                        "Does Not Exist !!!"));
+        return modelMapper.map(event, EventCategoriesDTO.class);
     }
 
 }

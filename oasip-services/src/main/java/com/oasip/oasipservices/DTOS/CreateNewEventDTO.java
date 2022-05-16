@@ -32,11 +32,10 @@ public class CreateNewEventDTO {
     @Future(message="required future date time")
     private LocalDateTime eventStartTime;
 
-    @NotNull(message="name can't be null")
     private Integer eventDuration;
 
     @NotNull(message="event category can't be null")
-    private EventCategory categoryId;
+    private Integer categoryId;
 
     @Size(max = 500,message = "event note must be between 0-500 characters")
     private String eventNotes;
