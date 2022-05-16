@@ -44,8 +44,7 @@ public class EventService {
         event.setEventDuration(eventCategory.getEventDuration());
         Event newEvent = modelMapper.map(event, Event.class);
         if(checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategoryId().getEventCategoryName(),newEvent.getEventDuration())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");
-        };
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");}
         return repository.saveAndFlush(newEvent);
     }
 
@@ -77,7 +76,8 @@ public class EventService {
                 if (newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventStartTime) ||
                         newEventStartTime.isBefore(eventEndTime) && newEventEndTime.isAfter(eventEndTime) ||
                         newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventEndTime) ||
-                        newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime)) {
+                        newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime) ||
+                        newEventStartTime.isEqual(eventStartTime)) {
                     return true;
                 } else{
                     return false;
