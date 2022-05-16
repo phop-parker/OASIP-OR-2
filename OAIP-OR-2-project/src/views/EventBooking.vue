@@ -220,8 +220,7 @@ const createNewEvent = async (newEvent) => {
                 bookingName: newEvent.bookingName,
                 bookingEmail: newEvent.bookingEmail,
                 eventStartTime: newEvent.eventStartTime,
-                eventDuration: newEvent.eventDuration,
-                categoryId: newEvent.categoryId,
+                categoryId: newEvent.categoryId.id,
                 eventNotes: newEvent.eventNotes
             }
             )
