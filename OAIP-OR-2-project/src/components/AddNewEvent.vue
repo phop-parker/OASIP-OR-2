@@ -55,12 +55,14 @@ const newEvent = computed(() => {
     }
 })
 
+
+
 </script>
 
 <template>
 
-    <div class=" box-content p-5 mt-5 mb-4 ml-20 mr-20 bg-white rounded-3xl font-Kanit drop-shadow-2xl relative z-0">
-        <div class="gradient-color rounded-3xl justify-center">
+    <div class=" box-content p-4 mt-2 mb-0 ml-80 mr-80 bg-white rounded-3xl font-Kanit drop-shadow-2xl  z-0 ">
+        <div class="bg-pastel-orange rounded-3xl justify-center">
             <p class="font-medium font-Kanit text-center pt-2 pb-2 text-blood-bird ">
                 Add New Event
             </p>
@@ -69,13 +71,13 @@ const newEvent = computed(() => {
             <div class="">
                 <p>Name<span class="text-red-500">*</span></p>
                 <input v-model="bookingName" type="text"
-                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
+                    class="pl-4 pr-4 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
                     required />
             </div>
             <div class="">
                 <p>Email<span class="text-red-500">*</span></p>
                 <input v-model="bookingEmail" type="email"
-                    class="pl-2 pr-2 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
+                    class="pl-4 pr-4  border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
                     required />
             </div>
             <div class="">
@@ -106,12 +108,12 @@ const newEvent = computed(() => {
             <div class="col-span-2">
                 <p>Note</p>
                 <textarea v-model="eventNotes"
-                    class="w-full p-6 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline resize-none"
+                    class="w-full h-28 p-6 border border-gray-400 hover:border-gray-500 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline resize-none"
                     rows="5" cols="100" />
             </div>
             <div class="col-span-2 flex justify-center ">
-                <button @click="$emit('addNewEvent', newEvent)"
-                    class="gradient-color hover:bg-yellow-100  py-2 px-4 rounded-3xl">
+                <button @click="$emit('addNewEvent', newEvent) "
+                    class="hover:bg-yellow-100 hover:text-blood-bird bg-pastel-orange text-blood-bird py-2 px-4 rounded-3xl ">
                     BOOK EVENT
                 </button>
             </div>

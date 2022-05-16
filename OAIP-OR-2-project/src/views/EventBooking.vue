@@ -12,8 +12,8 @@ const addSuccessStatus = ref(false)
 const errorStatus = ref(false)
 // GET
 const getEvents = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-    // const res = await fetch(`http://10.4.56.95:8080/api/events`)
+    // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+    const res = await fetch(`http://10.4.56.95:8080/api/events`)
     if (res.status === 200) {
         console.log("response reply")
         console.log(res);;
@@ -25,8 +25,8 @@ const getEvents = async () => {
 
 // GET
 const getCategories = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
-    // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
+    // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/forBooking`)
+    const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
 
     if (res.status === 200) {
         console.log(res);
@@ -207,10 +207,11 @@ function eventEndTime(date, minutes) {
 
 // create
 const createNewEvent = async (newEvent) => {
-    if (checkDateTimeFuture(newEvent.eventStartTime) && checkEmpty(newEvent)
-        && validateEmail(newEvent) && checkLength(newEvent) && timesOverlap(newEvent.eventStartTime, newEvent.categoryId.eventCategoryName, newEvent.categoryId.eventDuration)) {
-        // const res = await fetch(`http://10.4.56.95:8080/api/events`, {
-        const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
+    if ( checkEmpty(newEvent) && checkDateTimeFuture(newEvent.eventStartTime) 
+        && validateEmail(newEvent) && checkLength(newEvent) 
+        && timesOverlap(newEvent.eventStartTime, newEvent.categoryId.eventCategoryName, newEvent.categoryId.eventDuration)) {
+        const res = await fetch(`http://10.4.56.95:8080/api/events`, {
+        // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -275,10 +276,10 @@ const toggleErrorStatus = () => {
 
 <style scoped>
 .bgimage {
-    background-image: url("../assets/bg-wave.png");
+    background-image: url("../assets/bg-project.jpg");
     background-repeat: no-repeat;
-    /* background-size: contain, cover; */
+    background-size: contain, cover;
     background-size: 100% 100%;
-
+    background-attachment: fixed;
 }
 </style>

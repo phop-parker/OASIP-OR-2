@@ -3,7 +3,7 @@
 </script>
  
 <template>
-  <nav class="font-Kanit flex items-center justify-between flex-wrap shadow-lg px-2 sm:px-4 py-2.5 rounded m-0 ">
+  <nav class="font-Kanit flex items-center justify-between flex-wrap shadow-lg px-2 sm:px-4 py-2.5 rounded m-0  ">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
       <div>
         <img src="../assets/logo.png" class="h-24" />

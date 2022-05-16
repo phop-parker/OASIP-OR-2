@@ -1,5 +1,6 @@
 package com.oasip.oasipservices.services;
 
+import com.oasip.oasipservices.DTOS.CreateNewEventDTO;
 import com.oasip.oasipservices.DTOS.EditedEventDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
 import com.oasip.oasipservices.entities.Event;
@@ -9,6 +10,7 @@ import com.oasip.oasipservices.utils.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,15 +31,11 @@ public class EventService {
     @Autowired
     private EventRepository repository;
 
-    public Event save(Event event) {
-        checkDateTimeFuture(event.getEventStartTime(), event.getCategoryId().getEventCategoryName(),
-                event.getCategoryId().getEventDuration());
-        checkBookingName(event.getBookingName());
-        checkEventNotes(event.getEventNotes());
-        checkBookingEmail(event.getBookingEmail());
-        checkEventDuration(event.getEventDuration());
-        checkEventCategory(event.getCategoryId());
-        return repository.saveAndFlush(event);
+    public ResponseEntity<Event> save(CreateNewEventDTO event) {
+        Event newEvent = modelMapper.map(event, Event.class);
+        repository.saveAndFlush(newEvent);
+        checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategoryId().getEventCategoryName(),newEvent.getEventDuration());
+        return new ResponseEntity<>(newEvent, HttpStatus.CREATED) ;
     }
 
     public List<EventDTO> getAllEvent() {
@@ -54,37 +52,25 @@ public class EventService {
     }
 
     private void checkDateTimeFuture(LocalDateTime updateDateTime, String newEventCategoryName,
-            Integer newEventDuration) {
+                                     Integer newEventDuration) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime newEventStartTime = updateDateTime;
         LocalDateTime newEventEndTime = findEndDate(newEventStartTime, newEventDuration);
         List<EventDTO> eventList = getAllEvent();
         for (int i = 0; i < eventList.size(); i++) {
-            // System.out.println("for loop process number"+i);
             LocalDateTime eventStartTime = eventList.get(i).getEventStartTime();
             LocalDateTime eventEndTime = findEndDate(eventList.get(i).getEventStartTime(),
                     eventList.get(i).getEventDuration());
             String eventCategory = eventList.get(i).getEventCategoryName();
-            // System.out.println("this is new cate"+newEventCategoryName);
-            // System.out.println("this is event cate"+i+" "+eventCategory);
-            // System.out.println("eventCategory.equalsIgnoreCase(newEventCategoryName)
-            // "+eventCategory.equalsIgnoreCase(newEventCategoryName));
             if (eventCategory.equalsIgnoreCase(newEventCategoryName)) {
-                // System.out.println("same category check");
                 if (newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventStartTime) ||
                         newEventStartTime.isBefore(eventEndTime) && newEventEndTime.isAfter(eventEndTime) ||
                         newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventEndTime) ||
                         newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime)) {
-                    // System.out.println("time is overlapping");
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                             "Time is overlapping!! change date-time please");
                 }
             }
-        }
-        if (newEventStartTime == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "updateEvent cannot be null");
-        } else if (newEventStartTime.isBefore(currentDateTime)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "please insert future datetime");
         }
     }
 
@@ -93,53 +79,22 @@ public class EventService {
         return getEventEndTime;
     }
 
-    private void checkBookingName(String bookingName) {
-        if (bookingName == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bookingName cannot be null");
-        } else if (bookingName.length() > 100) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bookingName is to long");
-        }
-    }
-
-    private boolean validateEmail(String bookingEmail) {
-        String pattern = "^(.+)@(\\S+).(\\S+)$";
-        return Pattern.compile(pattern)
-                .matcher(bookingEmail)
-                .matches();
-    }
-
-    private void checkBookingEmail(String bookingEmail) {
-        if (bookingEmail == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "bookingEmail cannot be null");
-        } else if (validateEmail(bookingEmail) == false) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong email format");
-        }
-    }
-
-    private void checkEventNotes(String eventNotes) {
-     if (eventNotes.length() > 500) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "eventNotes is to long");
-        }
-    }
-
-    private void checkEventDuration(Integer eventDuration) {
-        if (eventDuration == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "eventNotes cannot be null");
-        } else if (eventDuration == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "eventDuration should be morethan 0 minutes");
-        }
-    }
-
-    private void checkEventCategory(EventCategory categoryId) {
-        if (categoryId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "eventCategory cannot be null");
-        } else if (categoryId.getId() == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot find event category");
-        }
-    }
-
     public EditedEventDTO updateEvent(Event updateEvent, Integer id) {
-        checkEventNotes(updateEvent.getEventNotes());
+        Event oldEvent = repository.getById(id);
+        if(updateEvent.getEventNotes() == null && updateEvent.getEventStartTime() == null ){
+            updateEvent.setBookingName(oldEvent.getBookingName());
+            updateEvent.setBookingEmail(oldEvent.getBookingEmail());
+            updateEvent.setEventStartTime(oldEvent.getEventStartTime());
+            updateEvent.setEventDuration(oldEvent.getEventDuration());
+            updateEvent.setEventNotes(oldEvent.getEventNotes());
+            updateEvent.setCategoryId(oldEvent.getCategoryId());
+        }
+        if(updateEvent.getEventNotes() == null ){
+            updateEvent.setEventNotes(oldEvent.getEventNotes());
+        }
+        if(updateEvent.getEventStartTime() == null ){
+            updateEvent.setEventStartTime(oldEvent.getEventStartTime());
+        }
         Event editEvent = repository.findById(id).map(event -> {
             event.setEventNotes(updateEvent.getEventNotes());
             event.setEventStartTime(updateEvent.getEventStartTime());

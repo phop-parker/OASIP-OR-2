@@ -9,14 +9,13 @@ const props = defineProps({
 
 </script>
  
-
- 
 <template>
-
     <div
-        class=" box-content mr-auto ml-auto h-40 w-80 gradient-color rounded-3xl drop-shadow-2xl font-Kanit">
-        <div class="text-center text-blood-bird  z-40">
+        class=" box-content p-12 gradient-color rounded-3xl drop-shadow-2xl font-Kanit">
+           <div class="text-center  justify-center">
+        <div class=" text-blood-bird ">
             {{ props.successTitle }} success !
+        </div>
         </div>
     </div>
 

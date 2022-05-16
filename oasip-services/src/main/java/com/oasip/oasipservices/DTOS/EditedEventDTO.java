@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Size;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,6 +18,8 @@ import lombok.Setter;
 public class EditedEventDTO {
     private Integer id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Future(message="required future date time")
     private LocalDateTime eventStartTime;
+    @Size(max = 500,message = "event note must be between 0-500 characters")
     private String eventNotes;
 }

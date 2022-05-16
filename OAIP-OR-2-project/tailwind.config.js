@@ -8,15 +8,17 @@ module.exports = {
         "blood-bird": "#886C6C",
         "pastel-pink": "#FFC2C2",
         "pastel-yellow": "#F6E7B2",
-        "dark-pink": "#D58EB6"
+        "dark-pink": "#D58EB6",
+        "dark-green": "#5F776C",
+        "cute-orange": "#FBBF98"
       },
     },
     fontFamily: {
-      'Mitr': ['Mitr', 'sans-serif'],
-      'Kanit': ['Kanit', 'sans-serif']
+      Mitr: ["Mitr", "sans-serif"],
+      Kanit: ["Kanit", "sans-serif"],
     },
     backgroundImage: {
-      'wave': "url('/src/assets/bg-wave.png')"
+      wave: "url('/src/assets/bg.jpg')",
     },
     plugins: [],
   },

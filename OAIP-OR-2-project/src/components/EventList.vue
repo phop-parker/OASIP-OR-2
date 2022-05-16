@@ -78,9 +78,9 @@ const getUpdateEvent = (updateEvent) => {
                 @deleteEvent="$emit('deleteEvent', curEvent.id), toggleStatus()" @getEditedEvent="getUpdateEvent"
                 @updateEvent="$emit('updateThisEvent', updatedEvent), toggleTofalse()" />
         </div>
-        <div class=" overflow-x-auto shadow-md mt-8 ml-20 mr-20 rounded-2xl relative z-0 drop-shadow-2xl">
+        <div class=" overflow-x-auto shadow-md mt-8 ml-40 mr-40 rounded-2xl relative z-0 drop-shadow-2xl">
             <table class="w-full font-Kanit text-lg text-center text-blood-bird ">
-                <thead class="text-lg gradient-color">
+                <thead class="text-lg bg-pastel-orange">
                     <th scope="col" class="px-6 py-3">Booking Name</th>
                     <th scope="col" class="px-6 py-3">Clinic Category</th>
                     <th scope="col" class="px-6 py-3">Date</th>
@@ -131,9 +131,9 @@ const getUpdateEvent = (updateEvent) => {
 </template>
  
 <style scoped>
-.gradient-color {
+/* .gradient-color {
     background-image: linear-gradient(to left, #FBBF98, #FFC2C2);
-}
+} */
 
 
 .gradient-delete-color {
