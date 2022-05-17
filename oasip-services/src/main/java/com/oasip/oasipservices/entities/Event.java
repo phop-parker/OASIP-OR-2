@@ -29,7 +29,7 @@ public class Event {
     @Column(name = "eventDuration", nullable = false)
     private Integer eventDuration;
 
-    @ManyToOne(optional = false,cascade = {CascadeType.ALL})
+    @ManyToOne(optional = false)
     @JoinColumn(name = "categoryId", nullable = false)
     private EventCategory category;
 

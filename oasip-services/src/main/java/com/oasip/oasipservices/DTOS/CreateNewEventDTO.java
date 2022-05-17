@@ -30,7 +30,6 @@ public class CreateNewEventDTO {
 
     @NotNull(message="eventStartTime can't be null")
     @Future(message="required future date time")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventStartTime;
     private Integer eventDuration;
 
