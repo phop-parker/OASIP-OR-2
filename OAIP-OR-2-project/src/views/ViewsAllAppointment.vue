@@ -1,159 +1,165 @@
+<!-- @format -->
+
 <script setup>
-import EventList from '../components/EventList.vue';
+import EventList from '../components/EventList.vue'
 import DeleteComfirm from '../components/DeleteComfirm.vue'
 import SuccessAlert from '../components/SuccessAlert.vue'
 
 import { onBeforeMount, ref } from 'vue'
 
-
 let events = ref([])
 const successDesc = ref()
-const deleteConfirm = ref(false);
-const successStatus = ref(false);
-const deleteThisEvent = ref(0);
+const deleteConfirm = ref(false)
+const successStatus = ref(false)
+const deleteThisEvent = ref(0)
 
 // GET
 const getEvents = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-    // const res = await fetch(`http://10.4.56.95:8080/api/events`)
-    if (res.status === 200) {
-        console.log("response reply")
-        console.log(res);;
-        console.log(events.value);
-        events.value = await res.json()
-    } else
-        console.log("error, cann't get data");
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/events`)
+  if (res.status === 200) {
+    console.log('response reply')
+    console.log(res)
+    console.log(events.value)
+    events.value = await res.json()
+  } else console.log("error, cann't get data")
 }
 
 onBeforeMount(async () => {
-    await getEvents()
-    await getCategories()
-    console.log(events)
+  await getEvents()
+  await getCategories()
+  console.log(events)
 })
 
 // DELETE
 const deleteEvent = async (deleteEventId) => {
-    if (deleteEventId > 0) {
-        const res = await fetch(`${import.meta.env.BASE_URL}/api/events/${deleteEventId}`, {
-            // const res = await fetch(`http://10.4.56.95:8080/api/events/${deleteEventId}`, {
-            method: 'DELETE'
-        })
-        if (res.status === 200) {
-            events.value = events.value.filter((event) => event.id !== deleteEventId);
-            successDesc.value = "Delete";
-            successStatus.value = true;
-            cancelDelete();
-        } else {
-            alert('error cannot delete');
-            cancelDelete();
-        }
+  if (deleteEventId > 0) {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
+      {
+        // const res = await fetch(
+        //   `http://10.4.56.95:8080/api/events/${deleteEventId}`,
+        //   {
+        method: 'DELETE'
+      }
+    )
+    if (res.status === 200) {
+      events.value = events.value.filter((event) => event.id !== deleteEventId)
+      successDesc.value = 'Delete'
+      successStatus.value = true
+      cancelDelete()
     } else {
-        alert('no event to delete');
-        cancelDelete();
+      alert('error cannot delete')
+      cancelDelete()
     }
-    setTimeout(successToggle, 2000)
+  } else {
+    alert('no event to delete')
+    cancelDelete()
+  }
+  setTimeout(successToggle, 2000)
 }
 
-const successToggle = () => successStatus.value === false
+const successToggle = () =>
+  successStatus.value === false
     ? (successStatus.value = true)
     : (successStatus.value = false)
 
 const deleteEventConfirm = (eventId) => {
-    deleteConfirm.value = true
-    deleteThisEvent.value = eventId
+  deleteConfirm.value = true
+  deleteThisEvent.value = eventId
 }
 const cancelDelete = () => {
-    deleteConfirm.value = false
-    deleteThisEvent.value = 0;
+  deleteConfirm.value = false
+  deleteThisEvent.value = 0
 }
-
 
 let categories = ref([])
 
-const category = (categoryName) => {
-    for (let i = 0; i < categories.value.length; i++) {
-        if (categoryName == categories.value[i].eventCategoryName) {
-            category.value = categories.value[i];
-        }
-    }
-    console.log(category.value);
-    return category.value;
-}
-
 // get
 const getCategories = async () => {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories`)
-    // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories`)
-    if (res.status === 200) {
-        console.log(res);
-        categories.value = await res.json()
-    } else
-        console.log("error, cann't get data");
+  const res = await fetch(
+    `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
+  )
+  //  const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
+  if (res.status === 200) {
+    console.log(res)
+    categories.value = await res.json()
+  } else console.log("error, cann't get data")
 }
 
 const updateEvent = async (updateEvent) => {
-    console.log(updateEvent);
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`, {
-        // const res = await fetch(`http://10.4.56.95:8080/api/events/${updateEvent.id}`, {
-        method: 'PATCH',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            eventStartTime: updateEvent.eventStartTime,
-            eventNotes: updateEvent.eventNotes
-        })
-    })
-    if (res.status === 200) {
-        const modifyEvent = await res.json()
-        const date = modifyEvent.eventStartTime.toString().replace(" ", "@")
-        console.log(date)
-        events.value = events.value.map(
-            (event) =>
-                event.id === modifyEvent.id
-                    ? { ...event, eventStartTime: date, eventNotes: modifyEvent.eventNotes }
-                    : event
-        )
-        console.log('updated suceccfully')
-        successStatus.value = true;
-        successDesc.value = "Update"
-
-    } else {
-        console.log('error cannot add')
-        alert('error cannot add')
+  console.log(updateEvent)
+  const res = await fetch(
+    `${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`,
+    {
+      // const res = await fetch(
+      //   `http://10.4.56.95:8080/api/events/${updateEvent.id}`,
+      //   {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        eventStartTime: updateEvent.eventStartTime,
+        eventNotes: updateEvent.eventNotes
+      })
     }
-    setTimeout(successToggle, 2000)
-
+  )
+  if (res.status === 200) {
+    const modifyEvent = await res.json()
+    const date = modifyEvent.eventStartTime.toString().replace(' ', '@')
+    console.log(date)
+    events.value = events.value.map((event) =>
+      event.id === modifyEvent.id
+        ? { ...event, eventStartTime: date, eventNotes: modifyEvent.eventNotes }
+        : event
+    )
+    console.log('updated suceccfully')
+    successStatus.value = true
+    successDesc.value = 'Update'
+  } else {
+    console.log('error cannot add')
+    alert('error cannot add')
+  }
+  setTimeout(successToggle, 2000)
 }
-
-</script> 
+</script>
 <template>
+  <div class="">
     <div class="">
-
-        <div class="">
-            <EventList :events="events" @deleteEvent="deleteEventConfirm" @updateThisEvent="updateEvent" />
-        </div>
-
-        <div v-if="deleteConfirm == true" class="absolute inset-0 flex justify-center items-center z-20">
-            <DeleteComfirm @cancelConfirmation="cancelDelete" @yesConfirmation="deleteEvent(deleteThisEvent)" />
-        </div>
-
-        <div v-if="successStatus == true" class="absolute inset-0 flex justify-center items-center z-20">
-            <SuccessAlert :successTitle="successDesc" />
-        </div>
+      <EventList
+        :events="events"
+        :categories="categories"
+        @deleteEvent="deleteEventConfirm"
+        @updateThisEvent="updateEvent"
+      />
     </div>
 
+    <div
+      v-if="deleteConfirm == true"
+      class="absolute inset-0 flex justify-center items-center z-20"
+    >
+      <DeleteComfirm
+        @cancelConfirmation="cancelDelete"
+        @yesConfirmation="deleteEvent(deleteThisEvent)"
+      />
+    </div>
 
+    <div
+      v-if="successStatus == true"
+      class="absolute inset-0 flex justify-center items-center z-20"
+    >
+      <SuccessAlert :successTitle="successDesc" />
+    </div>
+  </div>
 </template>
- 
+
 <style scoped>
 .bgimage {
-    background-image: url("../assets/bg-project.jpg");
-    background-repeat: no-repeat;
-    background-size: contain, cover;
-    background-size: 100% 100%;
-    background-attachment: fixed;
-
-
+  background-image: url('../assets/bg-project.jpg');
+  background-repeat: no-repeat;
+  background-size: contain, cover;
+  background-size: 100% 100%;
+  background-attachment: fixed;
 }
 </style>

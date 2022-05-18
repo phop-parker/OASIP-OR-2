@@ -11,6 +11,8 @@ module.exports = {
         "dark-pink": "#D58EB6",
         "dark-green": "#5F776C",
         "cute-orange": "#FBBF98"
+       
+        
       },
     },
     fontFamily: {
