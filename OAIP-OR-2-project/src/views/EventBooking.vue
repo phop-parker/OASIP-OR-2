@@ -8,6 +8,7 @@ import ErrorAlert from '../components/ErrorAlert.vue';
 let categories = ref([])
 let events = ref([])
 let errorDetail = ref("")
+let errorInputLenght = ref([])
 const addSuccessStatus = ref(false)
 const errorStatus = ref(false)
 // GET
@@ -66,7 +67,6 @@ const checkDateTimeFuture = (inputDate) => {
 
 const checkInput = (input) => {
     if (input === '' || input === "" || input === null || input === undefined) {
-        // alert('input is null')
         errorDetail.value = "Information required."
         errorStatus.value = true;
         console.log("input is null")
@@ -108,7 +108,6 @@ const checkLengthName = (bookingName) => {
     if (bookingName.length > 100) {
         errorDetail.value = "BookingName should be lessthan 100 letters."
         errorStatus.value = true;
-        // alert("bookingName should be lessthan 100 letters.");
         console.log("bookingName is morethan 100 return false")
         return false
     } else {
@@ -116,6 +115,20 @@ const checkLengthName = (bookingName) => {
         return true
     }
 }
+
+const checkLengthEmail = (bookingEmail) => {
+    console.log("BookingEmail Check")
+    if (bookingEmail.length > 50) {
+        errorDetail.value = "BookingEmail should be lessthan 50 letters."
+        errorStatus.value = true;
+        console.log("BookingEmail is morethan 100 return false")
+        return false
+    } else {
+        console.log("BookingEmail is lessthan 50 return true")
+        return true
+    }
+}
+
 
 const checkLengthNote = (eventNotes) => {
     if (eventNotes == undefined) {
@@ -135,7 +148,9 @@ const checkLengthNote = (eventNotes) => {
 
 
 const checkLength = (newEvent) => {
-    if (checkLengthName(newEvent.bookingName) && checkLengthNote(newEvent.eventNotes)) {
+    console.log("newEvent")
+    console.log(newEvent)
+    if (checkLengthEmail(newEvent.bookingEmail) && checkLengthName(newEvent.bookingName) && checkLengthNote(newEvent.eventNotes)) {
         console.log("check length return true")
         return true
     } else {
@@ -208,10 +223,10 @@ function eventEndTime(date, minutes) {
 // create
 const createNewEvent = async (newEvent) => {
     if (checkEmpty(newEvent) && checkDateTimeFuture(newEvent.eventStartTime)
-        && validateEmail(newEvent) && checkLength(newEvent)
+        && validateEmail(newEvent)&& checkLength(newEvent)
         && timesOverlap(newEvent.eventStartTime, newEvent.categoryId.eventCategoryName, newEvent.categoryId.eventDuration)) {
         const res = await fetch(`http://10.4.56.95:8080/api/events`, {
-        // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
+            // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

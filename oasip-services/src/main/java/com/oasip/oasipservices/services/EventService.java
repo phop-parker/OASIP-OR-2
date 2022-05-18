@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -40,6 +41,7 @@ public class EventService {
     private EventCategoryRepository eventCategoryRepository;
 
     public Event save(CreateNewEventDTO event) {
+        System.out.println("-Hello Save-");
         Event newEvent = modelMapper.map(event, Event.class);
         EventCategory eventCategory = eventCategoryRepository.findById(event.getCategoryId())
                 .orElseThrow(() -> new ResponseStatusException(
@@ -47,8 +49,11 @@ public class EventService {
         newEvent.setEventDuration(eventCategory.getEventDuration());
         newEvent.setEventId(null);
         newEvent.setCategory(eventCategory);
-        if(checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategory().getEventCategoryName(),newEvent.getEventDuration())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");}
+        System.out.println(newEvent.getEventStartTime());
+        System.out.println(eventCategory.getEventCategoryName());
+        System.out.println(newEvent.getEventDuration());
+        checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategory().getEventCategoryName(),
+                newEvent.getEventDuration(), newEvent.getCategory().getCategoryId());
         return repository.saveAndFlush(newEvent);
     }
 
@@ -57,38 +62,41 @@ public class EventService {
         return listMapper.mapList(eventList, EventDTO.class, modelMapper);
     }
 
+    public List<EventDTO> findEventByCategoryId(Integer categoryId) {
+        List<Event> eventList = repository.findEventByCategoryName(categoryId);
+        return listMapper.mapList(eventList, EventDTO.class, modelMapper);
+    }
+
+
     public EventDTO getEventById(Integer id) {
         Event event = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Event id " + id +
-                                "Does Not Exist !!!"));
+                        "Does Not Exist !!!"));
         return modelMapper.map(event, EventDTO.class);
     }
 
-    private Boolean checkDateTimeFuture(LocalDateTime updateDateTime, String newEventCategoryName,
-                                     Integer newEventDuration) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
+    private void checkDateTimeFuture(LocalDateTime updateDateTime, String newEventCategoryName,
+                                     Integer newEventDuration,Integer categoryId) {
         LocalDateTime newEventStartTime = updateDateTime;
         LocalDateTime newEventEndTime = findEndDate(newEventStartTime, newEventDuration);
-        List<EventDTO> eventList = getAllEvent();
+        List<EventDTO> eventList = findEventByCategoryId(categoryId);
+        if (eventList.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Event category id " + categoryId+ "Does Not Exist !!!");
+        }
         for (int i = 0; i < eventList.size(); i++) {
             LocalDateTime eventStartTime = eventList.get(i).getEventStartTime();
             LocalDateTime eventEndTime = findEndDate(eventList.get(i).getEventStartTime(),
                     eventList.get(i).getEventDuration());
-            String eventCategory = eventList.get(i).getEventCategoryName();
-            if (eventCategory.equalsIgnoreCase(newEventCategoryName)) {
-                if (newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventStartTime) ||
-                        newEventStartTime.isBefore(eventEndTime) && newEventEndTime.isAfter(eventEndTime) ||
-                        newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventEndTime) ||
-                        newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime) ||
-                        newEventStartTime.isEqual(eventStartTime)) {
-                    return true;
-                } else{
-                    return false;
-                }
+            if (newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventStartTime) ||
+                    newEventStartTime.isBefore(eventEndTime) && newEventEndTime.isAfter(eventEndTime) ||
+                    newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventEndTime) ||
+                    newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime)
+                    || newEventStartTime.isEqual(eventStartTime)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");
             }
         }
-        return false;
     }
 
     private LocalDateTime findEndDate(LocalDateTime eventStartTime, Integer duration) {
@@ -97,15 +105,7 @@ public class EventService {
     }
 
     public EditedEventDTO updateEvent(Event updateEvent, Integer id) {
-        Event oldEvent = repository.getById(id);
-        if(updateEvent.getEventNotes() == null && updateEvent.getEventStartTime() == null ){
-            updateEvent.setBookingName(oldEvent.getBookingName());
-            updateEvent.setBookingEmail(oldEvent.getBookingEmail());
-            updateEvent.setEventStartTime(oldEvent.getEventStartTime());
-            updateEvent.setEventDuration(oldEvent.getEventDuration());
-            updateEvent.setEventNotes(oldEvent.getEventNotes());
-            updateEvent.setCategory(oldEvent.getCategory());
-        }
+        EventDTO oldEvent = getEventById(id);
         if(updateEvent.getEventNotes() == null ){
             updateEvent.setEventNotes(oldEvent.getEventNotes());
         }
@@ -130,13 +130,4 @@ public class EventService {
         repository.deleteById(id);
     }
 
-    private EventDTO convertEntityToDto(Event event) {
-        EventDTO eventDTO = new EventDTO();
-        eventDTO.setId(event.getEventId());
-        eventDTO.setBookingName(event.getBookingName());
-        eventDTO.setEventNotes(event.getEventNotes());
-        eventDTO.setBookingEmail(event.getBookingEmail());
-        eventDTO.setEventStartTime(event.getEventStartTime());
-        return eventDTO;
-    }
 }

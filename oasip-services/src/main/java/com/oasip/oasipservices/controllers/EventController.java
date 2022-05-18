@@ -4,15 +4,11 @@ import com.oasip.oasipservices.DTOS.CreateNewEventDTO;
 import com.oasip.oasipservices.DTOS.EditedEventDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
 import com.oasip.oasipservices.entities.Event;
-import com.oasip.oasipservices.repositories.EventRepository;
 import com.oasip.oasipservices.services.EventService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -32,16 +28,19 @@ public class EventController {
         return eventService.getEventById(id);
     }
 
+    @GetMapping("/category/{categoryId}")
+    public List<EventDTO>getByCategoryName(@PathVariable Integer categoryId){return  eventService.findEventByCategoryId(categoryId);}
+
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public Event createNewEvent(@Validated @RequestBody CreateNewEventDTO event) {
         return eventService.save(event);}
 
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) { eventService.delete(id);}
 
     @PatchMapping("/{id}")
-    public EditedEventDTO updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {return eventService.updateEvent(updateEvent,id);}
+    public EditedEventDTO updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {
+        return eventService.updateEvent(updateEvent,id);}
 
 }

@@ -15,8 +15,8 @@ public class EventCategory {
     @Column(name = "eventCategoryName", nullable = false, length = 100)
     private String eventCategoryName;
 
-    @Column(name = "eventCatagoryDescription", length = 400)
-    private String eventCatagoryDescription;
+    @Column(name = "eventCategoryDescription", length = 400)
+    private String eventCategoryDescription;
 
     @Column(name = "eventDuration", nullable = false)
     private Integer eventDuration;
@@ -29,12 +29,12 @@ public class EventCategory {
         this.eventDuration = eventDuration;
     }
 
-    public String getEventCatagoryDescription() {
-        return eventCatagoryDescription;
+    public String getEventCategoryDescription() {
+        return eventCategoryDescription;
     }
 
-    public void setEventCatagoryDescription(String eventCatagoryDescription) {
-        this.eventCatagoryDescription = eventCatagoryDescription;
+    public void setEventCategoryDescription(String eventCategoryDescription) {
+        this.eventCategoryDescription = eventCategoryDescription;
     }
 
     public String getEventCategoryName() {

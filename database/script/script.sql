@@ -12,7 +12,7 @@ use oasip;
 CREATE TABLE IF NOT EXISTS eventCategory (
   `categoryId` INT NOT NULL auto_increment,
   `eventCategoryName` VARCHAR(100) NOT NULL,
-  `eventCatagoryDescription` VARCHAR(400),
+  `eventCategoryDescription` VARCHAR(400),
   `eventDuration` SMALLINT NOT NULL,
   PRIMARY KEY (`categoryId`),
   UNIQUE(`eventCategoryName`) ) 
@@ -21,13 +21,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `oasip`.`event`
 -- -----------------------------------------------------
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+INSERT INTO eventCategory (eventCategoryName,eventCategoryDescription,eventDuration) 
 VALUES ('Project Management Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย project management clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคำปรึกษา', 30);
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+INSERT INTO eventCategory (eventCategoryName,eventCategoryDescription,eventDuration) 
 VALUES ('DevOps/Infra Clinic', 'Use this event category for DevOps/Infra clinic', 20);
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+INSERT INTO eventCategory (eventCategoryName,eventCategoryDescription,eventDuration) 
 VALUES ('Database Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย database clinic ในวิชา INT221 integrated project I', 15);
-INSERT INTO eventCategory (eventCategoryName,eventCatagoryDescription,eventDuration) 
+INSERT INTO eventCategory (eventCategoryName,eventCategoryDescription,eventDuration) 
 VALUES ('Client-side Clinic', 'ตารางนัดหมายนี้ใช้สำหรับนัดหมาย client-side clinic ในวิชา INT221 integrated project I ให้นักศึกษาเตรียมเอกสารที่เกี่ยวข้องเพื่อแสดงระหว่างขอคำปรึกษา', 30);
 INSERT INTO eventCategory (eventCategoryName,eventDuration) 
 VALUES ('Server-side Clinic', 30);
