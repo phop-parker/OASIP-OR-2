@@ -88,13 +88,12 @@ const nullError = computed(() => {
                             class="bg-dark-green hover:bg-yellow-100 hover:text-dark-green text-white  focus:outline-none  font-semibold rounded-full text-base px-5 py-2.5 text-center mr-2 mb-2 mt-4">
                             edit
                         </button>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
- 
+
 <style>
 </style>

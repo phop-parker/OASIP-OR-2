@@ -94,13 +94,13 @@ const getUpdateEvent = (updateEvent) => {
                     <input v-model="dateTime" type="date"
                         class="pl-2  bg-gray-100 hover:border-gray-500 px-4 py-2 pr-2 rounded-md focus:border-gray-500 focus:bg-white  shadow leading-tight focus:outline-none focus:shadow-outline" />
 
-                    <select v-model="curCategory"
+                    <!-- <select v-model="curCategory"
                         class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
                         <option value="">Select Category</option>
                         <option v-for="(category, index) in eventCategories" :key="index">
                             {{ category.eventCategoryName }}
                         </option>
-                    </select>
+                    </select> -->
 
                     <select
                         class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
