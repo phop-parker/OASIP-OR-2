@@ -18,7 +18,7 @@ module.exports = {
       Kanit: ["Kanit", "sans-serif"],
     },
     backgroundImage: {
-      wave: "url('/src/assets/bg.jpg')",
+      wave: "url('/src/assets/background.jpg')",
     },
     plugins: [],
   },

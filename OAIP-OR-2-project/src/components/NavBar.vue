@@ -12,6 +12,20 @@
       <div class=" w-full md:block md:w-auto">
         <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium text-center ">
           <li>
+            <router-link :to="{ name: 'Home' }">
+              <p class="block mt-4 lg:inline-block lg:mt-0 text-blood-bird hover:drop-shadow-lg mr-10">
+                HOME
+              </p>
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'CategoryList' }">
+              <p class="block mt-4 lg:inline-block lg:mt-0 text-blood-bird hover:drop-shadow-lg mr-10">
+                CATEGORY <br> LIST
+              </p>
+            </router-link>
+          </li>
+          <li>
             <router-link :to="{ name: 'EventBooking' }">
               <p class="block mt-4 lg:inline-block lg:mt-0 text-blood-bird hover:drop-shadow-lg mr-10">
                 EVENT <br> BOOKING
