@@ -3,6 +3,7 @@
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/repositories/EventCategoryRepository.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/CreateNewEventDTO.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventDTO.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventCategoryDTO.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/controllers/EventCategoryController.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/OasipServicesApplication.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/utils/ListMapper.java
@@ -14,7 +15,6 @@
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/services/EventService.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/ApplicationConfig.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/entities/Event.java
-/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventCategoriesDTO.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/TimeOverlappingAnno.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventBookingCategoryDTO.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/controllers/ValidationHandler.java
