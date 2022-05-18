@@ -2,7 +2,6 @@ package com.oasip.oasipservices.services;
 
 import com.oasip.oasipservices.DTOS.CreateNewEventDTO;
 import com.oasip.oasipservices.DTOS.EditedEventDTO;
-import com.oasip.oasipservices.DTOS.EventCategoriesDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.entities.EventCategory;
@@ -15,14 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.SQLOutput;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.TimeZone;
 
 @Service
 

@@ -1,16 +1,13 @@
 package com.oasip.oasipservices.DTOS;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-import com.oasip.oasipservices.entities.EventCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Getter
