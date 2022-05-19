@@ -115,7 +115,7 @@ const toggleEditMode = () => {
           "
           class="bg-dark-green hover:bg-yellow-100 hover:text-dark-green text-white focus:outline-none font-semibold rounded-full text-base px-5 py-2.5 text-center mr-2 mb-2"
         >
-          summit
+          submit
         </button>
         <button
           v-else
