@@ -80,7 +80,9 @@ const getCategories = async () => {
   const res = await fetch(
     `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
   )
-  //  const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/forBooking`)
+  // const res = await fetch(
+  //   `http://10.4.56.95:8080/api/eventCategories/forBooking`
+  // )
   if (res.status === 200) {
     console.log(res)
     categories.value = await res.json()

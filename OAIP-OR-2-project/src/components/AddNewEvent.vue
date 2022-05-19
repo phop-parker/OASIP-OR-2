@@ -16,7 +16,7 @@ const props = defineProps({
   }
 })
 
-const curCategory = ref('')
+const curCategory = ref('Event Category')
 const bookingEmail = ref('')
 const bookingName = ref('')
 const eventNotes = ref('')
@@ -208,7 +208,8 @@ input:invalid {
 select {
   border: 2px solid currentcolor;
 }
-select:invalid {
+select:invalid,
+select.empty {
   border: 2px solid rgb(208, 106, 106);
 }
 </style>

@@ -78,32 +78,70 @@ const getUpdateEvent = (updateEvent) => {
   return updatedEvent
 }
 
-// const dateTime = ref()
-// const curNameEmail = ref('')
-// const curCategory = ref()
+const dateTime = ref()
+const curNameEmail = ref('')
+const curCategory = ref('Event Category')
+const eventStatus = ref('Event Status')
+const filterTopic = ref()
 
-// const filterNameEmail = computed(() =>
-//   props.events.filter((event) =>
-//     event.bookingEmail
-//       .toLowerCase()
-//       .includes(
-//         curNameEmail.value.toLowerCase() ||
-//           (event.bookingName
-//             .toLowerCase()
-//             .includes(curNameEmail.value.toLocaleLowerCase()) &&
-//             event.eventCategoryName.includes(curCategory.value))
-//       )
-//   )
-// )
+const searchData = computed(() => {
+  const filteredEvents = ref(props.events)
+  if (curNameEmail.value.length != 0) {
+    filterTopic.value = 'name, email matching'
+    filteredEvents.value = filteredEvents.value.filter((event) => {
+      event.bookingEmail
+        .toLowerCase()
+        .includes(
+          curNameEmail.value.toLocaleLowerCase() ||
+            event.bookingName.includes(curNameEmail.value)
+        )
+    })
+  }
+  if (curCategory.value != 'Event Category') {
+    filterTopic.value = 'category matching'
+    filteredEvents.value = filteredEvents.value.filter((event) => {
+      return event.eventCategoryName === curCategory.value
+    })
+  }
+  if (dateTime.value != undefined) {
+    filterTopic.value = 'date matching'
+    filteredEvents.value = filteredEvents.value.filter((event) => {
+      const findDate = new Date(dateTime.value).toDateString()
+      const eventDate = new Date(event.eventStartTime).toDateString()
+      return eventDate === findDate
+    })
+  }
+  if (eventStatus.value != 'Event Status') {
+    filteredEvents.value = filteredEvents.value.filter((event) => {
+      const eventDate = new Date(event.eventStartTime)
+      const currentDate = new Date()
+      if (eventStatus.value === 'upComingEvents') {
+        filterTopic.value = 'up coming'
+        return currentDate <= eventDate
+      } else if (eventStatus.value === 'pastEvents') {
+        filterTopic.value = 'past'
+        return currentDate > eventDate
+      }
+    })
+  }
+
+  return filteredEvents.value
+})
+
+const resetFilter = () => {
+  curNameEmail.value = ''
+  curCategory.value = undefined
+  eventStatus.value = 'Event Status'
+  dateTime.value = undefined
+}
 </script>
 
 <template>
-  {{ dateTime }}
   <div class="flex items-center mt-10 justify-center">
     <div
       class="w-full md:w-2/3 shadow p-5 rounded-lg bg-white bg-opacity-40 rounded-3xl"
     >
-      <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mt-4">
         <div class="relative">
           <div class="absolute flex items-center ml-2 h-full">
             <svg
@@ -133,6 +171,7 @@ const getUpdateEvent = (updateEvent) => {
           class="pl-2 bg-white px-4 py-2 pr-2 rounded-md shadow border-transparent focus:border-gray-500 focus:bg-white"
         />
         <select
+          v-model="eventStatus"
           class="px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
         >
           <option selected disabled hidden>Event Status</option>
@@ -148,10 +187,9 @@ const getUpdateEvent = (updateEvent) => {
             {{ category.eventCategoryName }}
           </option>
         </select>
-      </div>
-      <div class="flex justify-end mt-4">
         <button
-          class="px-4 py-2 bg-red-300 hover:bg-pastel-yellow text-gray-800 shadow text-sm font-medium rounded-md"
+          @click="resetFilter"
+          class="px-4 py-2 bg-red-300 hover:bg-pastel-yellow text-gray-800 shadow text-sm font-medium font-Kanit rounded-md"
         >
           Reset Filter
         </button>
@@ -176,7 +214,7 @@ const getUpdateEvent = (updateEvent) => {
   <div class="flex items-center justify-center">
     <div class="col-span-12">
       <div
-        class="scrollTable lg:overflow-visible mt-8 relative z-0 bg-white bg-opacity-40 p-8 rounded-2xl"
+        class="scrollTable lg:overflow-visible mt-8 relative z-0 bg-white bg-opacity-40 pt-4 pl-8 pr-8 pb-8 rounded-2xl"
       >
         <table class="table text-blood-bird border-separate space-y-6">
           <thead class="text-lg bg-pastel-orange">
@@ -185,13 +223,14 @@ const getUpdateEvent = (updateEvent) => {
             <th class="p-3 text-left">Date</th>
             <th class="p-3 text-left">Time</th>
             <th class="p-3 text-left">Duration</th>
-            <th class="p-3 text-left">Action</th>
-            <th class="p-3 text-left"></th>
+            <th class="p-3 text-left" colspan="2">Action</th>
           </thead>
-          <tbody v-if="events.length == 0" class="bg-white">
+          <tbody v-if="searchData.length == 0" class="bg-white">
             <tr>
               <td colspan="7" class="font-Kanit" rowspan="2">
-                <div class="text-center mt-8">no scheduled events.</div>
+                <div class="text-center mt-8">
+                  no {{ filterTopic }} scheduled events.
+                </div>
                 <div class="flex justify-end">
                   <router-link :to="{ name: 'EventBooking' }">
                     <button
@@ -207,7 +246,7 @@ const getUpdateEvent = (updateEvent) => {
           </tbody>
           <tbody v-else>
             <tr
-              v-for="(event, index) in events"
+              v-for="(event, index) in searchData"
               :key="index"
               class="border-b border-blood-bird bg-white text-black text-center hover:bg-orange-50"
             >
@@ -222,15 +261,15 @@ const getUpdateEvent = (updateEvent) => {
                 {{ getTime(event.eventStartTime) }}
               </td>
               <td class="p-3 text-left">{{ event.eventDuration }} minutes</td>
-              <td class="">
+              <td class="justify-center">
                 <DetailIcon
-                  class="hover:drop-shadow-md justify-center"
+                  class="hover:drop-shadow-md"
                   @click="showDetailsToggle(event)"
                 />
               </td>
               <td class="">
                 <DeleteIcon
-                  class="hover:drop-shadow-md justify-center"
+                  class="hover:drop-shadow-md"
                   @click="$emit('deleteEvent', event.id)"
                 />
               </td>
@@ -266,7 +305,7 @@ tr th:nth-child(1) {
 }
 
 .scrollTable {
-  height: 48vh;
+  height: 56vh;
   overflow-y: scroll;
   display: block;
   padding-right: 40px;
@@ -276,10 +315,10 @@ tr th:nth-child(1) {
   width: 0.8vw;
 }
 
-.scrollTable::-webkit-scrollbar-track {
+/* .scrollTable::-webkit-scrollbar-track {
   background: #d28d4c;
   border-radius: 10px;
-}
+} */
 
 .scrollTable::-webkit-scrollbar-thumb {
   background: #fbbf98;

@@ -41,6 +41,7 @@ const toggleEditMode = () => {
 }
 </script>
 <template>
+  {{ event }}
   <div class="absolute bg-black opacity-20 inset-0 z-0"></div>
   <div
     class="box-content w-fit h-fit p-8 pb-8 rounded-3xl bg-pastel-orange drop-shadow-3xl font-Kanit z-10"

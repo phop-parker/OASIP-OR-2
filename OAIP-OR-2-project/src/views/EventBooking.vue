@@ -198,15 +198,15 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
     if (events.value[i].eventCategoryName == newEventCategoryName) {
       console.log(`-----this is CategoryName ${newEventCategoryName}-----`)
       if (
-        eventStartDateTime <= newEventStartDate &&
-        newEventStartDate <= eventEndDateTime
+        eventStartDateTime < newEventStartDate &&
+        newEventStartDate < eventEndDateTime
       ) {
         console.log('time is overlapping')
         status.value = false
       }
       if (
-        eventStartDateTime <= newEventEndDate &&
-        newEventEndDate <= eventEndDateTime
+        eventStartDateTime < newEventEndDate &&
+        newEventEndDate < eventEndDateTime
       ) {
         console.log('time is overlapping')
         status.value = false
@@ -249,7 +249,7 @@ const createNewEvent = async (newEvent) => {
     )
   ) {
     // const res = await fetch(`http://10.4.56.95:8080/api/events`, {
-      const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
+    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
