@@ -79,7 +79,7 @@ const newEvent = computed(() => {
         <p>Name<span class="text-red-500">*</span></p>
         <input
           v-bind:style="
-            bookingName.length >= 100 || bookingName.length < 1
+            bookingName.length > 100 || bookingName.length < 1
               ? 'border: 2px solid rgb(208, 106, 106)'
               : 'border: 2px solid currentcolor'
           "
@@ -90,8 +90,8 @@ const newEvent = computed(() => {
           required
         />
         <br />
-        <span v-show="bookingName.length >= 100" class="text-red-500">
-          Name cannot longer than 50 charaters</span
+        <span v-show="bookingName.length > 100" class="text-red-500">
+          Name cannot longer than 100 charaters</span
         >
       </div>
 
@@ -99,7 +99,7 @@ const newEvent = computed(() => {
         <p>Email<span class="text-red-500">*</span></p>
         <input
           v-bind:style="
-            bookingEmail.length >= 50 || bookingEmail.length < 1
+            bookingEmail.length > 50 || bookingEmail.length < 1
               ? 'border: 2px solid rgb(208, 106, 106)'
               : 'border: 2px solid currentcolor'
           "
@@ -110,7 +110,7 @@ const newEvent = computed(() => {
           required
         />
         <br />
-        <span v-show="bookingEmail.length >= 50" class="text-red-500">
+        <span v-show="bookingEmail.length > 50" class="text-red-500">
           Email cannot longer than 50 charaters</span
         >
       </div>
