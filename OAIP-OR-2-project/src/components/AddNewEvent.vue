@@ -177,10 +177,10 @@ const newEvent = computed(() => {
       <div class="col-span-2 flex justify-center">
         <button
           :disabled="
-            eventNotes.length >= 500 ||
-            bookingEmail.length >= 50 ||
+            eventNotes.length > 500 ||
+            bookingEmail.length > 50 ||
             bookingEmail.length < 1 ||
-            bookingName.length >= 100 ||
+            bookingName.length > 100 ||
             bookingName.length < 1
           "
           @click="$emit('addNewEvent', newEvent)"
