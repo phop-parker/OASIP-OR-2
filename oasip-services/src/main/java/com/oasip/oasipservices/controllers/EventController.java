@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class EventController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Event createNewEvent(@Validated @RequestBody CreateNewEventDTO event) {
+    public Event createNewEvent(@Valid @RequestBody CreateNewEventDTO event) {
         return eventService.save(event);}
 
     @DeleteMapping("/{id}")

@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <script setup>
-import CloseIcon from './CloseIcon.vue'
+import CloseIcon from '../icon/CloseIcon.vue'
 import { ref, computed } from 'vue'
 
 defineEmits(['closePopUp', 'deleteEvent', 'updateEvent', 'getEditedEvent'])
@@ -41,13 +41,12 @@ const toggleEditMode = () => {
 }
 </script>
 <template>
-  {{ event }}
   <div class="absolute bg-black opacity-20 inset-0 z-0"></div>
   <div
-    class="box-content w-fit h-fit p-8 pb-8 rounded-3xl bg-pastel-orange drop-shadow-3xl font-Kanit z-10"
+    class="box-content detail-box p-8 pb-8 rounded-3xl bg-opacity-90 bg-pastel-yellow drop-shadow-3xl font-Kanit z-10"
   >
     <div
-      class="grid grid-rows-8 gap-4 bg-white bg-opacity-20 rounded-2xl p-7 pb-10 w-fit h-fit"
+      class=" detail-box grid grid-rows-8 gap-4 bg-white shadow-lg rounded-2xl p-7 pb-10 "
     >
       <div class="place-self-end">
         <CloseIcon
@@ -55,17 +54,17 @@ const toggleEditMode = () => {
           @click="$emit('closePopUp'), (editMode = false)"
         />
       </div>
-      <div class="text-center text-black bg-white bg-opacity-20">Details</div>
-      <div class="pl-3 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
+      <div class="text-center text-black bg-white bg-opacity-20 mt-0">Details</div>
+      <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
         name : {{ event.bookingName }}
       </div>
-      <div class="pl-3 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
+      <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
         email : {{ event.bookingEmail }}
       </div>
-      <div class="pl-3 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
+      <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
         Category : {{ event.categoryId }}
       </div>
-      <div class="pl-3 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
+      <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
         Duration : {{ event.eventDuration }} minutes
       </div>
       <div v-if="editMode == true">
@@ -77,7 +76,7 @@ const toggleEditMode = () => {
       </div>
       <div v-else>
         <div
-          class="pl-3 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl"
+          class="pl-8 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl"
         >
           Date : {{ getDate(event.eventStartTime) }} Time :{{
             getTime(event.eventStartTime)
@@ -88,7 +87,7 @@ const toggleEditMode = () => {
         Note :
         <textarea
           v-model="newEvent.eventNotes"
-          class="pl-4 pr-4 w-60 h-32 bg-white border border-gray-400 hover:border-gray-500 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline resize-none"
+          class="pl-8 pr-4 w-96 h-32 bg-white border border-gray-400 hover:border-gray-500 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline resize-none"
           rows="5"
           cols="100"
         />
@@ -144,7 +143,11 @@ const toggleEditMode = () => {
 </template>
 
 <style scoped>
-/* .gradient-color {
-    background-image: linear-gradient(to top, #FDD3B8, #FFFFFF);
-} */
+
+.detail-box {
+  height: 550px;
+  width: 550px;
+}
+
+
 </style>

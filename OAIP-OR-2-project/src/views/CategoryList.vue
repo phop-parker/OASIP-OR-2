@@ -5,7 +5,12 @@ import { onBeforeMount, ref, computed } from 'vue'
 import CategoriesList from '../components/CategoriesList.vue'
 import SuccessAlert from '../components/SuccessAlert.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
-let categories = ref([])
+
+const categories = ref([])
+const successStatus = ref(false)
+const successDesc = ref('')
+const errorStatus = ref(false)
+const errorDesc = ref([])
 
 // GET
 const getCategories = async () => {
@@ -19,10 +24,6 @@ const getCategories = async () => {
 onBeforeMount(async () => {
   await getCategories()
 })
-const successStatus = ref(false)
-const successDesc = ref('')
-const errorStatus = ref(false)
-const errorDesc = ref([])
 
 const successToggle = () =>
   successStatus.value === false
@@ -30,22 +31,23 @@ const successToggle = () =>
     : (successStatus.value = false)
 
 const updateCategory = async (updateCategory) => {
-  console.log('updateCategory')
-  console.log(updateCategory)
+  errorDesc.value = [];
   if (
     checkCategoryName(
       updateCategory.eventCategoryName,
       updateCategory.categoryId
     ) &&
-    checkEventDuration(updateCategory.eventDuration)
+    checkEventDuration(updateCategory.eventDuration
+    ) && 
+    checkCategoryDescription(updateCategory.eventCategoryDescription)
   ) {
     console.log('do patch')
     const res = await fetch(
       `${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`,
       {
         // const res = await fetch(
-        //   `http://10.4.56.95:8080/api/eventCategories/${updateCategory.categoryId}`,
-        //   {
+          // `http://10.4.56.95:8080/api/eventCategories/${updateCategory.categoryId}`,
+          // {
         method: 'PATCH',
         headers: {
           'content-type': 'application/json'
@@ -83,21 +85,20 @@ const updateCategory = async (updateCategory) => {
 }
 
 const checkCategoryName = (newCategoryName, categoryId) => {
-  console.log('do check')
-  console.log('newCategoryName')
-  console.log(newCategoryName)
-  console.log('categoryId')
-  console.log(categoryId)
   const status = ref(true)
+  if (newCategoryName.length > 100) {
+    errorDesc.value.push("Category name should be less than 100 character")
+
+    return false
+  } 
   for (let i = 0; i < categories.value.length; i++) {
     console.log(categories.value[i].categoryId)
-    if (categories.value[i].categoryId != categoryId)
-      console.log('categoryId match')
+    if (categories.value[i].categoryId != categoryId){
     if (categories.value[i].eventCategoryName == newCategoryName) {
       console.log('category == categoryName')
       status.value = false
       errorDesc.value.push("Category Name can't be same with other categories")
-    }
+    }}
   }
   return status.value
 }
@@ -107,7 +108,7 @@ const checkEventDuration = (neweventDuration) => {
   if (neweventDuration > 1 && neweventDuration < 480) {
     status.value = true
   } else {
-    errorDesc.value.push("Category Name can't be same with other categories")
+    errorDesc.value.push("event duration should be less than 480 and morethan 1 character")
     status.value = false
   }
   return status.value
@@ -116,6 +117,18 @@ const checkEventDuration = (neweventDuration) => {
 const toggleErrorStatus = () => {
   return (errorStatus.value = false)
 }
+
+const checkCategoryDescription = (newCategoryDescription) => {
+  const status = ref(true)
+  if (newCategoryDescription.length > 500) {
+    errorDesc.value.push("Category Description should be less than 500 characters")
+    status.value = false
+  } else {
+    status.value = true
+  }
+  return status.value
+}
+
 </script>
 
 <template>
@@ -135,7 +148,7 @@ const toggleErrorStatus = () => {
       v-if="errorStatus == true"
       class="absolute inset-0 flex justify-center items-center z-20"
     >
-      <ErrorAlert :errorTitle="errorDetail" @backTo="toggleErrorStatus" />
+      <ErrorAlert :errorTitle="errorDesc" @backTo="toggleErrorStatus" />
     </div>
   </div>
 </template>

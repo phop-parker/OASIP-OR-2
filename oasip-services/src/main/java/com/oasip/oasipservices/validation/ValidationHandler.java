@@ -1,4 +1,4 @@
-package com.oasip.oasipservices.controllers;
+package com.oasip.oasipservices.validation;
 
 
 import org.springframework.http.HttpHeaders;
@@ -14,9 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-@ResponseStatus(HttpStatus.BAD_REQUEST)
 @ControllerAdvice
 public class ValidationHandler extends ResponseEntityExceptionHandler {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request
 ){

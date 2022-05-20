@@ -5,7 +5,7 @@ defineEmits(['backTo'])
 
 const props = defineProps({
   errorTitle: {
-    type: String,
+    type: Array,
     required: true
   }
 })
@@ -24,8 +24,8 @@ const props = defineProps({
     />
     <div class="text-center p-5 flex-auto justify-center">
       <div class="text-center text-blood-bird pt-3 z-40">ERROR ALERT</div>
-      <div class="text-center text-blood-bird pt-3 z-40">
-        {{ props.errorTitle }}
+      <div class="text-center text-blood-bird pt-3 z-40" v-for="(error, index) in errorTitle" :key="index">
+        {{ error }}
       </div>
       <div>
         <div class="pt-4 flex gap-4 justify-center">

@@ -3,12 +3,11 @@
 version: '3'
 services:
   oasipdb:
-    image: mysql:latest
+    image: oasipdbimage
+    build: ./database
     container_name: oasipdb
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
-    volumes:
-      - './database/script:/docker-entrypoint-initdb.d/'
     ports:
       - '3306:3306'
     environment:
@@ -17,7 +16,7 @@ services:
     networks:
       - oasipnw_or2
   oasipbackend:
-    image: oasipbackend
+    image: oasipbackendimage
     container_name: oasipbackend
     build: ./oasip-services
     restart: always
@@ -34,6 +33,7 @@ services:
     depends_on:
       - oasipdb
   oasipfrontend:
+    image: oasipfrontendimage
     build: ./OAIP-OR-2-project
     restart: always
     container_name: oasipfrontend
@@ -43,7 +43,7 @@ services:
     networks:
       - oasipnw_or2
   oasipreverseproxy:
-    image: nginx
+    image: reverseproxyimage
     restart: always
     container_name: oasipreverseproxy
     build: ./reverseproxy
@@ -55,7 +55,6 @@ services:
       - oasipfrontend
     ports:
       - '80:80'
-
 networks:
   oasipnw_or2:
     driver: bridge

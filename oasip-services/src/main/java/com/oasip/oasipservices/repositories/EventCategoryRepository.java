@@ -10,6 +10,6 @@ import java.util.List;
 public interface EventCategoryRepository extends JpaRepository<EventCategory, Integer> {
     @Query(value = "select * from eventCategory e where e.categoryId != :categoryId and e.eventCategoryName = :eventCategoryName",
     nativeQuery = true)
-    List<Event> findSameCategoryName(Integer categoryId, String eventCategoryName);
+    List<EventCategory> findSameCategoryName(Integer categoryId, String eventCategoryName);
 
 }

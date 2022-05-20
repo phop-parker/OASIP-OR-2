@@ -2,9 +2,9 @@
 
 <script setup>
 import EventDetails from './EventDetails.vue'
-import DetailIcon from './DetailIcon.vue'
-import DeleteIcon from './DeleteIcon.vue'
-import AddIcon from './AddIcon.vue'
+import DetailIcon from '../icon/DetailIcon.vue'
+import DeleteIcon from '../icon/DeleteIcon.vue'
+import AddIcon from '../icon/AddIcon.vue'
 import { ref, computed } from 'vue'
 
 defineEmits(['deleteEvent', 'updateThisEvent'])
@@ -80,31 +80,26 @@ const getUpdateEvent = (updateEvent) => {
 
 const dateTime = ref()
 const curNameEmail = ref('')
-const curCategory = ref('Event Category')
+const curCategory = ref('All categories')
 const eventStatus = ref('Event Status')
 const filterTopic = ref()
 
 const searchData = computed(() => {
+  filterTopic.value = '';
   const filteredEvents = ref(props.events)
   if (curNameEmail.value.length != 0) {
-    filterTopic.value = 'name, email matching'
     filteredEvents.value = filteredEvents.value.filter((event) => {
-      event.bookingEmail
-        .toLowerCase()
-        .includes(
-          curNameEmail.value.toLocaleLowerCase() ||
-            event.bookingName.includes(curNameEmail.value)
+      return (event.bookingEmail.toLowerCase().includes(curNameEmail.value.toLocaleLowerCase()) ||
+      event.bookingName.toLowerCase().includes(curNameEmail.value.toLowerCase())
         )
     })
   }
-  if (curCategory.value != 'Event Category') {
-    filterTopic.value = 'category matching'
+  if (curCategory.value != 'All categories') {
     filteredEvents.value = filteredEvents.value.filter((event) => {
       return event.eventCategoryName === curCategory.value
     })
   }
   if (dateTime.value != undefined) {
-    filterTopic.value = 'date matching'
     filteredEvents.value = filteredEvents.value.filter((event) => {
       const findDate = new Date(dateTime.value).toDateString()
       const eventDate = new Date(event.eventStartTime).toDateString()
@@ -116,11 +111,13 @@ const searchData = computed(() => {
       const eventDate = new Date(event.eventStartTime)
       const currentDate = new Date()
       if (eventStatus.value === 'upComingEvents') {
-        filterTopic.value = 'up coming'
+        filterTopic.value = 'on-going or upcoming'
         return currentDate <= eventDate
       } else if (eventStatus.value === 'pastEvents') {
         filterTopic.value = 'past'
         return currentDate > eventDate
+      }else if (eventStatus.value === 'allEvents'){
+        return currentDate > eventDate || currentDate <= eventDate
       }
     })
   }
@@ -130,16 +127,16 @@ const searchData = computed(() => {
 
 const resetFilter = () => {
   curNameEmail.value = ''
-  curCategory.value = undefined
+  curCategory.value = 'All categories'
   eventStatus.value = 'Event Status'
   dateTime.value = undefined
 }
 </script>
 
 <template>
-  <div class="flex items-center mt-10 justify-center">
+  <div class="flex items-center mt-10 justify-center font-Kanit">
     <div
-      class="w-full md:w-2/3 shadow p-5 rounded-lg bg-white bg-opacity-40 rounded-3xl"
+      class="w-full md:w-2/3 shadow p-5 rounded-lg bg-white bg-opacity-40 "
     >
       <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mt-4">
         <div class="relative">
@@ -175,6 +172,7 @@ const resetFilter = () => {
           class="px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
         >
           <option selected disabled hidden>Event Status</option>
+           <option value="allEvents">All events</option>
           <option value="upComingEvents">Up Coming events</option>
           <option value="pastEvents">Past events</option>
         </select>
@@ -182,14 +180,14 @@ const resetFilter = () => {
           v-model="curCategory"
           class="px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
         >
-          <option selected disabled hidden>Event Category</option>
+          <option>All categories</option>
           <option v-for="(category, index) in categories" :key="index">
             {{ category.eventCategoryName }}
           </option>
         </select>
         <button
           @click="resetFilter"
-          class="px-4 py-2 bg-red-300 hover:bg-pastel-yellow text-gray-800 shadow text-sm font-medium font-Kanit rounded-md"
+          class="px-4 py-2 bg-cute-orange hover:bg-pastel-yellow text-gray-800 shadow text-sm font-medium font-Kanit rounded-md"
         >
           Reset Filter
         </button>
@@ -211,19 +209,19 @@ const resetFilter = () => {
     />
   </div>
 
-  <div class="flex items-center justify-center">
+  <div class="flex items-center justify-center font-Kanit ">
     <div class="col-span-12">
       <div
         class="scrollTable lg:overflow-visible mt-8 relative z-0 bg-white bg-opacity-40 pt-4 pl-8 pr-8 pb-8 rounded-2xl"
       >
-        <table class="table text-blood-bird border-separate space-y-6">
+        <table class="table table-fixed text-blood-bird border-separate space-y-6 style-table ">
           <thead class="text-lg bg-pastel-orange">
-            <th class="p-3">Booking Name</th>
-            <th class="p-3 text-left">Clinic Category</th>
-            <th class="p-3 text-left">Date</th>
-            <th class="p-3 text-left">Time</th>
-            <th class="p-3 text-left">Duration</th>
-            <th class="p-3 text-left" colspan="2">Action</th>
+            <th style="width:44px" class="p-3">Booking Name</th>
+            <th style="width:44px" class="p-3 text-center ">Clinic Category</th>
+            <th style="width:40px" class="p-3 text-center ">Date</th>
+            <th style="width:24px" class="p-3 text-center ">Time</th>
+            <th style="width:24px" class="p-3 text-center ">Duration</th>
+            <th style="width:24px" class="p-3 text-center " colspan="2">Action</th>
           </thead>
           <tbody v-if="searchData.length == 0" class="bg-white">
             <tr>
@@ -242,32 +240,31 @@ const resetFilter = () => {
                 </div>
               </td>
             </tr>
-            <tr></tr>
           </tbody>
           <tbody v-else>
-            <tr
+            <tr style="height:80px;"
               v-for="(event, index) in searchData"
               :key="index"
-              class="border-b border-blood-bird bg-white text-black text-center hover:bg-orange-50"
+              class="border-b border-blood-bird bg-white text-blood-bird text-center transition hover:z-[1] hover:shadow-xl hover:bg-orange-50 hover:text-black "
             >
-              <td class="p-3 font-medium capitalize">
+              <td class="font-medium capitalize truncate ...">
                 {{ event.bookingName }}
               </td>
-              <td class="p-3 text-left">{{ event.eventCategoryName }}</td>
-              <td class="p-3 text-left">
+              <td class="truncate ...">{{ event.eventCategoryName }}</td>
+              <td class=" truncate ...">
                 {{ getDate(event.eventStartTime) }}
               </td>
-              <td class="p-3 text-left">
+              <td class=" truncate ...">
                 {{ getTime(event.eventStartTime) }}
               </td>
-              <td class="p-3 text-left">{{ event.eventDuration }} minutes</td>
-              <td class="justify-center">
+              <td class=" ">{{ event.eventDuration }} min.</td>
+              <td class="justify-center ">
                 <DetailIcon
-                  class="hover:drop-shadow-md"
+                  class="hover:drop-shadow-md "
                   @click="showDetailsToggle(event)"
                 />
               </td>
-              <td class="">
+              <td style="width:20px" class="">
                 <DeleteIcon
                   class="hover:drop-shadow-md"
                   @click="$emit('deleteEvent', event.id)"
@@ -287,13 +284,14 @@ const resetFilter = () => {
 }
 
 .table {
-  border-spacing: 0 15px;
+  border-spacing: 0 15px;  
+
 }
 
 .table tr {
   border-radius: 20px;
+  height: 22%
 }
-
 tr td:nth-child(7),
 tr th:nth-child(7) {
   border-radius: 0 0.625rem 0.625rem 0;
@@ -324,4 +322,9 @@ tr th:nth-child(1) {
   background: #fbbf98;
   border-radius: 10px;
 }
+
+.style-table {
+  width: 960px;
+}
+
 </style>

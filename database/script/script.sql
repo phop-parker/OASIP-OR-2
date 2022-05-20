@@ -12,7 +12,7 @@ use oasip;
 CREATE TABLE IF NOT EXISTS eventCategory (
   `categoryId` INT NOT NULL auto_increment,
   `eventCategoryName` VARCHAR(100) NOT NULL,
-  `eventCategoryDescription` VARCHAR(400),
+  `eventCategoryDescription` VARCHAR(500),
   `eventDuration` SMALLINT NOT NULL,
   PRIMARY KEY (`categoryId`),
   UNIQUE(`eventCategoryName`) ) 
@@ -34,8 +34,8 @@ VALUES ('Server-side Clinic', 30);
 
 CREATE TABLE IF NOT EXISTS event (
   `eventId` INT NOT NULL auto_increment,
-  `bookingName` VARCHAR(255) NOT NULL,
-  `bookingEmail` VARCHAR(70) NOT NULL,
+  `bookingName` VARCHAR(100) NOT NULL,
+  `bookingEmail` VARCHAR(50) NOT NULL,
   `eventStartTime` DATETIME NOT NULL,
   `eventDuration` SMALLINT NOT NULL,
   `categoryId` INT NOT NULL,

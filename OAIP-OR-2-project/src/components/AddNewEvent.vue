@@ -66,7 +66,7 @@ const newEvent = computed(() => {
 
 <template>
   <div
-    class="box-content p-4 mt-2 mb-0 ml-80 mr-80 bg-white rounded-3xl font-Kanit drop-shadow-2xl z-0"
+    class="box-content p-4 mt-6 mb-0 ml-80 mr-80 bg-white rounded-3xl font-Kanit drop-shadow-2xl z-0"
   >
     <div class="bg-pastel-orange rounded-3xl justify-center">
       <p class="font-medium font-Kanit text-center pt-2 pb-2 text-blood-bird">
@@ -161,7 +161,7 @@ const newEvent = computed(() => {
         </div>
         <textarea
           v-bind:style="
-            eventNotes.length >= 500
+            eventNotes.length > 500
               ? 'border: 2px solid rgb(208, 106, 106)'
               : 'border: 2px solid currentcolor'
           "

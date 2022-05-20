@@ -14,5 +14,7 @@ public interface EventRepository extends JpaRepository<Event,Integer>{
     nativeQuery = true)
     List<Event> findOverlappingEvents(Integer categoryId,LocalDateTime newEventStartDate, LocalDateTime newEventEndTime);
 
+    @Query(value = "select * from event e where e.bookingName = :bookingName and e.eventStartTime = :eventStartTime;",nativeQuery = true)
+    List<Event> findConstraintEvent(String bookingName, LocalDateTime eventStartTime);
 
 }
