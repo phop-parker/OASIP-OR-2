@@ -34,7 +34,6 @@ public class EventService {
     private EventCategoryRepository eventCategoryRepository;
 
     public Event save(CreateNewEventDTO event) {
-        System.out.println("-Hello Save-");
         Event newEvent = modelMapper.map(event, Event.class);
         EventCategory eventCategory = eventCategoryRepository.findById(event.getCategoryId())
                 .orElseThrow(() -> new ResponseStatusException(
@@ -42,11 +41,7 @@ public class EventService {
         newEvent.setEventDuration(eventCategory.getEventDuration());
         newEvent.setEventId(null);
         newEvent.setCategory(eventCategory);
-        System.out.println(newEvent.getEventStartTime());
-        System.out.println(eventCategory.getEventCategoryName());
-        System.out.println(newEvent.getEventDuration());
-        checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getCategory().getEventCategoryName(),
-                newEvent.getEventDuration(), newEvent.getCategory().getCategoryId());
+        checkDateTimeFuture(newEvent.getEventStartTime(),newEvent.getEventDuration(), newEvent.getCategory().getCategoryId());
         return repository.saveAndFlush(newEvent);
     }
 
@@ -54,12 +49,6 @@ public class EventService {
         List<Event> eventList = repository.findAllByOrderByEventStartTimeDesc();
         return listMapper.mapList(eventList, EventDTO.class, modelMapper);
     }
-
-    public List<EventDTO> findEventByCategoryId(Integer categoryId) {
-        List<Event> eventList = repository.findEventByCategoryName(categoryId);
-        return listMapper.mapList(eventList, EventDTO.class, modelMapper);
-    }
-
 
     public EventDTO getEventById(Integer id) {
         Event event = repository.findById(id)
@@ -69,29 +58,14 @@ public class EventService {
         return modelMapper.map(event, EventDTO.class);
     }
 
-    private void checkDateTimeFuture(LocalDateTime updateDateTime, String newEventCategoryName,
-                                     Integer newEventDuration,Integer categoryId) {
+    private void checkDateTimeFuture(LocalDateTime updateDateTime,Integer newEventDuration,Integer categoryId) {
         LocalDateTime newEventStartTime = updateDateTime;
         LocalDateTime newEventEndTime = findEndDate(newEventStartTime, newEventDuration);
-        List<EventDTO> eventList = findEventByCategoryId(categoryId);
-        if (eventList.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Event category id " + categoryId+ "Does Not Exist !!!");
-        }
-        for (int i = 0; i < eventList.size(); i++) {
-            LocalDateTime eventStartTime = eventList.get(i).getEventStartTime();
-            LocalDateTime eventEndTime = findEndDate(eventList.get(i).getEventStartTime(),
-                    eventList.get(i).getEventDuration());
-            if (newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventStartTime) ||
-                    newEventStartTime.isBefore(eventEndTime) && newEventEndTime.isAfter(eventEndTime) ||
-                    newEventStartTime.isBefore(eventStartTime) && newEventEndTime.isAfter(eventEndTime) ||
-                    newEventStartTime.isAfter(eventStartTime) && newEventEndTime.isBefore(eventEndTime)
-                    || newEventStartTime.isEqual(eventStartTime)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time is overlapping");
-            }
+        List<Event>  overlapAmount  = repository.findOverlappingEvents(categoryId,newEventStartTime,newEventEndTime);
+        if(overlapAmount.size() >= 1){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Time is overlapping");
         }
     }
-
     private LocalDateTime findEndDate(LocalDateTime eventStartTime, Integer duration) {
         LocalDateTime getEventEndTime = eventStartTime.plusMinutes(duration);
         return getEventEndTime;

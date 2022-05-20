@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class EventCategoryController {
     }
 
     @PatchMapping("/{categoryId}")
-    public EventCategory updateEventCategory(@Validated @RequestBody EventCategoryDTO updateEventCategory, @PathVariable Integer categoryId) {
+    public EventCategory updateEventCategory(@Valid @RequestBody EventCategoryDTO updateEventCategory, @PathVariable Integer categoryId) {
         return eventCategoryService.updateEventCategory(updateEventCategory,categoryId);}
 
 
