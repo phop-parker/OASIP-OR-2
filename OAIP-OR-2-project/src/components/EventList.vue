@@ -81,7 +81,7 @@ const getUpdateEvent = (updateEvent) => {
 const dateTime = ref()
 const curNameEmail = ref('')
 const curCategory = ref('All categories')
-const eventStatus = ref('Event Status')
+const eventStatus = ref('eventStatus')
 const filterTopic = ref()
 
 const searchData = computed(() => {
@@ -100,37 +100,69 @@ const searchData = computed(() => {
     })
   }
   if (dateTime.value != undefined) {
+    filteredEvents.value.sort(compareValues('eventStartTime'))
     filteredEvents.value = filteredEvents.value.filter((event) => {
       const findDate = new Date(dateTime.value).toDateString()
       const eventDate = new Date(event.eventStartTime).toDateString()
       return eventDate === findDate
     })
   }
-  if (eventStatus.value != 'Event Status') {
-    filteredEvents.value = filteredEvents.value.filter((event) => {
-      const eventDate = new Date(event.eventStartTime)
+  if (eventStatus.value != 'eventStatus') {
       const currentDate = new Date()
       if (eventStatus.value === 'upComingEvents') {
+        filteredEvents.value.sort(compareValues('eventStartTime'))
+        filteredEvents.value = filteredEvents.value.filter((event) => {
         filterTopic.value = 'on-going or upcoming'
-        return currentDate <= eventDate
+        return currentDate <= new Date(event.eventStartTime) || currentDate <= eventEndTime(event.eventStartTime,event.eventDuration)})
       } else if (eventStatus.value === 'pastEvents') {
+        filteredEvents.value = filteredEvents.value.filter((event) => {
         filterTopic.value = 'past'
-        return currentDate > eventDate
-      }else if (eventStatus.value === 'allEvents'){
-        return currentDate > eventDate || currentDate <= eventDate
-      }
-    })
-  }
-
+        return currentDate > new Date(event.eventStartTime)})
+      }else if(eventStatus.value === 'allEvents'){
+        filteredEvents.value = filteredEvents.value.filter((event) => {
+        return currentDate > new Date(event.eventStartTime) || currentDate <= new Date(event.eventStartTime)
+      })
+  }}
   return filteredEvents.value
 })
+
+
+function eventEndTime(date, minutes) {
+  let dateFormat = new Date(date)
+  let endDate = new Date(dateFormat.getTime() + minutes * 60 * 1000)
+  return endDate
+}
 
 const resetFilter = () => {
   curNameEmail.value = ''
   curCategory.value = 'All categories'
-  eventStatus.value = 'Event Status'
+  eventStatus.value = 'allEvents'
   dateTime.value = undefined
 }
+
+function compareValues(key, order = 'asc') {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+}
+
 </script>
 
 <template>
@@ -169,16 +201,16 @@ const resetFilter = () => {
         />
         <select
           v-model="eventStatus"
-          class="px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+          class="truncate ... px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
         >
-          <option selected disabled hidden>Event Status</option>
-           <option value="allEvents">All events</option>
-          <option value="upComingEvents">Up Coming events</option>
+          <option selected disabled hidden value="eventStatus">Event Status</option>
+          <option value="allEvents">All events</option>
+          <option value="upComingEvents">Up Coming events & On Going event</option>
           <option value="pastEvents">Past events</option>
         </select>
         <select
           v-model="curCategory"
-          class="px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+          class="truncate ... px-4 py-3 w-full rounded-md bg-white border-transparent shadow focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
         >
           <option>All categories</option>
           <option v-for="(category, index) in categories" :key="index">

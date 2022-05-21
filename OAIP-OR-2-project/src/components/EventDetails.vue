@@ -71,12 +71,12 @@ const toggleEditMode = () => {
         Date :<input
           type="datetime-local"
           v-model="newEvent.eventStartTime"
-          class="pl-1 border border-gray-400 bg-white hover:border-gray-500 px-4 py-2 pr-7 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline"
+          class="pl-3 border border-gray-400 bg-white hover:border-gray-500 px-4 py-2 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div v-else>
         <div
-          class="pl-8 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl"
+          class="pl-3 pb-1 drop-shadow-xl bg-white bg-opacity-20 rounded-2xl"
         >
           Date : {{ getDate(event.eventStartTime) }} Time :{{
             getTime(event.eventStartTime)

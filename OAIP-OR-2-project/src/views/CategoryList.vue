@@ -104,7 +104,7 @@ const checkCategoryName = (newCategoryName, categoryId) => {
 
 const checkEventDuration = (neweventDuration) => {
   const status = ref(true)
-  if (neweventDuration > 1 && neweventDuration < 480) {
+  if (neweventDuration > 1 && neweventDuration <= 480) {
     status.value = true
   } else {
     errorDesc.value.push("event duration should be less than 480 and morethan 1 character")

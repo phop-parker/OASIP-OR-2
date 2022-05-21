@@ -15,7 +15,7 @@ const props = defineProps({
 <template>
   <div class="absolute bg-black opacity-20 inset-0 z-0"></div>
   <div
-    class="box-content mr-auto ml-auto pt-10 pb-14 h-40 w-80 bg-white rounded-2xl drop-shadow-2xl font-Kanit"
+    class="box-content mr-auto ml-auto pt-10 pb-14 h-52 w-96 bg-white rounded-2xl drop-shadow-2xl font-Kanit"
   >
     <img
       class="w-16 h-16 -m-1 flex items-center text-red-500 mx-auto"
