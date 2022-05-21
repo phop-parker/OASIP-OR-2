@@ -15,8 +15,8 @@ const deleteThisEvent = ref(0)
 
 // GET
 const getEvents = async () => {
-  // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-  const res = await fetch(`http://10.4.56.95:8080/api/events`)
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/events`)
   if (res.status === 200) {
     console.log('response reply')
     console.log(res)
@@ -34,12 +34,12 @@ onBeforeMount(async () => {
 // DELETE
 const deleteEvent = async (deleteEventId) => {
   if (deleteEventId > 0) {
-    // const res = await fetch(
-    //   `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
-    //   {
-        const res = await fetch(
-          `http://10.4.56.95:8080/api/events/${deleteEventId}`,
-          {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
+       {
+      //   const res = await fetch(
+      //     `http://10.4.56.95:8080/api/events/${deleteEventId}`,
+      //     {
         method: 'DELETE'
       }
     )
@@ -77,12 +77,12 @@ let categories = ref([])
 
 // get
 const getCategories = async () => {
-  // const res = await fetch(
-  //   `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
-  // )
   const res = await fetch(
-    `http://10.4.56.95:8080/api/eventCategories/forBooking`
+    `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
   )
+  // const res = await fetch(
+  //   `http://10.4.56.95:8080/api/eventCategories/forBooking`
+  // )
   if (res.status === 200) {
     console.log(res)
     categories.value = await res.json()
@@ -91,12 +91,12 @@ const getCategories = async () => {
 
 const updateEvent = async (updateEvent) => {
   console.log(updateEvent)
-  // const res = await fetch(
-  //   `${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`,
-  //   {
-      const res = await fetch(
-        `http://10.4.56.95:8080/api/events/${updateEvent.id}`,
-        {
+  const res = await fetch(
+    `${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`,
+    {
+      // const res = await fetch(
+      //   `http://10.4.56.95:8080/api/events/${updateEvent.id}`,
+      //   {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'

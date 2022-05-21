@@ -14,8 +14,8 @@ const errorDesc = ref([])
 
 // GET
 const getCategories = async () => {
-  // const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories`)
-  const res = await fetch(`http://10.4.56.95:8080/api/eventCategories`)
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories`)
   if (res.status === 200) {
     console.log(res)
     categories.value = await res.json()
@@ -42,12 +42,12 @@ const updateCategory = async (updateCategory) => {
     checkCategoryDescription(updateCategory.eventCategoryDescription)
   ) {
     console.log('do patch')
-    // const res = await fetch(
-      // `${import.meta.env.BASE_URL}/api/eventCategories/${updateCategory.categoryId}`,
-      // {
-        const res = await fetch(
-          `http://10.4.56.95:8080/api/eventCategories/${updateCategory.categoryId}`,
-          {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}/api/eventCategories/${updateCategory.categoryId}`,
+      {
+        // const res = await fetch(
+        //   `http://10.4.56.95:8080/api/eventCategories/${updateCategory.categoryId}`,
+        //   {
         method: 'PATCH',
         headers: {
           'content-type': 'application/json'
@@ -88,7 +88,6 @@ const checkCategoryName = (newCategoryName, categoryId) => {
   const status = ref(true)
   if (newCategoryName.length > 100) {
     errorDesc.value.push("Category name should be less than 100 character")
-
     return false
   } 
   for (let i = 0; i < categories.value.length; i++) {
