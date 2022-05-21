@@ -19,8 +19,8 @@ onBeforeMount(async () => {
 
 // GET
 const getEvents = async () => {
-  const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-  // const res = await fetch(`http://10.4.56.95:8080/api/events`)
+  // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+  const res = await fetch(`http://10.4.56.95:8080/api/events`)
   if (res.status === 200) {
     console.log('response reply')
     console.log(res)
@@ -31,12 +31,12 @@ const getEvents = async () => {
 
 // GET
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
-  )
   // const res = await fetch(
-  //   `http://10.4.56.95:8080/api/eventCategories/forBooking`
+  //   `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
   // )
+  const res = await fetch(
+    `http://10.4.56.95:8080/api/eventCategories/forBooking`
+  )
 
   if (res.status === 200) {
     console.log(res)
@@ -161,7 +161,7 @@ const checkLength = (newEvent) => {
 
 const validateEmail = (newEvent) => {
   let validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   if (newEvent.bookingEmail.match(validRegex)) {
     return true
   } else {
@@ -240,8 +240,8 @@ const createNewEvent = async (newEvent) => {
       newEvent.categoryId.eventDuration
     )
   ) {
-    // const res = await fetch(`http://10.4.56.95:8080/api/events`, {
-    const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
+    const res = await fetch(`http://10.4.56.95:8080/api/events`, {
+    // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
