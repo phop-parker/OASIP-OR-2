@@ -6,11 +6,17 @@ import AddNewEvent from '../components/AddNewEvent.vue'
 import AddAlert from '../components/AddAlert.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 
-let categories = ref([])
-let events = ref([])
-let errorDetail = ref('')
+const categories = ref([])
+const events = ref([])
+const errorDetail = ref([])
 const addSuccessStatus = ref(false)
 const errorStatus = ref(false)
+
+onBeforeMount(async () => {
+  await getCategories()
+  await getEvents()
+})
+
 // GET
 const getEvents = async () => {
   const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
@@ -37,10 +43,7 @@ const getCategories = async () => {
     categories.value = await res.json()
   } else console.log("error, cann't get data")
 }
-onBeforeMount(async () => {
-  await getCategories()
-  await getEvents()
-})
+
 
 const checkDateTimeFuture = (inputDate) => {
   console.log(`this is inputDate -> ${inputDate}`)
@@ -53,15 +56,13 @@ const checkDateTimeFuture = (inputDate) => {
       console.log('date less than input date return true')
       return true
     } else {
-      errorDetail.value = 'Please insert future date time'
-      errorStatus.value = true
+      errorDetail.value.push('Please insert future date time')
       console.log('date more than input date return false')
       // alert("please insert future date time")
       return false
     }
   } else {
-    errorDetail.value = 'Please insert date and time'
-    errorStatus.value = true
+    errorDetail.value.push('Please insert date and time')
     // alert("please insert date and time.")
     return false
   }
@@ -69,8 +70,7 @@ const checkDateTimeFuture = (inputDate) => {
 
 const checkInput = (input) => {
   if (input === '' || input === '' || input === null || input === undefined) {
-    errorDetail.value = 'Information required.'
-    errorStatus.value = true
+    errorDetail.value.push('Information required.')
     console.log('input is null')
     return false
   } else {
@@ -83,8 +83,7 @@ const checkInputCategoty = (input) => {
   console.log(`this is category=>${input}`)
   if (input === undefined || input === null || input === 0) {
     // alert('please select category')
-    errorDetail.value = 'Please select category'
-    errorStatus.value = true
+    errorDetail.value.push('Please select category')
     console.log('category is null')
     return false
   } else {
@@ -100,18 +99,15 @@ const checkEmpty = (newEvent) => {
     checkInput(newEvent.bookingEmail) &&
     checkInputCategoty(newEvent.categoryId.categoryId)
   ) {
-    console.log('check empty return true')
     return true
   } else {
-    console.log('check empty return false')
     return false
   }
 }
 
 const checkLengthName = (bookingName) => {
   if (bookingName.length > 100) {
-    errorDetail.value = 'BookingName should be lessthan 100 letters.'
-    errorStatus.value = true
+    errorDetail.value.push('BookingName should be lessthan 100 letters.')
     console.log('bookingName is morethan 100 return false')
     return false
   } else {
@@ -123,8 +119,7 @@ const checkLengthName = (bookingName) => {
 const checkLengthEmail = (bookingEmail) => {
   console.log('BookingEmail Check')
   if (bookingEmail.length > 50) {
-    errorDetail.value = 'BookingEmail should be lessthan 50 letters.'
-    errorStatus.value = true
+    errorDetail.value.push('BookingEmail should be lessthan 50 letters.')
     console.log('BookingEmail is morethan 100 return false')
     return false
   } else {
@@ -138,8 +133,7 @@ const checkLengthNote = (eventNotes) => {
     eventNotes = ''
   }
   if (eventNotes.length > 500) {
-    errorDetail.value = 'EventNotes should be lessthan 500 letters.'
-    errorStatus.value = true
+    errorDetail.value.push('EventNotes should be lessthan 500 letters.')
     // alert("eventNotes should be lessthan 500 letters.");
     console.log('eventNotes is morethan 500 return false')
     return false
@@ -171,9 +165,8 @@ const validateEmail = (newEvent) => {
   if (newEvent.bookingEmail.match(validRegex)) {
     return true
   } else {
-    errorDetail.value = 'Invalid email address.'
+    errorDetail.value.push('Invalid email address.')
     errorStatus.value = true
-    // alert("Invalid email address!");
     return false
   }
 }
@@ -221,9 +214,7 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
     }
   }
   if (status.value == false) {
-    errorDetail.value = 'Date or time is overlapping.'
-    errorStatus.value = true
-    // alert("time is overlapping")
+    errorDetail.value.push('Date or time is overlapping.')
   }
   console.log(`validation return ${status.value}`)
   return status.value
@@ -237,6 +228,7 @@ function eventEndTime(date, minutes) {
 
 // create
 const createNewEvent = async (newEvent) => {
+  errorDetail.value = [];
   if (
     checkEmpty(newEvent) &&
     checkDateTimeFuture(newEvent.eventStartTime) &&
@@ -267,15 +259,14 @@ const createNewEvent = async (newEvent) => {
       addSuccessStatus.value = true
     } else {
       let status = res.status
-      errorDetail.value = `Backend ${status} error, Bad Request !`
+      errorDetail.value.push(`Backend ${status} error, Bad Request !`)
       errorStatus.value = true
       console.log('error cannot add')
     }
   }
-  // else {
-
-  //     alert('cannot add')
-  // }
+  else {
+    errorStatus.value = true
+  }
 }
 
 const toggleAddSuccessStatus = () => {

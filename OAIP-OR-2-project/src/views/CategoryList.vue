@@ -43,7 +43,7 @@ const updateCategory = async (updateCategory) => {
   ) {
     console.log('do patch')
     const res = await fetch(
-      `${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`,
+      `${import.meta.env.BASE_URL}/api/events/${updateCategory.categoryId}`,
       {
         // const res = await fetch(
           // `http://10.4.56.95:8080/api/eventCategories/${updateCategory.categoryId}`,
