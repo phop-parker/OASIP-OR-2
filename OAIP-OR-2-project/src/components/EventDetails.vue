@@ -27,6 +27,8 @@ const getTime = (dateTime) => {
 const newEvent = computed(() => {
   return {
     id: props.event.id,
+    categoryName:props.event.categoryId,
+    duration:props.event.eventDuration,
     eventStartTime: props.event.eventStartTime,
     eventNotes: props.event.eventNotes
   }
@@ -148,6 +150,5 @@ const toggleEditMode = () => {
   height: 550px;
   width: 550px;
 }
-
 
 </style>

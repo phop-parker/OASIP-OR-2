@@ -3,6 +3,7 @@ package com.oasip.oasipservices.controllers;
 import com.oasip.oasipservices.DTOS.CreateNewEventDTO;
 import com.oasip.oasipservices.DTOS.EditedEventDTO;
 import com.oasip.oasipservices.DTOS.EventDTO;
+import com.oasip.oasipservices.DTOS.EventListDTO;
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.repositories.EventRepository;
 import com.oasip.oasipservices.services.EventService;
@@ -22,7 +23,7 @@ public class EventController {
     EventService eventService;
 
     @GetMapping("")
-    public List<EventDTO> getAllSubject() {
+    public List<EventListDTO> getAllEvents() {
         return eventService.getAllEvent();
     }
 
@@ -31,14 +32,13 @@ public class EventController {
         return eventService.getEventById(id);
     }
 
-
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Event createNewEvent(@Valid @RequestBody CreateNewEventDTO event) {
+    public EventListDTO createNewEvent(@Valid @RequestBody CreateNewEventDTO event) {
         return eventService.save(event);}
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) { eventService.delete(id);}
+    public Integer deleteEvent(@PathVariable Integer id) { return eventService.delete(id);}
 
     @PatchMapping("/{id}")
     public EditedEventDTO updateEvent(@RequestBody Event updateEvent, @PathVariable Integer id) {

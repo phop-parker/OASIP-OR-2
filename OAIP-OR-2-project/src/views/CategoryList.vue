@@ -17,9 +17,8 @@ const getCategories = async () => {
   const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories`)
   // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories`)
   if (res.status === 200) {
-    console.log(res)
     categories.value = await res.json()
-  } else console.log("error, cann't get data")
+  } else {}
 }
 onBeforeMount(async () => {
   await getCategories()
@@ -41,7 +40,6 @@ const updateCategory = async (updateCategory) => {
     ) && 
     checkCategoryDescription(updateCategory.eventCategoryDescription)
   ) {
-    console.log('do patch')
     const res = await fetch(
       `${import.meta.env.BASE_URL}/api/eventCategories/${updateCategory.categoryId}`,
       {
@@ -71,12 +69,10 @@ const updateCategory = async (updateCategory) => {
             }
           : category
       )
-      console.log('updated suceccfully')
       successStatus.value = true
       successDesc.value = 'Update'
       setTimeout(successToggle, 2000)
     } else {
-      console.log('error cannot add')
       alert('error cannot add')
     }
   } else {
@@ -91,10 +87,8 @@ const checkCategoryName = (newCategoryName, categoryId) => {
     return false
   } 
   for (let i = 0; i < categories.value.length; i++) {
-    console.log(categories.value[i].categoryId)
     if (categories.value[i].categoryId != categoryId){
     if (categories.value[i].eventCategoryName == newCategoryName) {
-      console.log('category == categoryName')
       status.value = false
       errorDesc.value.push("Category Name can't be same with other categories")
     }}
@@ -107,7 +101,7 @@ const checkEventDuration = (neweventDuration) => {
   if (neweventDuration > 1 && neweventDuration <= 480) {
     status.value = true
   } else {
-    errorDesc.value.push("event duration should be less than 480 and morethan 1 character")
+    errorDesc.value.push("event duration should be less than 480 minutes and more than 1 minutes")
     status.value = false
   }
   return status.value

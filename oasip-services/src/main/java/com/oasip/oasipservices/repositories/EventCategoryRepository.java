@@ -12,4 +12,9 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, In
     nativeQuery = true)
     List<EventCategory> findSameCategoryName(Integer categoryId, String eventCategoryName);
 
+    @Query(value="select c.categoryId, c.eventCategoryName, c.eventCategoryDescription, c.eventDuration " +
+            "from eventCategory c LEFT JOIN event e on c.categoryId = e.categoryId where e.eventId = :id",
+            nativeQuery = true)
+    EventCategory findEventCategoryByEventId(Integer id);
+
 }

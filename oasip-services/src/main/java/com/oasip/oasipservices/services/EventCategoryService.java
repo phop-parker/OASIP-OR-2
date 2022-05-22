@@ -25,14 +25,13 @@ public class EventCategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-
     public List<EventBookingCategoryDTO> getAllCategoriesForBooking() {
         List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
         return listMapper.mapList(eventList, EventBookingCategoryDTO.class, modelMapper);
     }
 
     public List<EventCategoryDTO> getFullCategories() {
-        List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
+        List<EventCategory> eventList = repository.findAll((Sort.by("categoryId").descending()));
         return listMapper.mapList(eventList, EventCategoryDTO.class, modelMapper);
     }
 
@@ -50,7 +49,7 @@ public class EventCategoryService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category name cannot be the same");
         }
     }
-    public EventCategory updateEventCategory(EventCategoryDTO updatedEventCategory,Integer id){
+    public EventCategoryDTO updateEventCategory(EventCategoryDTO updatedEventCategory,Integer id){
         EventCategory oldEventCategory = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Event id " + id +
@@ -75,7 +74,7 @@ public class EventCategoryService {
             return  modelMapper.map(updatedEventCategory, EventCategory.class);
         });
         repository.saveAndFlush(editEventCategory);
-        return editEventCategory;
+        return modelMapper.map(editEventCategory,EventCategoryDTO.class);
     }
 
 

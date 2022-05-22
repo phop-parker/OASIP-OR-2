@@ -54,12 +54,12 @@ const categoryId = computed(() => {
 
 const newEvent = computed(() => {
   return {
-    bookingName: bookingName.value,
-    bookingEmail: bookingEmail.value,
+    bookingName: bookingName.value.trim(),
+    bookingEmail: bookingEmail.value.trim(),
     eventStartTime: dateTime.value,
     eventDuration: duration.value,
     categoryId: categoryId.value,
-    eventNotes: eventNotes.value
+    eventNotes: eventNotes.value.trim()
   }
 })
 </script>
@@ -194,9 +194,6 @@ const newEvent = computed(() => {
 </template>
 
 <style scoped>
-.gradient-color {
-  background-image: linear-gradient(to left, #fbbf98, #ffc2c2);
-}
 
 input {
   border: 2px solid currentcolor;
@@ -204,12 +201,10 @@ input {
 input:invalid {
   border: 2px solid rgb(208, 106, 106);
 }
-
 select {
   border: 2px solid currentcolor;
 }
-select:invalid,
-select.empty {
+select:invalid {
   border: 2px solid rgb(208, 106, 106);
 }
 </style>
