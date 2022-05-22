@@ -20,7 +20,7 @@ public class EventCategoryController {
     private EventCategoryService eventCategoryService;
 
 
-    @GetMapping()
+    @GetMapping("")
     public List<EventCategoryDTO> getFullCategories() {
         return eventCategoryService.getFullCategories();
     }
