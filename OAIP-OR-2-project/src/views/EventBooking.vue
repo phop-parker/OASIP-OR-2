@@ -22,11 +22,8 @@ const getEvents = async () => {
   const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
   // const res = await fetch(`http://10.4.56.95:8080/api/events`)
   if (res.status === 200) {
-    console.log('response reply')
-    console.log(res)
-    console.log(events.value)
     events.value = await res.json()
-  } else console.log("error, cann't get data")
+  } else {}
 }
 
 // GET
@@ -39,31 +36,23 @@ const getCategories = async () => {
   // )
 
   if (res.status === 200) {
-    console.log(res)
     categories.value = await res.json()
-  } else console.log("error, cann't get data")
+  } else {}
 }
 
 
 const checkDateTimeFuture = (inputDate) => {
-  console.log(`this is inputDate -> ${inputDate}`)
   if (inputDate != undefined) {
     const date = new Date()
     const newDate = new Date(inputDate)
-    console.log(`this is date = ${date}`)
-    console.log(`this is inputdate = ${newDate}`)
     if (date < newDate) {
-      console.log('date less than input date return true')
       return true
     } else {
       errorDetail.value.push('Please insert future date time')
-      console.log('date more than input date return false')
-      // alert("please insert future date time")
       return false
     }
   } else {
     errorDetail.value.push('Please insert date and time')
-    // alert("please insert date and time.")
     return false
   }
 }
@@ -71,32 +60,25 @@ const checkDateTimeFuture = (inputDate) => {
 const checkInput = (input) => {
   if (input === '' || input === '' || input === null || input === undefined) {
     errorDetail.value.push('Information required.')
-    console.log('input is null')
     return false
   } else {
-    console.log('input is not null')
     return true
   }
 }
 
 const checkInputCategoty = (input) => {
-  console.log(`this is category=>${input}`)
   if (input === undefined || input === null || input === 0) {
-    // alert('please select category')
     errorDetail.value.push('Please select category')
-    console.log('category is null')
     return false
   } else {
-    console.log('category is not null')
     return true
   }
 }
 
 const checkEmpty = (newEvent) => {
-  console.log('now checking...')
   if (
-    checkInput(newEvent.bookingName) &&
-    checkInput(newEvent.bookingEmail) &&
+    checkInput(newEvent.bookingName.trim()) &&
+    checkInput(newEvent.bookingEmail.trim()) &&
     checkInputCategoty(newEvent.categoryId.categoryId)
   ) {
     return true
@@ -108,22 +90,17 @@ const checkEmpty = (newEvent) => {
 const checkLengthName = (bookingName) => {
   if (bookingName.length > 100) {
     errorDetail.value.push('BookingName should be lessthan 100 letters.')
-    console.log('bookingName is morethan 100 return false')
     return false
   } else {
-    console.log('bookingName is lessthan 100 return true')
     return true
   }
 }
 
 const checkLengthEmail = (bookingEmail) => {
-  console.log('BookingEmail Check')
   if (bookingEmail.length > 50) {
     errorDetail.value.push('BookingEmail should be lessthan 50 letters.')
-    console.log('BookingEmail is morethan 100 return false')
     return false
   } else {
-    console.log('BookingEmail is lessthan 50 return true')
     return true
   }
 }
@@ -134,27 +111,20 @@ const checkLengthNote = (eventNotes) => {
   }
   if (eventNotes.length > 500) {
     errorDetail.value.push('EventNotes should be lessthan 500 letters.')
-    // alert("eventNotes should be lessthan 500 letters.");
-    console.log('eventNotes is morethan 500 return false')
     return false
   } else {
-    console.log('eventNotes is lessthan 500 return true')
     return true
   }
 }
 
 const checkLength = (newEvent) => {
-  console.log('newEvent')
-  console.log(newEvent)
   if (
-    checkLengthEmail(newEvent.bookingEmail) &&
-    checkLengthName(newEvent.bookingName) &&
-    checkLengthNote(newEvent.eventNotes)
+    checkLengthEmail(newEvent.bookingEmail.trim()) &&
+    checkLengthName(newEvent.bookingName.trim()) &&
+    checkLengthNote(newEvent.eventNotes.trim())
   ) {
-    console.log('check length return true')
     return true
   } else {
-    console.log('check length return false')
     return false
   }
 }
@@ -171,54 +141,6 @@ const validateEmail = (newEvent) => {
   }
 }
 
-const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
-  console.log('hello overlap')
-  console.log(`this is input Date ${inputDate}`)
-  let newEventStartDate = new Date(inputDate)
-  let newEventEndDate = eventEndTime(newEventStartDate, newEventDuration)
-  let status = ref(true)
-  console.log(`-----this is newEventStartDate ${newEventStartDate}----`)
-  console.log(`-----this is newEventEndDate ${newEventEndDate}----`)
-  for (let i = 0; i < events.value.length; i++) {
-    let eventStartDateTime = new Date(
-      events.value[i].eventStartTime.replace('@', 'T')
-    )
-    let eventDuration = events.value[i].eventDuration
-    let eventEndDateTime = eventEndTime(eventStartDateTime, eventDuration)
-    console.log(`-----overlap check number ${i}----`)
-    console.log(`-----this is eventStartTime ${eventStartDateTime}----`)
-    console.log(`-----this is eventEndTime ${eventEndDateTime}-----`)
-    if (events.value[i].eventCategoryName == newEventCategoryName) {
-      console.log(`-----this is CategoryName ${newEventCategoryName}-----`)
-      if (
-        eventStartDateTime < newEventStartDate &&
-        newEventStartDate < eventEndDateTime
-      ) {
-        console.log('time is overlapping')
-        status.value = false
-      }
-      if (
-        eventStartDateTime < newEventEndDate &&
-        newEventEndDate < eventEndDateTime
-      ) {
-        console.log('time is overlapping')
-        status.value = false
-      }
-      if (
-        newEventStartDate < eventStartDateTime &&
-        eventEndDateTime < newEventEndDate
-      ) {
-        console.log('time is overlapping')
-        status.value = false
-      }
-    }
-  }
-  if (status.value == false) {
-    errorDetail.value.push('Date or time is overlapping.')
-  }
-  console.log(`validation return ${status.value}`)
-  return status.value
-}
 
 function eventEndTime(date, minutes) {
   let dateFormat = new Date(date)
@@ -226,10 +148,53 @@ function eventEndTime(date, minutes) {
   return endDate
 }
 
+const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
+  let newEventStartDate = new Date(inputDate)
+  let newEventEndDate = eventEndTime(newEventStartDate, newEventDuration)
+  let status = ref(true)
+  for (let i = 0; i < events.value.length; i++) {
+    let eventStartDateTime = new Date(
+      events.value[i].eventStartTime.replace('@', 'T')
+    )
+    let eventDuration = events.value[i].eventDuration
+    let eventEndDateTime = eventEndTime(eventStartDateTime, eventDuration)
+
+    if (events.value[i].eventCategoryName == newEventCategoryName) {
+      if ((eventStartDateTime < newEventStartDate &&newEventStartDate < eventEndDateTime)||
+          (eventStartDateTime < newEventEndDate && newEventEndDate < eventEndDateTime)||
+          (newEventStartDate < eventStartDateTime &&eventEndDateTime < newEventEndDate)||
+          (eventStartDateTime.valueOf() == newEventStartDate.valueOf())
+          ||(eventEndDateTime.valueOf() == newEventEndDate.valueOf())) {
+        status.value = false
+      }
+    }
+  }
+  if (status.value == false) {
+    errorDetail.value.push('Date or time is overlapping.')
+  }
+  return status.value
+}
+
+
+const checkConstarints = (bookingName,eventStartTime) => {
+  let date = new Date(eventStartTime);
+  const status = ref(true)
+  for (let i = 0; i < events.value.length; i++) {
+    let eventStartDateTime = new Date(events.value[i].eventStartTime.replace('@', 'T'))
+    if(events.value[i].bookingName.toLowerCase() == bookingName.toLowerCase() && eventStartDateTime.valueOf() == date.valueOf()){
+      errorDetail.value.push("Someone already booked by this name and date")
+      status.value = false
+    }
+  }
+  console.log(status.value)
+  return status.value
+}
+
 // create
 const createNewEvent = async (newEvent) => {
   errorDetail.value = [];
   if (
+    checkConstarints(newEvent.bookingName,newEvent.eventStartTime)&&
     checkEmpty(newEvent) &&
     checkDateTimeFuture(newEvent.eventStartTime) &&
     validateEmail(newEvent) &&
@@ -255,13 +220,10 @@ const createNewEvent = async (newEvent) => {
       })
     })
     if (res.status === 200 || res.status === 201) {
-      console.log(res.status)
       addSuccessStatus.value = true
     } else {
       let status = res.status
       errorDetail.value.push(`Backend ${status} error, Bad Request !`)
-      errorStatus.value = true
-      console.log('error cannot add')
     }
   }
   else {
@@ -287,7 +249,7 @@ const toggleErrorStatus = () => {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div>
       <AddNewEvent
         :eventCategories="categories"
@@ -310,11 +272,4 @@ const toggleErrorStatus = () => {
 </template>
 
 <style scoped>
-.bgimage {
-  background-image: url('../assets/bg-project.jpg');
-  background-repeat: no-repeat;
-  background-size: contain, cover;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-}
 </style>

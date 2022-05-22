@@ -9,7 +9,6 @@ const props = defineProps({
     required: true
   }
 })
-// const showmodal = true
 </script>
 
 <template>
@@ -40,9 +39,5 @@ const props = defineProps({
     </div>
   </div>
 </template>
-<!-- w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white  -->
 <style scoped>
-.gradient-color {
-  background-image: linear-gradient(to top, #ffffff, #fbbf98);
-}
 </style>

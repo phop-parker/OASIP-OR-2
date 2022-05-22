@@ -3,6 +3,8 @@ package com.oasip.oasipservices.DTOS;
 
 import java.time.LocalDateTime;
 
+import com.oasip.oasipservices.validation.ConstraintNameDate;
+import com.oasip.oasipservices.validation.TimeOverlapping;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,8 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 
+@TimeOverlapping
+@ConstraintNameDate
 public class CreateNewEventDTO {
     @NotBlank(message="name can't be blank")
     @Size(max = 100,message = "booking name must be between 0-100 characters")
@@ -28,6 +32,7 @@ public class CreateNewEventDTO {
     @NotNull(message="eventStartTime can't be null")
     @Future(message="required future date time")
     private LocalDateTime eventStartTime;
+
     private Integer eventDuration;
 
     @NotNull(message="event category can't be null")
@@ -35,5 +40,6 @@ public class CreateNewEventDTO {
 
     @Size(max = 500,message = "event note must be between 0-500 characters")
     private String eventNotes;
+
 
 }

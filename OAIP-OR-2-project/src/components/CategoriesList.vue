@@ -15,12 +15,11 @@ const props = defineProps({
 const curCategory = ref()
 const statusDetail = ref(false)
 const showDetailsToggle = (category) => {
-  console.log('show datail toggle hit')
   curCategory.value = {
     categoryId: category.categoryId,
-    eventCategoryName: category.eventCategoryName,
+    eventCategoryName: category.eventCategoryName.trim(),
     eventDuration: category.eventDuration,
-    eventCategoryDescription: category.eventCategoryDescription
+    eventCategoryDescription: category.eventCategoryDescription.trim()
   }
   toggleStatus()
 }
@@ -32,17 +31,12 @@ const toggleStatus = () => {
   }
 }
 const toggleTofalse = () => {
-  console.log('toggleTofalse hit')
   statusDetail.value = false
 }
 const updatedCategory = ref()
 
 const getUpdateCategory = (updateCategory) => {
-  console.log('getUpdateEvent is working right now here is update event-----')
-  console.log(updateCategory)
   updatedCategory.value = updateCategory
-  console.log(' here is update event that sendeing to views-----')
-  console.log(updatedCategory.value)
   return updateCategory
 }
 </script>
@@ -113,4 +107,4 @@ const getUpdateCategory = (updateCategory) => {
   </div>
 </template>
 
-<style></style>
+<style scoped></style>

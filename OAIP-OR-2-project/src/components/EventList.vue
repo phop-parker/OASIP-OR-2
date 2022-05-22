@@ -22,26 +22,20 @@ const props = defineProps({
 const formatted_date = new Date().toJSON().slice(0, 10)
 
 const getProperDate = (dateTime) => {
-  console.log(dateTime)
   return dateTime.toString().replace('@', 'T')
 }
 
 const getDate = (dateTime) => {
-  console.log('-----------------date-----------------')
   const date = new Date(dateTime)
-  console.log('this is datetime after change' + date)
   return date.toDateString()
 }
 const getTime = (dateTime) => {
-  console.log('-----------------time-----------------')
   const date = new Date(dateTime)
-  console.log('this is datetime after change' + date)
   return date.toTimeString().slice(0, 5)
 }
 const curEvent = ref()
 const statusDetail = ref(false)
 const showDetailsToggle = (event) => {
-  console.log('show datail toggle hit')
   curEvent.value = {
     bookingEmail: event.bookingEmail,
     bookingName: event.bookingName,
@@ -54,7 +48,6 @@ const showDetailsToggle = (event) => {
   toggleStatus()
 }
 const toggleStatus = () => {
-  console.log('toggleStatus hit')
   if (statusDetail.value == true) {
     statusDetail.value = false
   } else {
@@ -63,18 +56,13 @@ const toggleStatus = () => {
 }
 
 const toggleTofalse = () => {
-  console.log('toggleTofalse hit')
   statusDetail.value = false
 }
 
 const updatedEvent = ref()
 
 const getUpdateEvent = (updateEvent) => {
-  console.log('getUpdateEvent is working right now here is update event-----')
-  console.log(updateEvent)
   updatedEvent.value = updateEvent
-  console.log(' here is update event that sendeing to views-----')
-  console.log(updatedEvent.value)
   return updatedEvent
 }
 
@@ -95,7 +83,8 @@ const searchData = computed(() => {
     })
   }
   if (curCategory.value != 'All categories') {
-    filteredEvents.value = filteredEvents.value.filter((event) => {
+      filteredEvents.value.sort(compareValues('eventStartTime','desc'))
+      filteredEvents.value = filteredEvents.value.filter((event) => {
       return event.eventCategoryName === curCategory.value
     })
   }
@@ -115,6 +104,7 @@ const searchData = computed(() => {
         filterTopic.value = 'on-going or upcoming'
         return currentDate <= new Date(event.eventStartTime) || currentDate <= eventEndTime(event.eventStartTime,event.eventDuration)})
       } else if (eventStatus.value === 'pastEvents') {
+        filteredEvents.value.sort(compareValues('eventStartTime','desc'))
         filteredEvents.value = filteredEvents.value.filter((event) => {
         filterTopic.value = 'past'
         return currentDate > new Date(event.eventStartTime)})
@@ -311,10 +301,6 @@ function compareValues(key, order = 'asc') {
 </template>
 
 <style scoped>
-.gradient-delete-color {
-  background-image: linear-gradient(to top, #ffffff, #fbbf98);
-}
-
 .table {
   border-spacing: 0 15px;  
 
@@ -344,11 +330,6 @@ tr th:nth-child(1) {
 .scrollTable::-webkit-scrollbar {
   width: 0.8vw;
 }
-
-/* .scrollTable::-webkit-scrollbar-track {
-  background: #d28d4c;
-  border-radius: 10px;
-} */
 
 .scrollTable::-webkit-scrollbar-thumb {
   background: #fbbf98;

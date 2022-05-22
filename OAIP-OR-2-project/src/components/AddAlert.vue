@@ -25,7 +25,4 @@ defineEmits(['ConfirmAndGoToAnotherPage'])
 </template>
  
 <style scoped>
-.gradient-color {
-    background-image: linear-gradient(to top, #FFFFFF, #FBBF98);
-}
 </style>

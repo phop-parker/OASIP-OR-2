@@ -39,8 +39,6 @@ const nullError = computed(() => {
   }
 })
 
-
-
 </script>
 
 <template>
