@@ -27,7 +27,7 @@ const getTime = (dateTime) => {
 const newEvent = computed(() => {
   return {
     id: props.event.id,
-    categoryName:props.event.categoryId,
+    categoryName:props.event.eventCategoryName,
     duration:props.event.eventDuration,
     eventStartTime: props.event.eventStartTime,
     eventNotes: props.event.eventNotes
@@ -64,7 +64,7 @@ const toggleEditMode = () => {
         email : {{ event.bookingEmail }}
       </div>
       <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
-        Category : {{ event.categoryId }}
+        Category : {{ event.eventCategoryName }}
       </div>
       <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
         Duration : {{ event.eventDuration }} minutes

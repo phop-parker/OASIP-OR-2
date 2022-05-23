@@ -93,7 +93,7 @@ public class EventService {
         }
     }
 
-    public EditedEventDTO updateEvent(Event updateEvent, Integer id) {
+    public EditedEventDTO updateEvent(EditedEventDTO updateEvent, Integer id) {
         EventDTO oldEvent = getEventById(id);
         if(updateEvent.getEventNotes() == null ){
             updateEvent.setEventNotes(oldEvent.getEventNotes());
@@ -106,10 +106,7 @@ public class EventService {
             event.setEventNotes(updateEvent.getEventNotes().trim());
             event.setEventStartTime(updateEvent.getEventStartTime());
             return event;
-        }).orElseGet(() -> {
-            updateEvent.setEventId(id);
-            return updateEvent;
-        });
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event id " + id + " Does Not Exist !!!"));
         repository.saveAndFlush(editEvent);
         return modelMapper.map(editEvent, EditedEventDTO.class);
     }

@@ -56,6 +56,7 @@ const getUpdateCategory = (updateCategory) => {
       "
     />
   </div>
+    <!-- credits to : https://tailwindcomponents.com/component/features-section -->
   <div class="py-16 overflow-hidden">
     <div class="container m-auto px-6 space-y-8 text-gray-500 md:px-12">
       <div>

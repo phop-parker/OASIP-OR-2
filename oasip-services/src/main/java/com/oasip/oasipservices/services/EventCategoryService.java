@@ -26,7 +26,7 @@ public class EventCategoryService {
     private ModelMapper modelMapper;
 
     public List<EventCategoryView> getAllCategoriesList() {
-        List<EventCategory> eventList = repository.findAll((Sort.by("categoryId").descending()));
+            List<EventCategory> eventList = repository.findAll((Sort.by("categoryId").descending()));
         return listMapper.mapList(eventList, EventCategoryView.class, modelMapper);
     }
 
@@ -76,7 +76,5 @@ public class EventCategoryService {
         repository.saveAndFlush(editEventCategory);
         return modelMapper.map(editEventCategory,EventCategoryDTO.class);
     }
-
-
 
 }

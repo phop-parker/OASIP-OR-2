@@ -16,9 +16,7 @@ const errorDesc = ref([]);
 
 // GET
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.BASE_URL}/api/eventCategories/list`
-  );
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/list`);
   // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/list`)
   if (res.status === 200) {
     categories.value = await res.json();

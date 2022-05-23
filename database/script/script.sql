@@ -1,6 +1,6 @@
 
 create user 'OR2'@'%' identified with mysql_native_password by 'mysql';
-grant all privileges on *.* to 'OR2'@'%';
+grant all privileges on oasip.* to 'OR2'@'%';
 flush privileges;
 
 create database oasip;

@@ -108,8 +108,8 @@ const updateEvent = async (updateEvent) => {
         ? { ...event, eventStartTime: date, eventNotes: modifyEvent.eventNotes }
         : event
     )
-    successStatus.value = true
     successDesc.value = 'Update'
+    successStatus.value = true
   } else {
     alert('error cannot add')
   }}else{
@@ -138,27 +138,29 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration,eventId)
   let newEventStartDate = new Date(inputDate)
   let newEventEndDate = eventEndTime(newEventStartDate, newEventDuration)
   let status = ref(true)
-  for (let i = 0; i < events.value.length; i++) {
-    if(events.value[i].id != eventId){
-    let eventStartDateTime = new Date(events.value[i].eventStartTime.replace('@', 'T'))
-    let eventDuration = events.value[i].eventDuration
+  let eventCategoryMatch = events.value.filter((event)=> event.id!==eventId && event.eventCategoryName==newEventCategoryName);
+  for (let i = 0; i < eventCategoryMatch.length; i++) {
+    let eventStartDateTime = new Date(eventCategoryMatch[i].eventStartTime.replace('@', 'T'))
+    let eventDuration = eventCategoryMatch[i].eventDuration
     let eventEndDateTime = eventEndTime(eventStartDateTime, eventDuration)
-
-    if (events.value[i].eventCategoryName == newEventCategoryName) {
-    if ((eventStartDateTime < newEventStartDate &&newEventStartDate < eventEndDateTime)||
+      if ((eventStartDateTime < newEventStartDate &&newEventStartDate < eventEndDateTime)||
           (eventStartDateTime < newEventEndDate && newEventEndDate < eventEndDateTime)||
           (newEventStartDate < eventStartDateTime &&eventEndDateTime < newEventEndDate)||
           (eventStartDateTime.valueOf() == newEventStartDate.valueOf())
           ||(eventEndDateTime.valueOf() == newEventEndDate.valueOf())) {
         status.value = false
       }
-    }
   }
   if (status.value == false) {
     errorDetail.value.push('Date or time is overlapping.')
-  }}
+  }
   return status.value
 }
+
+const toggleErrorStatus=()=>  
+errorStatus.value === false
+    ? (errorStatus.value = true)
+    : (errorStatus.value = false)
 
 function eventEndTime(date, minutes) {
   let dateFormat = new Date(date)

@@ -152,14 +152,11 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
   let newEventStartDate = new Date(inputDate)
   let newEventEndDate = eventEndTime(newEventStartDate, newEventDuration)
   let status = ref(true)
-  for (let i = 0; i < events.value.length; i++) {
-    let eventStartDateTime = new Date(
-      events.value[i].eventStartTime.replace('@', 'T')
-    )
-    let eventDuration = events.value[i].eventDuration
+  let eventCategoryMatch = events.value.filter((event)=>event.eventCategoryName==newEventCategoryName);
+  for (let i = 0; i < eventCategoryMatch.length; i++) {
+    let eventStartDateTime = new Date(eventCategoryMatch[i].eventStartTime.replace('@', 'T'))
+    let eventDuration = eventCategoryMatch[i].eventDuration
     let eventEndDateTime = eventEndTime(eventStartDateTime, eventDuration)
-
-    if (events.value[i].eventCategoryName == newEventCategoryName) {
       if ((eventStartDateTime < newEventStartDate &&newEventStartDate < eventEndDateTime)||
           (eventStartDateTime < newEventEndDate && newEventEndDate < eventEndDateTime)||
           (newEventStartDate < eventStartDateTime &&eventEndDateTime < newEventEndDate)||
@@ -167,7 +164,6 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration) => {
           ||(eventEndDateTime.valueOf() == newEventEndDate.valueOf())) {
         status.value = false
       }
-    }
   }
   if (status.value == false) {
     errorDetail.value.push('Date or time is overlapping.')

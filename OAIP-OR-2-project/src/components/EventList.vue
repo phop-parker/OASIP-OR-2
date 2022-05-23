@@ -20,13 +20,8 @@ const props = defineProps({
 })
 
 const formatted_date = new Date().toJSON().slice(0, 10)
-const curEvent = ref()
 const statusDetail = ref(false)
 const updatedEvent = ref()
-
-const getProperDate = (dateTime) => {
-  return dateTime.toString().replace('@', 'T')
-}
 
 const getDate = (dateTime) => {
   return new Date(dateTime).toDateString()
@@ -34,12 +29,6 @@ const getDate = (dateTime) => {
 const getTime = (dateTime) => {
   return new Date(dateTime).toTimeString().slice(0, 5)
 }
-
-
-const successToggle = () =>
-  successStatus.value === false
-    ? (successStatus.value = true)
-    : (successStatus.value = false)
 
 const toggleStatus = () => 
     statusDetail.value === false
@@ -119,6 +108,8 @@ const resetFilter = () => {
   dateTime.value = undefined
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+
 function compareValues(key, order = 'asc') {
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -155,6 +146,7 @@ const getEventSelected = async(selectedEventId) =>{
 </script>
 
 <template>
+  <!-- https://v2.vuejs.org/v2/guide/filters.html -->
   <div class="flex items-center mt-10 justify-center font-Kanit">
     <div
       class="w-full md:w-2/3 shadow p-5 rounded-lg bg-white bg-opacity-40 "
@@ -180,8 +172,6 @@ const getEventSelected = async(selectedEventId) =>{
             class="px-8 py-3 w-full rounded-md bg-white shadow border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
           />
         </div>
-
-        <!--    class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"> -->
         <input
           v-model="dateTime"
           type="date"
@@ -229,7 +219,7 @@ const getEventSelected = async(selectedEventId) =>{
       @updateEvent="$emit('updateThisEvent', updatedEvent), toggleTofalse()"
     />
   </div>
-
+  <!-- https://tailwindcomponents.com/component/table-ui -->
   <div class="flex items-center justify-center font-Kanit ">
     <div class="col-span-12">
       <div
