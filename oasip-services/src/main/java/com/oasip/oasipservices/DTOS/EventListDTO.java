@@ -19,6 +19,7 @@ public class EventListDTO {
     private String bookingEmail;
     @JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss")
     private LocalDateTime eventStartTime;
+    private Integer eventDuration;
     private String eventNotes;
     private String eventCategoryName;
 }

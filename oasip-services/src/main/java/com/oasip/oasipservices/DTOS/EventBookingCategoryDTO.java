@@ -13,7 +13,6 @@ import lombok.Setter;
 public class EventBookingCategoryDTO {
     private Integer categoryId;
     private String eventCategoryName;
-    private String eventCategoryDescription;
     private Integer eventDuration;
 
 }

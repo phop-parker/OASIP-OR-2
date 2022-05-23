@@ -32,11 +32,6 @@ public class TimeOverlappingValidator implements ConstraintValidator<TimeOverlap
 
         @Override
         public boolean isValid(CreateNewEventDTO event, ConstraintValidatorContext cxt) {
-//                if(event.getCategoryId() == null ){
-//                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event category can not be null");
-//                }else if(event.getEventStartTime() == null ){
-//                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event startTime can not be null");
-//                }
 
                 try {   EventCategoryDTO eventCategory = categoryService.getAllCategoryById(event.getCategoryId());
                         LocalDateTime EndDateTime = service.findEndDate(event.getEventStartTime(), eventCategory.getEventDuration());
