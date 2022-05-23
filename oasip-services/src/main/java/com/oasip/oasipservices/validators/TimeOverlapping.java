@@ -1,4 +1,4 @@
-package com.oasip.oasipservices.validation;
+package com.oasip.oasipservices.validators;
 
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
@@ -10,11 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 
 @Target({ElementType.TYPE,ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ConstraintNameDateValidator.class)
+@Constraint(validatedBy = TimeOverlappingValidator.class)
 @Documented
-
-public @interface ConstraintNameDate{
-    String message() default "Booking name and Event start time can't be same";
+public @interface TimeOverlapping{
+    String message() default "event start time is overlapping";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+
 }

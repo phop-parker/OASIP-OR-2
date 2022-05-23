@@ -3,8 +3,8 @@ package com.oasip.oasipservices.DTOS;
 
 import java.time.LocalDateTime;
 
-import com.oasip.oasipservices.validation.ConstraintNameDate;
-import com.oasip.oasipservices.validation.TimeOverlapping;
+import com.oasip.oasipservices.validators.ConstraintNameDate;
+import com.oasip.oasipservices.validators.TimeOverlapping;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

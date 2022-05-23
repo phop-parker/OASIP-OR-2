@@ -7,8 +7,10 @@ import SuccessAlert from '../components/SuccessAlert.vue'
 import ErrorAlert from '../components/ErrorAlert.vue'
 
 const categories = ref([])
+
 const successStatus = ref(false)
 const successDesc = ref('')
+
 const errorStatus = ref(false)
 const errorDesc = ref([])
 

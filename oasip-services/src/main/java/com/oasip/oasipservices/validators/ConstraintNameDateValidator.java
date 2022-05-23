@@ -1,11 +1,9 @@
-package com.oasip.oasipservices.validation;
+package com.oasip.oasipservices.validators;
 
 import com.oasip.oasipservices.DTOS.CreateNewEventDTO;
 import com.oasip.oasipservices.entities.Event;
 import com.oasip.oasipservices.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

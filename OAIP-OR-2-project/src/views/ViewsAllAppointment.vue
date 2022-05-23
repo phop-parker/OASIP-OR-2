@@ -37,12 +37,12 @@ const getEvents = async () => {
 // DELETE
 const deleteEvent = async (deleteEventId) => {
   if (deleteEventId > 0) {
-    const res = await fetch(
-      `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
-       {
-        // const res = await fetch(
-        //   `http://10.4.56.95:8080/api/events/${deleteEventId}`,
-        //   {
+    // const res = await fetch(
+    //   `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
+    //    {
+        const res = await fetch(
+          `http://10.4.56.95:8080/api/events/${deleteEventId}`,
+          {
         method: 'DELETE'
       }
     )

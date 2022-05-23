@@ -1,4 +1,4 @@
-package com.oasip.oasipservices.validation;
+package com.oasip.oasipservices.validators;
 
 
 import org.springframework.http.HttpHeaders;
@@ -13,9 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 @ControllerAdvice
 public class ValidationHandler extends ResponseEntityExceptionHandler {
