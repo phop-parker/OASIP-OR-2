@@ -82,6 +82,7 @@ const getCategories = async () => {
 
 //PATCH
 const updateEvent = async (updateEvent) => {
+  errorDetail.value = [];
   if(timesOverlap(updateEvent.eventStartTime,updateEvent.categoryName,updateEvent.duration,updateEvent.id)
   &&checkLengthNote(updateEvent.eventNotes)&&checkDateTimeFuture(updateEvent.eventStartTime)){
   const res = await fetch(
