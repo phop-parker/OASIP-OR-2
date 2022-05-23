@@ -20,6 +20,7 @@ import javax.validation.constraints.*;
 @ConstraintNameDate
 @TimeOverlapping
 public class CreateNewEventDTO {
+
     @NotBlank(message="name can't be blank")
     @Size(max = 100,message = "booking name must be between 0-100 characters")
     private String bookingName;
@@ -40,6 +41,4 @@ public class CreateNewEventDTO {
 
     @Size(max = 500,message = "event note must be between 0-500 characters")
     private String eventNotes;
-
-
 }

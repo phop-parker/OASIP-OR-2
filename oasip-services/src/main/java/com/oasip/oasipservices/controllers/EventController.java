@@ -44,5 +44,4 @@ public class EventController {
     public EventListDTO updateEvent(@Valid @RequestBody EditedEventDTO updateEvent, @PathVariable Integer id) {
         return eventService.updateEvent(updateEvent,id);}
 
-
 }
