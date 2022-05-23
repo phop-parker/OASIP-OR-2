@@ -83,7 +83,7 @@ const getCategories = async () => {
 //PATCH
 const updateEvent = async (updateEvent) => {
   if(timesOverlap(updateEvent.eventStartTime,updateEvent.categoryName,updateEvent.duration,updateEvent.id)
-  &&checkLengthNote(updateEvent.eventNotes)){
+  &&checkLengthNote(updateEvent.eventNotes)&&checkDateTimeFuture(updateEvent.eventStartTime)){
   const res = await fetch(
     `${import.meta.env.BASE_URL}/api/events/${updateEvent.id}`,
     {
@@ -102,7 +102,7 @@ const updateEvent = async (updateEvent) => {
   )
   if (res.status === 200) {
     const modifyEvent = await res.json()
-    const date = modifyEvent.eventStartTime.toString().replace(' ', '@')
+    const date = modifyEvent.eventStartTime.toString()
     events.value = events.value.map((event) =>
       event.id === modifyEvent.id
         ? { ...event, eventStartTime: date, eventNotes: modifyEvent.eventNotes }
@@ -177,6 +177,22 @@ const checkLengthNote = (eventNotes) => {
     return false
   } else {
     return true
+  }
+}
+
+const checkDateTimeFuture = (inputDate) => {
+  if (inputDate != undefined) {
+    const date = new Date()
+    const newDate = new Date(inputDate)
+    if (date < newDate) {
+      return true
+    } else {
+      errorDetail.value.push('Please insert future date time')
+      return false
+    }
+  } else {
+    errorDetail.value.push('Please insert date and time')
+    return false
   }
 }
 

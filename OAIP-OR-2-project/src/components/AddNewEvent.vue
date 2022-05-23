@@ -63,8 +63,21 @@ const newEvent = computed(() => {
   }
 })
 
-const formatted_date = new Date().toJSON().slice(0, 10)
+// https://stackoverflow.com/questions/10632346/how-to-format-a-date-in-mm-dd-yyyy-hhmmss-format-in-javascript
+const formatted_date =computed(()=>{
+var d = new Date,
+    dformat = [d.getFullYear(),
+               (d.getMonth()+1).padLeft(),
+               d.getDate().padLeft()].join('-') +'T' +
+              [d.getHours().padLeft(),
+               d.getMinutes().padLeft()].join(':');
+               return dformat
+}) 
 
+Number.prototype.padLeft = function(base,chr){
+    var  len = (String(base || 10).length - String(this).length)+1;
+    return len > 0? new Array(len).join(chr || '0')+this : this;
+}
 </script>
 
 <template>

@@ -41,7 +41,7 @@ public class EventController {
     public Integer deleteEvent(@PathVariable Integer id) { return eventService.delete(id);}
 
     @PatchMapping("/{id}")
-    public EditedEventDTO updateEvent(@Valid @RequestBody EditedEventDTO updateEvent, @PathVariable Integer id) {
+    public EventListDTO updateEvent(@Valid @RequestBody EditedEventDTO updateEvent, @PathVariable Integer id) {
         return eventService.updateEvent(updateEvent,id);}
 
 

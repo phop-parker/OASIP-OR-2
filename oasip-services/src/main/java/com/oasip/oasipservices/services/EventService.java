@@ -93,7 +93,7 @@ public class EventService {
         }
     }
 
-    public EditedEventDTO updateEvent(EditedEventDTO updateEvent, Integer id) {
+    public EventListDTO updateEvent(EditedEventDTO updateEvent, Integer id) {
         EventDTO oldEvent = getEventById(id);
         if(updateEvent.getEventNotes() == null ){
             updateEvent.setEventNotes(oldEvent.getEventNotes());
@@ -103,12 +103,15 @@ public class EventService {
         }
         overlappingEdit(id,updateEvent.getEventStartTime(),findEndDate(updateEvent.getEventStartTime(),oldEvent.getEventDuration()));
         Event editEvent = repository.findById(id).map(event -> {
-            event.setEventNotes(updateEvent.getEventNotes().trim());
+            if (updateEvent.getEventNotes() != null) {
+                updateEvent.setEventNotes(updateEvent.getEventNotes().trim());
+            }
+            event.setEventNotes(updateEvent.getEventNotes());
             event.setEventStartTime(updateEvent.getEventStartTime());
             return event;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event id " + id + " Does Not Exist !!!"));
         repository.saveAndFlush(editEvent);
-        return modelMapper.map(editEvent, EditedEventDTO.class);
+        return modelMapper.map(editEvent, EventListDTO.class);
     }
 
 }
