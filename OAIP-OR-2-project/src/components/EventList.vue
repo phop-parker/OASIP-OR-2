@@ -175,7 +175,6 @@ const getEventSelected = async(selectedEventId) =>{
         <input
           v-model="dateTime"
           type="date"
-          :min="formatted_date"
           class="pl-2 bg-white px-4 py-2 pr-2 rounded-md shadow border-transparent focus:border-gray-500 focus:bg-white"
         />
         <select

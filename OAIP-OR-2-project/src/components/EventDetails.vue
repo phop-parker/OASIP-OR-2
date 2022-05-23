@@ -41,6 +41,9 @@ const toggleEditMode = () => {
     editMode.value = true
   }
 }
+
+const formatted_date = new Date().toJSON().slice(0, 10)
+
 </script>
 <template>
   <div class="absolute bg-black opacity-20 inset-0 z-0"></div>
@@ -73,6 +76,7 @@ const toggleEditMode = () => {
         Date :<input
           type="datetime-local"
           v-model="newEvent.eventStartTime"
+          :min="formatted_date"
           class="pl-3 border border-gray-400 bg-white hover:border-gray-500 px-4 py-2 rounded-2xl shadow leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>

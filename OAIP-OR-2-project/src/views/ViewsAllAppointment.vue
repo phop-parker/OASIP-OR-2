@@ -54,6 +54,7 @@ const deleteEvent = async (deleteEventId) => {
       successDesc.value = 'Delete'
       successStatus.value = true
       cancelDelete()
+      setTimeout(successToggle, 2000)
     } else {
       alert('error cannot delete')
       cancelDelete()
@@ -62,7 +63,6 @@ const deleteEvent = async (deleteEventId) => {
     alert('no event to delete')
     cancelDelete()
   }
-  setTimeout(successToggle, 2000)
 }
 
 
@@ -110,12 +110,12 @@ const updateEvent = async (updateEvent) => {
     )
     successDesc.value = 'Update'
     successStatus.value = true
+    setTimeout(successToggle, 2000)
   } else {
     alert('error cannot add')
   }}else{
     errorStatus.value = true
   }
-  setTimeout(successToggle, 2000)
 }
 
 //toggle 

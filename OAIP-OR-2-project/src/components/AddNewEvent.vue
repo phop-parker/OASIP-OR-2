@@ -62,6 +62,9 @@ const newEvent = computed(() => {
     eventNotes: eventNotes.value
   }
 })
+
+const formatted_date = new Date().toJSON().slice(0, 10)
+
 </script>
 
 <template>
@@ -150,6 +153,7 @@ const newEvent = computed(() => {
         <input
           v-model="dateTime"
           type="datetime-local"
+          :min="formatted_date"
           class="pl-2 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-2 rounded-3xl shadow leading-tight focus:outline-none focus:shadow-outline"
           required
         />
