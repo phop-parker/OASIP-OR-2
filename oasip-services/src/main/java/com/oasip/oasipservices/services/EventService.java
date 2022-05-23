@@ -46,7 +46,6 @@ public class EventService {
         return modelMapper.map(event, EventDTO.class);
     }
 
-
     public Integer delete(Integer id) {
         repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 id + " does not exist !!!"));

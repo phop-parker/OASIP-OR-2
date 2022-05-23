@@ -14,5 +14,4 @@ public class EventCategoryView {
     private Integer categoryId;
     private String eventCategoryName;
     private Integer eventDuration;
-
 }
