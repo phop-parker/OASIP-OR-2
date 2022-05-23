@@ -14,10 +14,10 @@
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/controllers/EventController.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/CorsConfigurer.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/entities/EventCategory.java
+/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventCategoryView.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/validators/ConstraintNameDate.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/validators/ConstraintNameDateValidator.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/services/EventService.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/ApplicationConfig.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/entities/Event.java
 /home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/validators/ValidationHandler.java
-/home/spadmin/OASIP-OR-2/oasip-services/src/main/java/com/oasip/oasipservices/DTOS/EventBookingCategoryDTO.java

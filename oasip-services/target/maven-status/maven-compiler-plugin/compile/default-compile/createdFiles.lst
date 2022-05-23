@@ -6,9 +6,9 @@ com/oasip/oasipservices/repositories/EventCategoryRepository.class
 com/oasip/oasipservices/validators/ConstraintNameDateValidator.class
 com/oasip/oasipservices/entities/EventCategory.class
 com/oasip/oasipservices/validators/TimeOverlappingValidator.class
-com/oasip/oasipservices/DTOS/EventBookingCategoryDTO.class
 com/oasip/oasipservices/validators/ValidationHandler.class
 com/oasip/oasipservices/utils/ListMapper.class
+com/oasip/oasipservices/DTOS/EventCategoryView.class
 com/oasip/oasipservices/DTOS/EventListDTO.class
 com/oasip/oasipservices/DTOS/EventDTO.class
 com/oasip/oasipservices/validators/TimeOverlapping.class
