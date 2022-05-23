@@ -3,7 +3,6 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
 COPY src/ ./src/
-RUN rm -rf target
 RUN mvn -D maven.test.skip package
 
 FROM openjdk:11-jdk
