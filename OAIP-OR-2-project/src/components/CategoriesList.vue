@@ -16,7 +16,7 @@ const selectedCategory = ref({})
 const statusDetail = ref(false)
 
 const getCategorySelected = async(selectedCategoryId) =>{
-  const res = await fetch(`${import.meta.env.BASE_URL}/api/events/${selectedCategoryId}`)
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/${selectedCategoryId}`)
   // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/${selectedCategoryId}`)
   if (res.status === 200) {
     selectedCategory.value = await res.json();
