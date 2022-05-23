@@ -34,7 +34,7 @@ public class EventController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public EventListDTO createNewEvent(@Valid @RequestBody CreateNewEventDTO event) {
+    public EventDTO createNewEvent(@Valid @RequestBody CreateNewEventDTO event) {
         return eventService.save(event);}
 
     @DeleteMapping("/{id}")

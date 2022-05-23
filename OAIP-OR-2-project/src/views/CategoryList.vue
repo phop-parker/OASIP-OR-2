@@ -16,8 +16,8 @@ const errorDesc = ref([])
 
 // GET
 const getCategories = async () => {
-  const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories`)
-  // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories`)
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/eventCategories/list`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/list`)
   if (res.status === 200) {
     categories.value = await res.json()
   } else {}
@@ -65,9 +65,9 @@ const updateCategory = async (updateCategory) => {
         category.categoryId === modifyCategory.categoryId
           ? {
               ...category,
-              eventCategoryName: modifyCategory.eventCategoryName,
+              eventCategoryName: modifyCategory.eventCategoryName.trim(),
               eventDuration: modifyCategory.eventDuration,
-              eventCategoryDescription: modifyCategory.eventCategoryDescription
+              eventCategoryDescription: modifyCategory.eventCategoryDescription.trim()
             }
           : category
       )
@@ -75,7 +75,7 @@ const updateCategory = async (updateCategory) => {
       successDesc.value = 'Update'
       setTimeout(successToggle, 2000)
     } else {
-      alert('error cannot add')
+      console.log('error cannot update')
     }
   } else {
     errorStatus.value = true
@@ -84,7 +84,7 @@ const updateCategory = async (updateCategory) => {
 
 const checkCategoryName = (newCategoryName, categoryId) => {
   const status = ref(true)
-  if (newCategoryName.length > 100) {
+  if (newCategoryName.trim().length > 100) {
     errorDesc.value.push("Category name should be less than 100 character")
     return false
   } 
@@ -115,7 +115,7 @@ const toggleErrorStatus = () => {
 
 const checkCategoryDescription = (newCategoryDescription) => {
   const status = ref(true)
-  if (newCategoryDescription.length > 500) {
+  if (newCategoryDescription.trim().length > 500) {
     errorDesc.value.push("Category Description should be less than 500 characters")
     status.value = false
   } else {

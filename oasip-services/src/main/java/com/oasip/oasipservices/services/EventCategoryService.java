@@ -25,9 +25,9 @@ public class EventCategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<EventBookingCategoryDTO> getAllCategoriesForBooking() {
+    public List<EventCategoryView> getAllCategoriesList() {
         List<EventCategory> eventList = repository.findAll((Sort.by("eventCategoryName").ascending()));
-        return listMapper.mapList(eventList, EventBookingCategoryDTO.class, modelMapper);
+        return listMapper.mapList(eventList, EventCategoryView.class, modelMapper);
     }
 
     public List<EventCategoryDTO> getFullCategories() {

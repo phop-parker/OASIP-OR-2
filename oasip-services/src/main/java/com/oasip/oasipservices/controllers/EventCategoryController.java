@@ -25,9 +25,9 @@ public class EventCategoryController {
         return eventCategoryService.getFullCategories();
     }
 
-    @GetMapping("/createNewEvent")
-    public List<EventBookingCategoryDTO> getAllCategoriesForBooking() {
-        return eventCategoryService.getAllCategoriesForBooking();
+    @GetMapping("/list")
+    public List<EventCategoryView> getAllCategoriesList() {
+        return eventCategoryService.getAllCategoriesList();
     }
 
     @GetMapping("/{categoryId}")

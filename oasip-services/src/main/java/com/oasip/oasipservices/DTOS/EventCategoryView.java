@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class EventBookingCategoryDTO {
+public class EventCategoryView {
     private Integer categoryId;
     private String eventCategoryName;
     private Integer eventDuration;

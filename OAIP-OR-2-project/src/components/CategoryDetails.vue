@@ -23,13 +23,10 @@ const newCategory = computed(() => {
 
 const editMode = ref(false)
 
-const toggleEditMode = () => {
-  if (editMode.value) {
-    editMode.value = false
-  } else {
-    editMode.value = true
-  }
-}
+const toggleEditMode = () => 
+  editMode.value === false
+    ? (editMode.value = true)
+    : (editMode.value = false)
 
 const nullError = computed(() => {
   if (newCategory.value.eventCategoryName.length <= 0) {
@@ -38,6 +35,8 @@ const nullError = computed(() => {
     return false
   }
 })
+
+
 
 </script>
 
@@ -61,8 +60,9 @@ const nullError = computed(() => {
             </h2>
           </div>
 
-          <div class="inline-flex">
-            Clinic Name : 
+          <div class="inline-flex ">
+            <div class="font-bold"> Clinic Name : </div>
+    
             <div v-if="editMode == false">
               {{ category.eventCategoryName }}
             </div>
@@ -73,8 +73,8 @@ const nullError = computed(() => {
               />
             </div>
           </div>
-          <div class="inline-flex">
-            Clinic Duration :
+          <div class="inline-flex ">
+            <div class="font-bold"> Clinic Duration :</div>
             <div v-if="editMode == false">
               {{ category.eventDuration }} minutes
             </div>
@@ -91,8 +91,10 @@ const nullError = computed(() => {
 
           </div>
           <div>
-            Clinic Description :
+            <div class="font-bold	 ">            Clinic Description :
+</div>
             <div v-if="editMode == false">
+            <span v-if="category.eventCategoryDescription == null">no clinic description</span>
               {{ category.eventCategoryDescription }}
             </div>
             <div v-else>

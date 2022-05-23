@@ -20,46 +20,35 @@ const props = defineProps({
 })
 
 const formatted_date = new Date().toJSON().slice(0, 10)
+const curEvent = ref()
+const statusDetail = ref(false)
+const updatedEvent = ref()
 
 const getProperDate = (dateTime) => {
   return dateTime.toString().replace('@', 'T')
 }
 
 const getDate = (dateTime) => {
-  const date = new Date(dateTime)
-  return date.toDateString()
+  return new Date(dateTime).toDateString()
 }
 const getTime = (dateTime) => {
-  const date = new Date(dateTime)
-  return date.toTimeString().slice(0, 5)
-}
-const curEvent = ref()
-const statusDetail = ref(false)
-const showDetailsToggle = (event) => {
-  curEvent.value = {
-    bookingEmail: event.bookingEmail,
-    bookingName: event.bookingName,
-    categoryId: event.eventCategoryName,
-    eventNotes: event.eventNotes,
-    eventStartTime: getProperDate(event.eventStartTime),
-    eventDuration: event.eventDuration,
-    id: event.id
-  }
-  toggleStatus()
-}
-const toggleStatus = () => {
-  if (statusDetail.value == true) {
-    statusDetail.value = false
-  } else {
-    statusDetail.value = true
-  }
+  return new Date(dateTime).toTimeString().slice(0, 5)
 }
 
+
+const successToggle = () =>
+  successStatus.value === false
+    ? (successStatus.value = true)
+    : (successStatus.value = false)
+
+const toggleStatus = () => 
+    statusDetail.value === false
+    ? (statusDetail.value = true)
+    : (statusDetail.value = false)
+  
 const toggleTofalse = () => {
   statusDetail.value = false
 }
-
-const updatedEvent = ref()
 
 const getUpdateEvent = (updateEvent) => {
   updatedEvent.value = updateEvent
@@ -153,6 +142,16 @@ function compareValues(key, order = 'asc') {
   };
 }
 
+const selectedEvent = ref({});
+const getEventSelected = async(selectedEventId) =>{
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/events/${selectedEventId}`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/events/${selectedEventId}`)
+  if (res.status === 200) {
+    selectedEvent.value = await res.json();
+    selectedEvent.value.eventStartTime = selectedEvent.value.eventStartTime.replace("@","T")
+    toggleStatus()
+  } else { console.log("cannot get selectedEvent")}
+}
 </script>
 
 <template>
@@ -223,9 +222,9 @@ function compareValues(key, order = 'asc') {
   >
     <EventDetails
       class="justify-center"
-      :event="curEvent"
+      :event="selectedEvent"
       @closePopUp="toggleStatus()"
-      @deleteEvent="$emit('deleteEvent', curEvent.id), toggleStatus()"
+      @deleteEvent="$emit('deleteEvent', selectedEvent.id), toggleStatus()"
       @getEditedEvent="getUpdateEvent"
       @updateEvent="$emit('updateThisEvent', updatedEvent), toggleTofalse()"
     />
@@ -283,7 +282,7 @@ function compareValues(key, order = 'asc') {
               <td class="justify-center ">
                 <DetailIcon
                   class="hover:drop-shadow-md "
-                  @click="showDetailsToggle(event)"
+                  @click="getEventSelected(event.id)"
                 />
               </td>
               <td style="width:20px" class="">

@@ -54,12 +54,12 @@ const categoryId = computed(() => {
 
 const newEvent = computed(() => {
   return {
-    bookingName: bookingName.value.trim(),
-    bookingEmail: bookingEmail.value.trim(),
+    bookingName: bookingName.value,
+    bookingEmail: bookingEmail.value,
     eventStartTime: dateTime.value,
     eventDuration: duration.value,
     categoryId: categoryId.value,
-    eventNotes: eventNotes.value.trim()
+    eventNotes: eventNotes.value
   }
 })
 </script>

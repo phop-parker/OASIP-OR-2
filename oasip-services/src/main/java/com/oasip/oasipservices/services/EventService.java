@@ -55,7 +55,7 @@ public class EventService {
     }
 
 
-    public EventListDTO save(CreateNewEventDTO event) {
+    public EventDTO save(CreateNewEventDTO event) {
         Event newEvent = modelMapper.map(event, Event.class);
         EventCategory eventCategory = eventCategoryRepository.findById(event.getCategoryId())
                 .orElseThrow(() -> new ResponseStatusException(
@@ -70,7 +70,7 @@ public class EventService {
         }
         checkConstraints(newEvent.getBookingName(),newEvent.getEventStartTime());
         repository.saveAndFlush(newEvent);
-        return modelMapper.map(newEvent, EventListDTO.class);
+        return modelMapper.map(newEvent, EventDTO.class);
     }
 
     public void checkConstraints(String bookingName, LocalDateTime eventStartTime){

@@ -12,33 +12,34 @@ const props = defineProps({
   }
 })
 
-const curCategory = ref()
+const selectedCategory = ref({})
 const statusDetail = ref(false)
-const showDetailsToggle = (category) => {
-  curCategory.value = {
-    categoryId: category.categoryId,
-    eventCategoryName: category.eventCategoryName.trim(),
-    eventDuration: category.eventDuration,
-    eventCategoryDescription: category.eventCategoryDescription.trim()
-  }
-  toggleStatus()
+
+const getCategorySelected = async(selectedCategoryId) =>{
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/events/${selectedCategoryId}`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/eventCategories/${selectedCategoryId}`)
+  if (res.status === 200) {
+    selectedCategory.value = await res.json();
+    toggleStatus()
+  } else { console.log("cannot get selected Category")}
 }
-const toggleStatus = () => {
-  if (statusDetail.value == true) {
-    statusDetail.value = false
-  } else {
-    statusDetail.value = true
-  }
-}
+
+const toggleStatus = () => 
+    statusDetail.value === false
+    ? (statusDetail.value = true)
+    : (statusDetail.value = false)
+
 const toggleTofalse = () => {
   statusDetail.value = false
 }
+
 const updatedCategory = ref()
 
 const getUpdateCategory = (updateCategory) => {
   updatedCategory.value = updateCategory
   return updateCategory
 }
+
 </script>
 
 <template>
@@ -47,7 +48,7 @@ const getUpdateCategory = (updateCategory) => {
     class="absolute inset-0 flex justify-center items-center z-20"
   >
     <CategoryDetails
-      :category="curCategory"
+      :category="selectedCategory"
       @closePopUp="toggleStatus()"
       @getEditedCategory="getUpdateCategory"
       @updateCategory="
@@ -90,7 +91,7 @@ const getUpdateCategory = (updateCategory) => {
                 </p>
               </div>
               <a
-                @click="showDetailsToggle(category)"
+                @click="getCategorySelected(category.categoryId)"
                 class="flex justify-between items-center group-hover:text-yellow-600"
               >
                 <span class="text-sm">Details</span>

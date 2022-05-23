@@ -4,6 +4,7 @@
 import EventList from '../components/EventList.vue'
 import DeleteComfirm from '../components/DeleteComfirm.vue'
 import SuccessAlert from '../components/SuccessAlert.vue'
+import ErrorAlert from '../components/ErrorAlert.vue'
 
 import { onBeforeMount, ref } from 'vue'
 
@@ -31,18 +32,20 @@ const getEvents = async () => {
   // const res = await fetch(`http://10.4.56.95:8080/api/events`)
   if (res.status === 200) {
     events.value = await res.json()
-  } else {}
+  } else {
+    console.log("cannot get data")
+  }
 }
 
 // DELETE
 const deleteEvent = async (deleteEventId) => {
   if (deleteEventId > 0) {
-    // const res = await fetch(
-    //   `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
-    //    {
-        const res = await fetch(
-          `http://10.4.56.95:8080/api/events/${deleteEventId}`,
-          {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}/api/events/${deleteEventId}`,
+       {
+        // const res = await fetch(
+        //   `http://10.4.56.95:8080/api/events/${deleteEventId}`,
+        //   {
         method: 'DELETE'
       }
     )
@@ -66,10 +69,10 @@ const deleteEvent = async (deleteEventId) => {
 // GET
 const getCategories = async () => {
   const res = await fetch(
-    `${import.meta.env.BASE_URL}/api/eventCategories/forBooking`
+    `${import.meta.env.BASE_URL}/api/eventCategories/list`
   )
   // const res = await fetch(
-  //   `http://10.4.56.95:8080/api/eventCategories/forBooking`
+  //   `http://10.4.56.95:8080/api/eventCategories/list`
   // )
   if (res.status === 200) {
     categories.value = await res.json()
@@ -155,6 +158,12 @@ const timesOverlap = (inputDate, newEventCategoryName, newEventDuration,eventId)
     errorDetail.value.push('Date or time is overlapping.')
   }}
   return status.value
+}
+
+function eventEndTime(date, minutes) {
+  let dateFormat = new Date(date)
+  let endDate = new Date(dateFormat.getTime() + minutes * 60 * 1000)
+  return endDate
 }
 
 const checkLengthNote = (eventNotes) => {

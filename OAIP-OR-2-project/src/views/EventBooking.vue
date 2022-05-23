@@ -30,10 +30,10 @@ const getEvents = async () => {
 // GET
 const getCategories = async () => {
   const res = await fetch(
-    `${import.meta.env.BASE_URL}/api/eventCategories/createNewEvent`
+    `${import.meta.env.BASE_URL}/api/eventCategories/list`
   )
   // const res = await fetch(
-  //   `http://10.4.56.95:8080/api/eventCategories/forBooking`
+  //   `http://10.4.56.95:8080/api/eventCategories/list`
   // )
 
   if (res.status === 200) {
@@ -78,8 +78,8 @@ const checkInputCategoty = (input) => {
 
 const checkEmpty = (newEvent) => {
   if (
-    checkInput(newEvent.bookingName.trim()) &&
-    checkInput(newEvent.bookingEmail.trim()) &&
+    checkInput(newEvent.bookingName) &&
+    checkInput(newEvent.bookingEmail) &&
     checkInputCategoty(newEvent.categoryId.categoryId)
   ) {
     return true
@@ -89,7 +89,7 @@ const checkEmpty = (newEvent) => {
 }
 
 const checkLengthName = (bookingName) => {
-  if (bookingName.length > 100) {
+  if (bookingName.trim().length > 100) {
     errorDetail.value.push('BookingName should be lessthan 100 letters.')
     return false
   } else {
@@ -98,7 +98,7 @@ const checkLengthName = (bookingName) => {
 }
 
 const checkLengthEmail = (bookingEmail) => {
-  if (bookingEmail.length > 50) {
+  if (bookingEmail.trim().length > 50) {
     errorDetail.value.push('BookingEmail should be lessthan 50 letters.')
     return false
   } else {
@@ -110,7 +110,7 @@ const checkLengthNote = (eventNotes) => {
   if (eventNotes == undefined) {
     eventNotes = ''
   }
-  if (eventNotes.length > 500) {
+  if (eventNotes.trim().length > 500) {
     errorDetail.value.push('EventNotes should be lessthan 500 letters.')
     return false
   } else {
@@ -120,9 +120,9 @@ const checkLengthNote = (eventNotes) => {
 
 const checkLength = (newEvent) => {
   if (
-    checkLengthEmail(newEvent.bookingEmail.trim()) &&
-    checkLengthName(newEvent.bookingName.trim()) &&
-    checkLengthNote(newEvent.eventNotes.trim())
+    checkLengthEmail(newEvent.bookingEmail) &&
+    checkLengthName(newEvent.bookingName) &&
+    checkLengthNote(newEvent.eventNotes)
   ) {
     return true
   } else {
@@ -212,8 +212,8 @@ const createNewEvent = async (newEvent) => {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        bookingName: newEvent.bookingName,
-        bookingEmail: newEvent.bookingEmail,
+        bookingName: newEvent.bookingName.trim(),
+        bookingEmail: newEvent.bookingEmail.trim(),
         eventStartTime: newEvent.eventStartTime,
         categoryId: newEvent.categoryId.categoryId,
         eventNotes: newEvent.eventNotes
