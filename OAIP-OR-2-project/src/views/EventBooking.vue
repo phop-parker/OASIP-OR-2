@@ -20,8 +20,8 @@ onBeforeMount(async () => {
 
 // GET
 const getEvents = async () => {
-  // const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
-  const res = await fetch(`http://10.4.56.95:8080/api/events`)
+  const res = await fetch(`${import.meta.env.BASE_URL}/api/events`)
+  // const res = await fetch(`http://10.4.56.95:8080/api/events`)
   if (res.status === 200) {
     events.value = await res.json()
   } else {}
