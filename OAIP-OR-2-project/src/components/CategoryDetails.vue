@@ -12,14 +12,27 @@ const props = defineProps({
   }
 })
 
+
+const categoryId = ref(props.category.categoryId)
+const eventCategoryName  = ref(props.category.eventCategoryName)
+const eventDuration  = ref(props.category.eventDuration)
+const eventCategoryDescription  = ref(props.category.eventCategoryDescription)
+
 const newCategory = computed(() => {
   return {
-    categoryId: props.category.categoryId,
-    eventCategoryName: props.category.eventCategoryName,
-    eventDuration: props.category.eventDuration,
-    eventCategoryDescription: props.category.eventCategoryDescription
+    categoryId: categoryId.value,
+    eventCategoryName: eventCategoryName.value,
+    eventDuration: eventDuration.value,
+    eventCategoryDescription: eventCategoryDescription.value
   }
 })
+
+function clearAll(){
+  categoryId.value = props.category.categoryId
+  eventCategoryName.value  = props.category.eventCategoryName
+  eventDuration.value  = props.category.eventDuration
+  eventCategoryDescription.value  = props.category.eventCategoryDescription
+}
 
 const editMode = ref(false)
 
@@ -28,13 +41,13 @@ const toggleEditMode = () =>
     ? (editMode.value = true)
     : (editMode.value = false)
 
-const nullError = computed(() => {
-  if (newCategory.value.eventCategoryName.length <= 0) {
-    return true
-  } else {
-    return false
-  }
-})
+// const nullError = computed(() => {
+//   if (newCategory.value.eventCategoryName.length <= 0 || newCategory.eventDuration > 480 || newCategory.eventDuration < 1) {
+//     return true
+//   } else {
+//     return false
+//   }
+// })
 
 
 
@@ -61,20 +74,26 @@ const nullError = computed(() => {
           </div>
 
           <div class="inline-flex ">
-            <div class="font-bold"> Clinic Name : </div>
-    
+            <div class="font-bold"> Clinic Name<span v-show="eventCategoryName.length<=0" class="text-red-500 ">*</span> : </div>
             <div v-if="editMode == false">
               {{ category.eventCategoryName }}
             </div>
             <div v-else>
               <input
                 type="text"
-                v-model="newCategory.eventCategoryName"
-              />
+                                v-bind:style="
+              eventCategoryName > 100 || eventCategoryName <= 0
+              ? 'border: 2px solid rgb(208, 106, 106)'
+              : 'border: 2px solid currentcolor'
+          "
+                v-model="eventCategoryName"
+              /> 
             </div>
           </div>
+            <span v-show="eventCategoryName.length>100" class="text-red-500 text-xs">category name is too long (100 char only)</span>
+
           <div class="inline-flex ">
-            <div class="font-bold"> Clinic Duration :</div>
+            <div class="font-bold"> Clinic Duration<span v-show=" eventDuration<1 || eventDuration>480" class="text-red-500 ">*</span> :</div>
             <div v-if="editMode == false">
               {{ category.eventDuration }} minutes
             </div>
@@ -83,16 +102,21 @@ const nullError = computed(() => {
                 type="number"
                 minlength="1"
                 max="480"
+                v-bind:style="
+            eventDuration<1 || eventDuration>480
+              ? 'border: 2px solid rgb(208, 106, 106)'
+              : 'border: 2px solid currentcolor'
+          "
                 class="shadow"
-                v-model="newCategory.eventDuration"
+                v-model="eventDuration"
               />
               minutes
             </div>
 
           </div>
+          <span v-show="eventDuration<1 || eventDuration>480" class="text-red-500 text-xs">event duration can only between 1 -480 minutes</span>
           <div>
-            <div class="font-bold	 ">            Clinic Description :
-</div>
+            <div class="font-bold	 ">Clinic Description:</div>
             <div v-if="editMode == false">
             <span v-if="category.eventCategoryDescription == null">no clinic description</span>
               {{ category.eventCategoryDescription }}
@@ -100,15 +124,20 @@ const nullError = computed(() => {
             <div v-else>
               <textarea
                 class="shadow resize-none rounded-md w-full"
-                v-model="newCategory.eventCategoryDescription"
+                v-model="eventCategoryDescription"
                 rows="5"
               ></textarea>
+             <div v-if="eventCategoryDescription!=null">
+                <span v-show="eventCategoryDescription.length > 500" class="text-red-500">
+          Description cannot longer than 500 charaters</span
+        ></div>
             </div>
+
           </div>
           <div class="w-full flex flex-col items-center">
             <div v-if="editMode == true" class="inline-flex mt-4">
               <button
-                :disabled="nullError"
+                :disabled="eventCategoryName.length <= 0 || eventDuration > 480 || eventDuration < 1"
                 @click="
                   $emit('getEditedCategory', newCategory),
                     $emit('updateCategory'),
@@ -116,11 +145,11 @@ const nullError = computed(() => {
                 "
                 class="bg-dark-green hover:bg-yellow-100 hover:text-dark-green text-white focus:outline-none font-semibold rounded-full text-base px-5 py-2.5 text-center mr-2 mb-2"
               >
-                summit
+                submit
               </button>
               <button
                 v-if="editMode == true"
-                @click="toggleEditMode()"
+                @click="toggleEditMode(),clearAll()"
                 class="bg-dark-pink hover:bg-yellow-100 hover:text-dark-pink text-white focus:outline-none font-semibold rounded-full text-base px-5 py-2.5 text-center mr-2 mb-2"
               >
                 cancel
@@ -143,8 +172,8 @@ const nullError = computed(() => {
 <style scoped>
 
 .detail-box {
-  height: 410px;
-  width: 410px;
+  height: 470px;
+  width: 500px;
 }
 
 </style>

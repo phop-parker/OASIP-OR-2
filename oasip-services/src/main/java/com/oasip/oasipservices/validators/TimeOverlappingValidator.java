@@ -25,22 +25,15 @@ public class TimeOverlappingValidator implements ConstraintValidator<TimeOverlap
         private EventService service;
 
         @Override
-        public void initialize(TimeOverlapping constraintAnnotation) {
-        }
+        public void initialize(TimeOverlapping constraintAnnotation) {}
 
         @Override
         public boolean isValid(CreateNewEventDTO event, ConstraintValidatorContext cxt) {
-
                 try {   EventCategoryDTO eventCategory = categoryService.getAllCategoryById(event.getCategoryId());
                         LocalDateTime EndDateTime = service.findEndDate(event.getEventStartTime(), eventCategory.getEventDuration());
                         List<Event> eventOverlapping = repository.findOverlappingEvents(event.getCategoryId(), event.getEventStartTime(), EndDateTime);
-                        if (eventOverlapping.size() >= 1) {
-                                return false;
-                        } else{
-                                return true;
-                        }
+                        if (eventOverlapping.size() >= 1) {return false;}
+                        else{return true;}
                 } catch(Exception ex) {
                         return false;
-                }
-        }
-}
+                }}}

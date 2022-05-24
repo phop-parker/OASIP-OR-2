@@ -19,7 +19,6 @@ public class EventCategoryController {
     @Autowired
     private EventCategoryService eventCategoryService;
 
-
     @GetMapping("")
     public List<EventCategoryDTO> getFullCategories() {
         return eventCategoryService.getFullCategories();

@@ -28,13 +28,11 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errorFields = new HashMap<>();
 
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errorFields.put(error.getField(),error.getDefaultMessage());
-        }
+            errorFields.put(error.getField(),error.getDefaultMessage());}
+
         for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-            errorFields.put(error.getObjectName(),error.getDefaultMessage());
-        }
+            errorFields.put(error.getObjectName(),error.getDefaultMessage());}
         errors.put("fields", errorFields);
         return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
-    }
-    }
+    }}
 

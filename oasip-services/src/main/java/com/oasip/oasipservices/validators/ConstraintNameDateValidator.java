@@ -15,20 +15,14 @@ public class ConstraintNameDateValidator implements ConstraintValidator<Constrai
     private EventRepository repository;
 
     @Override
-    public void initialize(ConstraintNameDate constraintAnnotation) {
-    }
+    public void initialize(ConstraintNameDate constraintAnnotation) {}
 
     @Override
     public boolean isValid(CreateNewEventDTO event, ConstraintValidatorContext cxt) {
         try {
             List<Event> eventConstraint = repository.findConstraintEvent(event.getBookingName(), event.getEventStartTime());
-            if (eventConstraint.size() >= 1) {
-                return false;
-            }else{
-                return true;
-            }
+            if (eventConstraint.size() >= 1) {return false;}
+            else{return true;}
         }catch(Exception ex) {
             return false;
-        }
-    }
-}
+        }}}

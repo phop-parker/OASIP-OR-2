@@ -87,7 +87,6 @@ public class EventService {
     public void overlappingEdit(Integer eventId,LocalDateTime newEventStartTime, LocalDateTime newEventEndTime){
         EventCategory category = eventCategoryRepository.findEventCategoryByEventId(eventId);
         List<Event> overlappingEvent = repository.findOverlappingEventForEdit(eventId,category.getCategoryId(),newEventStartTime,newEventEndTime);
-
         if(overlappingEvent.size() >= 1){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Editted time is overlapping");
         }

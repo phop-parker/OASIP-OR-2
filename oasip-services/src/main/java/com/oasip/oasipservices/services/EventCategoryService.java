@@ -54,18 +54,10 @@ public class EventCategoryService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Event id " + id +
                         "Does Not Exist !!!"));
-        checkCategory(id,updatedEventCategory.getEventCategoryName());
-        if(updatedEventCategory.getEventCategoryName() == null ){
-            updatedEventCategory.setEventCategoryName(oldEventCategory.getEventCategoryName());
-        }
-        if(updatedEventCategory.getEventCategoryDescription() == null ){
-            updatedEventCategory.setEventCategoryDescription(oldEventCategory.getEventCategoryDescription());
-        }
-        if(updatedEventCategory.getEventDuration() == null ){
-            updatedEventCategory.setEventDuration(oldEventCategory.getEventDuration());
-        }
+        checkCategory(id,updatedEventCategory.getEventCategoryName().trim());
+
         EventCategory editEventCategory = repository.findById(id).map(eventCategory -> {
-            eventCategory.setEventCategoryName(updatedEventCategory.getEventCategoryName());
+            eventCategory.setEventCategoryName(updatedEventCategory.getEventCategoryName().trim());
             eventCategory.setEventDuration(updatedEventCategory.getEventDuration());
             eventCategory.setEventCategoryDescription(updatedEventCategory.getEventCategoryDescription());
             return eventCategory;

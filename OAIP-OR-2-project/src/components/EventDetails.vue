@@ -76,7 +76,7 @@ Number.prototype.padLeft = function(base,chr){
       </div>
       <div class="text-center text-black bg-white bg-opacity-20 mt-0">Details</div>
       <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
-        name : {{ event.bookingName }}
+        name : {{ event.bookingName }} 
       </div>
       <div class="pl-3  drop-shadow-xl bg-white bg-opacity-20 rounded-2xl">
         email : {{ event.bookingEmail }}
